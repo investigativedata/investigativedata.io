@@ -9,9 +9,21 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@directus/sdk": "^16.0.0",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@investigativedata/style": "^0.1.4",
+    "@mdx-js/loader": "^3.0.1",
+    "@mdx-js/react": "^3.0.1",
+    "@mui/icons-material": "^5.15.18",
+    "@mui/joy": "^5.0.0-beta.36",
+    "@next/mdx": "^14.2.3",
+    "@types/mdx": "^2.0.13",
+    "next": "14.2.3",
+    "next-mdx-remote": "^4.4.1",
     "react": "^18",
     "react-dom": "^18",
-    "next": "14.2.3"
+    "slugify": "^1.6.6"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
@@ -20,6 +32,7 @@
     "@types/react-dom": "^18",
     "eslint": "^8",
     "eslint-config-next": "14.2.3",
+    "next-export-optimize-images": "^4.4.0",
     "typescript": "^5"
   }
 }
