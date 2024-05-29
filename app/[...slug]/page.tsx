@@ -1,5 +1,6 @@
 import slugify from "slugify";
 import { IScreen } from "@/lib/types";
+import { permanentRedirect } from "next/navigation";
 import { IPageMenuItem } from "@investigativedata/style";
 import Page from "@/components/Page";
 import { PREVIEW } from "@/config";
@@ -15,6 +16,10 @@ export default async function SlugPage({
 }: {
   params: { slug: string[] };
 }) {
+  if (params.slug.length === 1 && params.slug[0] === "index") {
+    return permanentRedirect("/");
+  }
+
   const data = await getPage(params.slug);
   const menu = await getMenuPages();
   const pageMenu = getPageMenu(data.screens);
