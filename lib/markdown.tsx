@@ -1,6 +1,7 @@
 import { MDXComponents } from "mdx/types";
-import Image from "next/image";
-import NLink, { LinkProps } from "next/link";
+import Image, { ImageProps } from "next/image";
+import NLink from "next/link";
+import Button, { ButtonProps } from "@mui/joy/Button";
 import MLink from "@mui/joy/Link";
 import List from "@mui/joy/List";
 import ListItem from "@mui/joy/ListItem";
@@ -31,6 +32,9 @@ const MDX_COMPONENTS: MDXComponents = {
     <List component="ol" marker="decimal" {...props} />
   ),
   li: (props: React.PropsWithChildren) => <ListItem {...props} />,
+  Button: (props: ButtonProps) => <Button {...props} />,
+  Typography: (props: TypographyProps) => <Typography {...props} />,
+  Image: (props: ImageProps) => <Image {...props} alt={props.alt} />,
 };
 
 export default MDX_COMPONENTS;
