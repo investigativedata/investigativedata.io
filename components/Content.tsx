@@ -7,6 +7,7 @@ import Stack from "@mui/joy/Stack";
 import Typography from "@mui/joy/Typography";
 import { Hero } from "@investigativedata/style";
 import { getFileUrl } from "@/lib/directus";
+import Card from "./Card";
 import Project from "./Project";
 
 export default function Content(data: TContent): React.ReactNode {
@@ -78,4 +79,5 @@ export default function Content(data: TContent): React.ReactNode {
       </Stack>
     );
   if (data.collection === "projects") return <Project {...data.item} />;
+  if (data.collection === "cards") return <Card {...data.item} />;
 }

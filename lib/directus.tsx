@@ -79,6 +79,19 @@ function serializeMdx(child: TContent): TContent {
       />
     );
   }
+  if (collection === "cards" && item.content) {
+    item.renderedContent = (
+      <MDXRemote
+        source={item.content}
+        components={{
+          ...MDX_COMPONENTS,
+          p: (props: React.PropsWithChildren) => (
+            <Typography level="body-md">{props.children}</Typography>
+          ),
+        }}
+      />
+    );
+  }
   // @ts-ignore
   return { ...child, item, collection };
 }
@@ -125,11 +138,12 @@ export async function getPage(slug: string[]): Promise<IPage> {
             "item.anchor",
             "item.background",
             "item.backgroundImage",
+            "item.maxWidth",
+            "item.fullHeight",
+            "item.horizontal",
             "item.content",
             "item.content.collection",
             "item.content.item.*",
-            "item.maxWidth",
-            "item.fullHeight",
           ],
         },
       ],

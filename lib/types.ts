@@ -4,6 +4,7 @@ import {
   IMediaScreen as Style_IMediaScreen,
   IScreen as Style_IScreen,
 } from "@investigativedata/style";
+import { ICard } from "@investigativedata/style";
 
 // PAGES
 
@@ -22,6 +23,7 @@ export interface IPage extends IPageBase {
 interface IScreenItem extends Style_IScreen {
   readonly id: string;
   readonly name: string;
+  readonly horizontal: boolean;
   readonly anchor?: boolean;
   content?: TContent[];
 }
@@ -48,6 +50,7 @@ export type TCollection =
   | "typography"
   | "mdx"
   | "images"
+  | "cards"
   | "projects";
 
 export type TContent =
@@ -55,6 +58,7 @@ export type TContent =
   | IMdxContent
   | IImageContent
   | ITypographyContent
+  | ICardContent
   | IProjectContent;
 
 interface BaseItem {
@@ -117,10 +121,22 @@ export interface IProjectItem {
   readonly caseStudy?: boolean;
   readonly caseStudyUrl?: string;
   readonly description: string;
+  readonly date_published?: string;
   renderedDescription: React.ReactNode;
 }
 
 export interface IProjectContent {
   readonly collection: "projects";
   readonly item: BaseItem & IProjectItem;
+}
+
+export interface ICardItem extends ICard {
+  readonly content?: string;
+  renderedContent?: React.ReactNode;
+  readonly actionLabel?: string;
+  readonly actionHref?: string;
+}
+export interface ICardContent {
+  readonly collection: "cards";
+  readonly item: BaseItem & ICardItem;
 }
