@@ -3,9 +3,12 @@ import Image, { ImageProps } from "next/image";
 import NLink from "next/link";
 import Button, { ButtonProps } from "@mui/joy/Button";
 import MLink from "@mui/joy/Link";
-import List from "@mui/joy/List";
-import ListItem from "@mui/joy/ListItem";
+import List, { ListProps } from "@mui/joy/List";
 import Typography, { TypographyProps } from "@mui/joy/Typography";
+import {
+  OrderedListItem,
+  UnorderedListItem,
+} from "@investigativedata/style/dist/components/ListItem";
 
 const Link = (props: React.PropsWithChildren<{ href: string }>) => (
   <NLink passHref legacyBehavior href={props.href}>
@@ -24,17 +27,19 @@ const MDX_COMPONENTS: MDXComponents = {
     <Typography level="body-sm" {...props} />
   ),
   // @ts-ignore
-  img: (props: { src: string }) => <Image fill={true} {...props} alt="" />,
+  // img: (props: { src: string }) => <Image fill={true} {...props} alt="" />,
   // @ts-ignore
-  a: (props: React.PropsWithChildren<{ href: string }>) => <Link {...props} />,
+  // a: (props: React.PropsWithChildren<{ href: string }>) => <Link {...props} />,
   ul: (props: React.PropsWithChildren) => <List {...props} />,
   ol: (props: React.PropsWithChildren) => (
     <List component="ol" marker="decimal" {...props} />
   ),
-  li: (props: React.PropsWithChildren) => <ListItem {...props} />,
+  li: (props: React.PropsWithChildren) => <UnorderedListItem {...props} />,
   Button: (props: ButtonProps) => <Button {...props} />,
   Typography: (props: TypographyProps) => <Typography {...props} />,
   Image: (props: ImageProps) => <Image {...props} alt={props.alt} />,
+  List: (props: ListProps) => <List {...props} />,
+  OrderedListItem: (props) => <OrderedListItem {...props} />,
 };
 
 export default MDX_COMPONENTS;

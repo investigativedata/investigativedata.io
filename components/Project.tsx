@@ -33,14 +33,24 @@ export default function Project(props: React.PropsWithChildren<IProjectItem>) {
     </>
   );
 
-  const Content = (
-    <>
-      <Stack direction="row" gap={1}>
+  return (
+    <Card action={action} sx={{ alignItems: "start" }}>
+      <Stack direction="row" gap={1} paddingBottom={1}>
         {props.tags.map((t) => (
           <Tag key={t} variant="solid" size="sm">
             {t}
           </Tag>
         ))}
+        {props.date_published && (
+          <Chip
+            sx={{ alignSelf: "flex-end" }}
+            variant="outlined"
+            color="primary"
+            size="sm"
+          >
+            {new Date(props.date_published).toLocaleDateString()}
+          </Chip>
+        )}
       </Stack>
       <Stack gap={1}>
         <AspectRatio>
@@ -51,21 +61,12 @@ export default function Project(props: React.PropsWithChildren<IProjectItem>) {
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         </AspectRatio>
-        <Typography level="h3">{props.partner}</Typography>
+        <Typography paddingTop={1} level="h3">
+          {props.partner}
+        </Typography>
         <Typography level="h2">{props.title}</Typography>
         <article>{props.renderedDescription}</article>
       </Stack>
-    </>
-  );
-
-  return props.caseStudy ? (
-    <Card action={action} sx={{ alignItems: "start" }}>
-      {Content}
     </Card>
-  ) : (
-    <Stack gap={2} sx={{ alignItems: "start" }}>
-      {Content}
-      {action}
-    </Stack>
   );
 }

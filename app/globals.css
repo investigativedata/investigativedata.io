@@ -8,3 +8,15 @@ a {
   color: #ff5f33;
   transition: color 0.3s;
 } */
+
+/* html {
+  font-size: 12px;
+} */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  position: relative;
+}
