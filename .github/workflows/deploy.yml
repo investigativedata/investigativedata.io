@@ -1,0 +1,37 @@
+name: Build and publish website
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+jobs:
+  sync:
+    environment:
+      name: investigativedata.io
+      url: https://investigativedata.io
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          cache: "npm"
+      - name: Install build deps
+        run: npm install
+      - name: Build
+        env:
+          DIRECTUS_API_TOKEN: ${{ secrets.DIRECTUS_API_TOKEN }}
+          EXPORT: "1"
+          PREVIEW: "0"
+        run: npm run build
+      # - uses: jakejarvis/s3-sync-action@master
+      #   with:
+      #     args: --acl public-read --follow-symlinks --exclude '.git*' --exclude 'node_modules/*'
+      #   env:
+      #     SOURCE_DIR: ./out  
+      #     AWS_S3_BUCKET: investigativedata.io
+      #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     AWS_S3_ENDPOINT: ${{ secrets.AWS_S3_ENDPOINT }}
+      #     AWS_REGION: "eu-central-1"
