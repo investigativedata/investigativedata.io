@@ -28,10 +28,13 @@ const renderScreen = (props: IScreen | IMediaScreen, isLast: boolean) =>
     </MediaScreen>
   ) : (
     <Box component="section" id={slugify(props.item.name)} key={props.item.id}>
-      <Screen {...props.item} sx={isLast ? { paddingBottom: 24 } : {}}>
+      <Screen {...props.item} sx={isLast ? { paddingBottom: 20 } : {}}>
         <Stack
-          gap={12}
-          direction={props.item.horizontal ? "row" : "column"}
+          gap={4}
+          direction={{
+            sm: "column",
+            md: props.item.horizontal ? "row" : "column",
+          }}
           sx={{ "& > *": { flex: 1 } }}
         >
           {props.item.content?.map((c) => <Content key={c.item.id} {...c} />)}
@@ -76,6 +79,7 @@ export default function Page({
           section={showSection ? data.title : ""}
           drawer={drawer}
           pageMenu={pageMenu}
+          color={data.color}
         />
       </HeaderContext>
       <main style={{ paddingTop: pageMenu?.length ? "180px" : "150px" }}>

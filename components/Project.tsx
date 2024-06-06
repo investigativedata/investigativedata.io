@@ -53,7 +53,7 @@ export default function Project(props: React.PropsWithChildren<IProjectItem>) {
         )}
       </Stack>
       <Stack gap={1}>
-        <AspectRatio>
+        <AspectRatio sx={{maxWidth: "100%"}}>
           <Image
             src={getFileUrl(props.image)}
             fill={true}

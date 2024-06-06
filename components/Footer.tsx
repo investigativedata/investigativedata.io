@@ -20,7 +20,7 @@ export default function Footer() {
     >
       <Container maxWidth="xl" style={{ backgroundColor: "inherit" }}>
         <Stack
-          direction="row"
+          direction={{ sm: "column", md: "row" }}
           justifyContent="space-between"
           alignItems="center"
           spacing={2}

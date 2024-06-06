@@ -72,7 +72,7 @@ export default function Content(data: TContent): React.ReactNode {
           />
         </AspectRatio>
         {data.item.renderedDescription && (
-          <span style={{ paddingTop: 16 }}>
+          <span style={{ paddingTop: 12 }}>
             {data.item.renderedDescription}
           </span>
         )}

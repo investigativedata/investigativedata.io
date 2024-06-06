@@ -1,4 +1,5 @@
-import { TypographyProps } from "@mui/joy";
+import { TypographyProps } from "@mui/joy/Typography";
+import { ColorPaletteProp } from "@mui/joy/styles";
 import {
   IHero,
   IMediaScreen as Style_IMediaScreen,
@@ -16,6 +17,7 @@ export interface IPageBase {
 
 export interface IPage extends IPageBase {
   readonly screens: IScreen[];
+  readonly color: ColorPaletteProp;
 }
 
 // SCREENS
