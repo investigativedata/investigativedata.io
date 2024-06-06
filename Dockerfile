@@ -26,9 +26,7 @@ ENV NEXT_TELEMETRY_DISABLED 1
 ENV DIRECTUS_URL https://cms.investigativedata.net
 ENV PREVIEW 1
 
-RUN --mount=type=secret,id=DIRECTUS_API_TOKEN DIRECTUS_API_TOKEN=$(cat /run/secrets/DIRECTUS_API_TOKEN)
-RUN echo ${DIRECTUS_API_TOKEN} | sed 's/./& /g'
-RUN npm run build 
+RUN --mount=type=secret,id=DIRECTUS_API_TOKEN DIRECTUS_API_TOKEN=$(cat /run/secrets/DIRECTUS_API_TOKEN) npm run build
 
 # Production image, copy all the files and run next
 FROM base AS runner
