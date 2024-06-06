@@ -35,11 +35,10 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push release
         uses: docker/build-push-action@v5
-        env:
-          DIRECTUS_API_URL: ${{ secrets.DIRECTUS_API_URL }}
         with:
           context: .
-          secret-envs: DIRECTUS_API_URL=DIRECTUS_API_URL
+          secrets: |
+            "DIRECTUS_API_TOKEN=${{ secrets.DIRECTUS_API_TOKEN }}"
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
