@@ -35,7 +35,7 @@ export default function Project(props: React.PropsWithChildren<IProjectItem>) {
 
   return (
     <Card action={action} sx={{ alignItems: "start" }}>
-      <Stack direction="row" gap={1} paddingBottom={1}>
+      <Stack direction="row" flexWrap="wrap" gap={1} paddingBottom={1}>
         {props.tags.map((t) => (
           <Tag key={t} variant="solid" size="sm">
             {t}
@@ -53,7 +53,7 @@ export default function Project(props: React.PropsWithChildren<IProjectItem>) {
         )}
       </Stack>
       <Stack gap={1}>
-        <AspectRatio sx={{maxWidth: "100%"}}>
+        <AspectRatio sx={{ maxWidth: "100%" }}>
           <Image
             src={getFileUrl(props.image)}
             fill={true}
