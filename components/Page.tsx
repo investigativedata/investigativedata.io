@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import slugify from "slugify";
 import { IMediaScreen, IPage, IPageBase, IScreen } from "@/lib/types";
 import Image from "next/image";
@@ -56,6 +57,17 @@ export default function Page({
   showSection?: boolean;
   previewMode?: boolean;
 }) {
+  const [section, sayHi] = useState<string>(showSection ? data.title : "");
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      const params = new URLSearchParams(document.location.search);
+      const hello = params.get("hi");
+      if (!!hello) {
+        sayHi(`says hi to ${hello}`);
+      }
+    }
+  }, []);
+
   const drawer = (
     <Drawer>
       {menu.map((m) => (
@@ -76,7 +88,7 @@ export default function Page({
         <Header
           sx={{ marginTop: previewMode ? "40px" : 0 }}
           fixed
-          section={showSection ? data.title : ""}
+          section={section}
           drawer={drawer}
           pageMenu={pageMenu}
           color={data.color}
