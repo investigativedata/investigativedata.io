@@ -63,7 +63,7 @@ export default function Page({
       const params = new URLSearchParams(document.location.search);
       const hello = params.get("hi");
       if (!!hello) {
-        sayHi(`says hi to ${hello}`);
+        sayHi(`says hi to ${hello} 👋`);
       }
     }
   }, []);
