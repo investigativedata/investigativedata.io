@@ -9,15 +9,15 @@ import Box from "@mui/joy/Box";
 import Button from "@mui/joy/Button";
 import Stack from "@mui/joy/Stack";
 import {
-  BACKGROUNDS,
+  CurrentColorProvider,
   Drawer,
   DrawerMenuItem,
   Header,
   IPageMenuItem,
   MediaScreen,
   Screen,
+  ScrollContextProvider,
 } from "@investigativedata/style";
-import { HeaderContext } from "@investigativedata/style";
 import PreviewAlert from "@/components/PreviewAlert";
 import { getFileUrl } from "@/lib/directus";
 import Content from "./Content";
@@ -34,9 +34,12 @@ const renderScreen = (props: IScreen | IMediaScreen, isLast: boolean) =>
       id={slugify(props.item.name)}
       key={props.item.id}
       paddingBottom={isLast ? 12 : 0}
-      sx={{ backgroundColor: BACKGROUNDS[props.item.background || "neutral"] }}
     >
-      <Screen {...props.item} padding={props.item.padding}>
+      <Screen
+        {...props.item}
+        padding={props.item.padding}
+        changeBackgroundOnScroll
+      >
         <Stack
           gap={4}
           direction={{
@@ -90,23 +93,29 @@ export default function Page({
 
   return (
     <>
-      <HeaderContext>
-        {previewMode && <PreviewAlert />}
-        <Header
-          sx={{ marginTop: previewMode ? "40px" : 0 }}
-          fixed
-          section={section}
-          drawer={drawer}
-          pageMenu={pageMenu}
-          color={data.color}
-        />
-      </HeaderContext>
-      <main style={{ paddingTop: pageMenu?.length ? "180px" : "150px" }}>
-        {data.screens.map((s, i) =>
-          renderScreen(s, i === data.screens.length - 1),
-        )}
-      </main>
-      <Footer />
+      <ScrollContextProvider>
+        <CurrentColorProvider>
+          {previewMode && <PreviewAlert />}
+          <Header
+            sx={{ marginTop: previewMode ? "40px" : 0 }}
+            fixed
+            section={section}
+            drawer={drawer}
+            pageMenu={pageMenu}
+            color={data.color}
+          />
+          <main
+            style={{
+              paddingTop: pageMenu?.length ? "180px" : "150px",
+            }}
+          >
+            {data.screens.map((s, i) =>
+              renderScreen(s, i === data.screens.length - 1),
+            )}
+          </main>
+          <Footer />
+        </CurrentColorProvider>
+      </ScrollContextProvider>
     </>
   );
 }
