@@ -1,6 +1,23 @@
+import type { Metadata } from "next";
 import Page from "@/components/Page";
-import { PREVIEW } from "@/config";
+import { DEFAULT_TITLE, PREVIEW } from "@/config";
 import { getMenuPages, getPage } from "@/lib/directus";
+
+type IParams = {
+  readonly slug?: string[];
+};
+
+export async function generateMetadata({
+  params,
+}: {
+  params: IParams;
+}): Promise<Metadata> {
+  const data = await getPage(params.slug || ["index"]);
+  return {
+    title: `${data.title} – ${DEFAULT_TITLE}`,
+    description: data.description,
+  };
+}
 
 export default async function Home() {
   const data = await getPage(["index"]);

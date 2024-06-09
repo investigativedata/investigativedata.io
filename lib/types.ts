@@ -1,9 +1,11 @@
 import { TypographyProps } from "@mui/joy/Typography";
 import { ColorPaletteProp } from "@mui/joy/styles";
 import {
+  IAnimation,
   IHero,
   IMediaScreen as Style_IMediaScreen,
   IScreen as Style_IScreen,
+  TMarginSizes,
 } from "@investigativedata/style";
 import { ICard } from "@investigativedata/style";
 
@@ -53,7 +55,8 @@ export type TCollection =
   | "mdx"
   | "images"
   | "cards"
-  | "projects";
+  | "projects"
+  | "animations";
 
 export type TContent =
   | IHeroContent
@@ -61,7 +64,8 @@ export type TContent =
   | IImageContent
   | ITypographyContent
   | ICardContent
-  | IProjectContent;
+  | IProjectContent
+  | IAnimationContent;
 
 interface BaseItem {
   readonly id: string;
@@ -87,8 +91,9 @@ export interface IHeroContent {
 export interface ITypographyContent {
   readonly collection: "typography";
   readonly item: BaseItem &
-    TypographyProps & {
+    Omit<TypographyProps, "marginBottom"> & {
       readonly dangerouslySetInnerHtml: boolean;
+      readonly marginBottom?: TMarginSizes;
     };
 }
 
@@ -96,6 +101,7 @@ export interface IMdxContent {
   readonly collection: "mdx";
   readonly item: BaseItem & {
     readonly content: string;
+    readonly marginBottom: TMarginSizes;
     renderedContent: React.ReactNode;
   };
 }
@@ -110,6 +116,7 @@ export interface IImageContent {
     readonly ratio?: string;
     readonly width?: number;
     readonly description?: string;
+    readonly marginBottom?: TMarginSizes;
     renderedDescription?: React.ReactNode;
   };
 }
@@ -141,4 +148,12 @@ export interface ICardItem extends ICard {
 export interface ICardContent {
   readonly collection: "cards";
   readonly item: BaseItem & ICardItem;
+}
+
+export interface IAnimationItem extends React.PropsWithChildren<IAnimation> {
+  readonly content?: string;
+}
+export interface IAnimationContent {
+  readonly collection: "animations";
+  readonly item: BaseItem & IAnimationItem;
 }

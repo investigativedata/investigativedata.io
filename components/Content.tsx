@@ -5,7 +5,7 @@ import AspectRatio from "@mui/joy/AspectRatio";
 import Button from "@mui/joy/Button";
 import Stack from "@mui/joy/Stack";
 import Typography from "@mui/joy/Typography";
-import { Hero } from "@investigativedata/style";
+import { Animation, Hero, MARGINS } from "@investigativedata/style";
 import { getFileUrl } from "@/lib/directus";
 import Card from "./Card";
 import Project from "./Project";
@@ -41,21 +41,34 @@ export default function Content(data: TContent): React.ReactNode {
     );
   }
   if (data.collection === "mdx")
-    return <Stack gap={2}>{data.item.renderedContent}</Stack>;
+    return (
+      <Stack gap={2} marginBottom={MARGINS[data.item.marginBottom]}>
+        {data.item.renderedContent}
+      </Stack>
+    );
   if (data.collection === "typography") {
-    if (data.item.dangerouslySetInnerHtml && data.item.children) {
-      const { children, ...props } = data.item;
+    const {
+      marginBottom = "none",
+      dangerouslySetInnerHtml,
+      children,
+      ...props
+    } = data.item;
+    if (dangerouslySetInnerHtml && children) {
       return (
-        <Typography {...props}>
+        <Typography {...props} marginBottom={MARGINS[marginBottom]}>
           <span dangerouslySetInnerHTML={{ __html: children }} />
         </Typography>
       );
     }
-    return <Typography {...data.item} />;
+    return (
+      <Typography {...props} marginBottom={MARGINS[marginBottom]}>
+        {children}
+      </Typography>
+    );
   }
   if (data.collection === "images")
     return (
-      <Stack>
+      <Stack marginBottom={MARGINS[data.item.marginBottom || "sm"]}>
         <AspectRatio
           sx={{
             width: data.item.width || "100%",
@@ -80,4 +93,10 @@ export default function Content(data: TContent): React.ReactNode {
     );
   if (data.collection === "projects") return <Project {...data.item} />;
   if (data.collection === "cards") return <Card {...data.item} />;
+  if (data.collection === "animations") {
+    const { height, width, src, children } = data.item;
+    const props = { height, width, src: getFileUrl(src) };
+    // @ts-ignore
+    return <Animation {...props}>{children}</Animation>;
+  }
 }

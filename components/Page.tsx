@@ -9,6 +9,7 @@ import Box from "@mui/joy/Box";
 import Button from "@mui/joy/Button";
 import Stack from "@mui/joy/Stack";
 import {
+  BACKGROUNDS,
   Drawer,
   DrawerMenuItem,
   Header,
@@ -28,8 +29,14 @@ const renderScreen = (props: IScreen | IMediaScreen, isLast: boolean) =>
       <Image fill={true} src={getFileUrl(props.item.backgroundImage)} alt="" />
     </MediaScreen>
   ) : (
-    <Box component="section" id={slugify(props.item.name)} key={props.item.id}>
-      <Screen {...props.item} sx={isLast ? { paddingBottom: 20 } : {}}>
+    <Box
+      component="section"
+      id={slugify(props.item.name)}
+      key={props.item.id}
+      paddingBottom={isLast ? 12 : 0}
+      sx={{ backgroundColor: BACKGROUNDS[props.item.background || "neutral"] }}
+    >
+      <Screen {...props.item} padding={props.item.padding}>
         <Stack
           gap={4}
           direction={{

@@ -1,10 +1,27 @@
+import type { Metadata } from "next";
 import slugify from "slugify";
 import { IScreen } from "@/lib/types";
 import { permanentRedirect } from "next/navigation";
 import { IPageMenuItem } from "@investigativedata/style";
 import Page from "@/components/Page";
-import { PREVIEW } from "@/config";
+import { DEFAULT_TITLE, PREVIEW } from "@/config";
 import { getMenuPages, getPage, getPages } from "@/lib/directus";
+
+type IParams = {
+  readonly slug?: string[];
+};
+
+export async function generateMetadata({
+  params,
+}: {
+  params: IParams;
+}): Promise<Metadata> {
+  const data = await getPage(params.slug || ["index"]);
+  return {
+    title: `${data.title} – ${DEFAULT_TITLE}`,
+    description: data.description,
+  };
+}
 
 const getPageMenu = (screens: IScreen[]): IPageMenuItem[] =>
   screens
