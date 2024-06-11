@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import slugify from "slugify";
 import { IMediaScreen, IPage, IPageBase, IScreen } from "@/lib/types";
 import Image from "next/image";
@@ -9,14 +9,15 @@ import Box from "@mui/joy/Box";
 import Button from "@mui/joy/Button";
 import Stack from "@mui/joy/Stack";
 import {
-  CurrentColorProvider,
+  BACKGROUNDS,
   Drawer,
   DrawerMenuItem,
   Header,
   IPageMenuItem,
   MediaScreen,
+  PageContext,
+  PageContextProvider,
   Screen,
-  ScrollContextProvider,
 } from "@investigativedata/style";
 import PreviewAlert from "@/components/PreviewAlert";
 import { getFileUrl } from "@/lib/directus";
@@ -32,6 +33,7 @@ const renderScreen = (props: IScreen | IMediaScreen, isLast: boolean) =>
     <Box
       component="section"
       id={slugify(props.item.name)}
+      data-anchor={props.item.anchor}
       key={props.item.id}
       paddingBottom={isLast ? 12 : 0}
     >
@@ -91,31 +93,32 @@ export default function Page({
     </Drawer>
   );
 
+  const { currentColor } = useContext(PageContext);
+
   return (
-    <>
-      <ScrollContextProvider>
-        <CurrentColorProvider>
-          {previewMode && <PreviewAlert />}
-          <Header
-            sx={{ marginTop: previewMode ? "40px" : 0 }}
-            fixed
-            section={section}
-            drawer={drawer}
-            pageMenu={pageMenu}
-            color={data.color}
-          />
-          <main
-            style={{
-              paddingTop: pageMenu?.length ? "180px" : "150px",
-            }}
-          >
-            {data.screens.map((s, i) =>
-              renderScreen(s, i === data.screens.length - 1),
-            )}
-          </main>
-          <Footer />
-        </CurrentColorProvider>
-      </ScrollContextProvider>
-    </>
+    <PageContextProvider initialColor={data.color}>
+      {previewMode && <PreviewAlert />}
+      <Header
+        sx={{
+          marginTop: previewMode ? "40px" : 0,
+          backgroundColor: BACKGROUNDS[currentColor] || "inherit",
+          transition: "background 0.8s ease",
+        }}
+        fixed
+        section={section}
+        drawer={drawer}
+        pageMenu={pageMenu}
+        color={data.color}
+      />
+      <Box
+        component="main"
+        paddingTop={{ xs: "70px", md: pageMenu?.length ? "180px" : "150px" }}
+      >
+        {data.screens.map((s, i) =>
+          renderScreen(s, i === data.screens.length - 1),
+        )}
+      </Box>
+      <Footer />
+    </PageContextProvider>
   );
 }
