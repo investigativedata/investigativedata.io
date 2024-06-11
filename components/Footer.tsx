@@ -31,10 +31,10 @@ export default function Footer() {
             textAlign={{ xs: "center", sm: "inherit" }}
           >
             <Typography level="body-sm">
-              <Link href="/contact">Contact & Impress</Link>
+              <Link href="/contact">Contact & Legal Notice</Link>
             </Typography>
             <Typography level="body-sm">
-              <Link href="/legal">Legal</Link>
+              <Link href="/legal">Legal Documents</Link>
             </Typography>
           </Stack>
           <Stack
