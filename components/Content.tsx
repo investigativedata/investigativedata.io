@@ -5,7 +5,13 @@ import AspectRatio from "@mui/joy/AspectRatio";
 import Button from "@mui/joy/Button";
 import Stack from "@mui/joy/Stack";
 import Typography from "@mui/joy/Typography";
-import { Animation, Hero, MARGINS } from "@investigativedata/style";
+import {
+  Animation,
+  BLACK,
+  Hero,
+  MARGINS,
+  WHITE,
+} from "@investigativedata/style";
 import { getFileUrl } from "@/lib/directus";
 import Card from "./Card";
 import Project from "./Project";
@@ -16,23 +22,48 @@ export default function Content(data: TContent): React.ReactNode {
     if (!!data.item.mediaSrc) {
       data.item.mediaSrc = getFileUrl(data.item.mediaSrc);
     }
-    if (!!data.item.actionLabel && !!data.item.actionHref) {
+    if (
+      (!!data.item.actionLabel && !!data.item.actionHref) ||
+      (!!data.item.primaryActionLabel && !!data.item.primaryActionHref)
+    ) {
       action = (
-        <Button
-          component="a"
-          href={data.item.actionHref}
-          sx={{
-            backgroundColor: "inherit",
-            "&:hover": {
-              backgroundColor: "inherit",
-            },
-            "&:active": (theme) => ({
-              backgroundColor: theme.colorSchemes.dark.palette.text,
-            }),
-          }}
-        >
-          {data.item.actionLabel}
-        </Button>
+        <Stack direction="row" flexWrap="wrap" gap={1}>
+          {!!data.item.actionLabel && (
+            <Button
+              component="a"
+              href={data.item.actionHref}
+              sx={{
+                backgroundColor: "inherit",
+                "&:hover": {
+                  backgroundColor: "inherit",
+                },
+                "&:active": (theme) => ({
+                  backgroundColor: theme.colorSchemes.dark.palette.text,
+                }),
+              }}
+            >
+              {data.item.actionLabel}
+            </Button>
+          )}
+          {!!data.item.primaryActionLabel && (
+            <Button
+              component="a"
+              href={data.item.primaryActionHref}
+              sx={{
+                color: WHITE,
+                backgroundColor: BLACK,
+                "&:hover": {
+                  backgroundColor: BLACK,
+                },
+                "&:active": (theme) => ({
+                  backgroundColor: theme.colorSchemes.dark.palette.text,
+                }),
+              }}
+            >
+              {data.item.primaryActionLabel}
+            </Button>
+          )}
+        </Stack>
       );
     }
     return (

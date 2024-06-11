@@ -79,6 +79,8 @@ interface BaseItem {
 export interface IHeroItem extends IHero {
   readonly actionLabel?: string;
   readonly actionHref?: string;
+  readonly primaryActionLabel?: string;
+  readonly primaryActionHref?: string;
   mediaSrc?: string;
   renderedTeaser: React.ReactNode;
 }
