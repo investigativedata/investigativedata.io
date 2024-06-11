@@ -41,16 +41,6 @@ export default function Project(props: React.PropsWithChildren<IProjectItem>) {
             {t}
           </Tag>
         ))}
-        {props.date_published && (
-          <Chip
-            sx={{ alignSelf: "flex-end" }}
-            variant="outlined"
-            color="primary"
-            size="sm"
-          >
-            {new Date(props.date_published).toLocaleDateString()}
-          </Chip>
-        )}
       </Stack>
       <Stack gap={1}>
         <AspectRatio sx={{ maxWidth: "100%" }}>
@@ -63,6 +53,8 @@ export default function Project(props: React.PropsWithChildren<IProjectItem>) {
         </AspectRatio>
         <Typography paddingTop={1} level="h3">
           {props.partner}
+          {props.date_published &&
+            ` | ${new Date(props.date_published).toLocaleDateString()}`}
         </Typography>
         <Typography level="h2">{props.title}</Typography>
         <article>{props.renderedDescription}</article>
