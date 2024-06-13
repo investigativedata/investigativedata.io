@@ -6,7 +6,7 @@ import Chip from "@mui/joy/Chip";
 import Stack from "@mui/joy/Stack";
 import Typography from "@mui/joy/Typography";
 import { styled } from "@mui/joy/styles";
-import { Card, theme } from "@investigativedata/style";
+import { Card, FONT_SIZES, theme } from "@investigativedata/style";
 import { getFileUrl } from "@/lib/directus";
 
 const Tag = styled(Chip)({
@@ -43,7 +43,7 @@ export default function Project(props: React.PropsWithChildren<IProjectItem>) {
         ))}
       </Stack>
       <Stack gap={1}>
-        <AspectRatio sx={{ maxWidth: "100%" }}>
+        <AspectRatio sx={{ maxWidth: "100%", boxShadow: "none" }}>
           <Image
             src={getFileUrl(props.image)}
             fill={true}
@@ -51,12 +51,19 @@ export default function Project(props: React.PropsWithChildren<IProjectItem>) {
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         </AspectRatio>
-        <Typography paddingTop={1} level="h3">
+        <Typography paddingTop={2} paddingBottom={0} level="h3">
           {props.partner}
           {props.date_published &&
             ` | ${new Date(props.date_published).toLocaleDateString()}`}
         </Typography>
-        <Typography level="h2">{props.title}</Typography>
+        <Typography
+          level="h2"
+          sx={{ fontSize: FONT_SIZES.lg, fontWeight: 700 }}
+          paddingTop={0}
+          paddingBottom={2}
+        >
+          {props.title}
+        </Typography>
         <article>{props.renderedDescription}</article>
       </Stack>
     </Card>
