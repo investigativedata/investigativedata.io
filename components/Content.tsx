@@ -27,7 +27,7 @@ export default function Content(data: TContent): React.ReactNode {
       (!!data.item.primaryActionLabel && !!data.item.primaryActionHref)
     ) {
       action = (
-        <Stack direction="row" flexWrap="wrap" gap={1}>
+        <Stack direction="row" flexWrap="wrap" gap={2}>
           {!!data.item.actionLabel && (
             <Button
               component="a"
