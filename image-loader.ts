@@ -1,5 +1,3 @@
-"use client";
-
 // https://nextjs.org/docs/app/building-your-application/deploying/static-exports
 export default function imageLoader({
   src,
@@ -10,5 +8,9 @@ export default function imageLoader({
   width: number;
   quality?: number;
 }) {
-  return `${src}?width=${width}&quality=${quality || 80}`;
+  const baseUrl = src.replace(
+    "cms.investigativedata.net/assets",
+    "assets.investigativedata.org/cms",
+  );
+  return `${baseUrl}?width=${width}&quality=${quality || 80}`;
 }

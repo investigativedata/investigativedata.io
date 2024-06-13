@@ -9,8 +9,6 @@ import CssBaseline from "@mui/joy/CssBaseline";
 import { CssVarsProvider } from "@mui/joy/styles";
 import { theme } from "@investigativedata/style";
 
-// app/ThemeRegistry.tsx
-
 // This implementation is from emotion-js
 // https://github.com/emotion-js/emotion/issues/2928#issuecomment-1319747902
 interface IOptions {

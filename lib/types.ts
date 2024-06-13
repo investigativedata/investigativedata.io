@@ -1,9 +1,13 @@
-import { TypographyProps } from "@mui/joy";
+import { TypographyProps } from "@mui/joy/Typography";
+import { ColorPaletteProp } from "@mui/joy/styles";
 import {
+  IAnimation,
   IHero,
   IMediaScreen as Style_IMediaScreen,
   IScreen as Style_IScreen,
+  TMarginSizes,
 } from "@investigativedata/style";
+import { ICard } from "@investigativedata/style";
 
 // PAGES
 
@@ -15,6 +19,7 @@ export interface IPageBase {
 
 export interface IPage extends IPageBase {
   readonly screens: IScreen[];
+  readonly color: ColorPaletteProp;
 }
 
 // SCREENS
@@ -22,6 +27,7 @@ export interface IPage extends IPageBase {
 interface IScreenItem extends Style_IScreen {
   readonly id: string;
   readonly name: string;
+  readonly horizontal: boolean;
   readonly anchor?: boolean;
   content?: TContent[];
 }
@@ -48,14 +54,18 @@ export type TCollection =
   | "typography"
   | "mdx"
   | "images"
-  | "projects";
+  | "cards"
+  | "projects"
+  | "animations";
 
 export type TContent =
   | IHeroContent
   | IMdxContent
   | IImageContent
   | ITypographyContent
-  | IProjectContent;
+  | ICardContent
+  | IProjectContent
+  | IAnimationContent;
 
 interface BaseItem {
   readonly id: string;
@@ -69,6 +79,8 @@ interface BaseItem {
 export interface IHeroItem extends IHero {
   readonly actionLabel?: string;
   readonly actionHref?: string;
+  readonly primaryActionLabel?: string;
+  readonly primaryActionHref?: string;
   mediaSrc?: string;
   renderedTeaser: React.ReactNode;
 }
@@ -81,8 +93,9 @@ export interface IHeroContent {
 export interface ITypographyContent {
   readonly collection: "typography";
   readonly item: BaseItem &
-    TypographyProps & {
+    Omit<TypographyProps, "marginBottom"> & {
       readonly dangerouslySetInnerHtml: boolean;
+      readonly marginBottom?: TMarginSizes;
     };
 }
 
@@ -90,6 +103,7 @@ export interface IMdxContent {
   readonly collection: "mdx";
   readonly item: BaseItem & {
     readonly content: string;
+    readonly marginBottom: TMarginSizes;
     renderedContent: React.ReactNode;
   };
 }
@@ -104,6 +118,7 @@ export interface IImageContent {
     readonly ratio?: string;
     readonly width?: number;
     readonly description?: string;
+    readonly marginBottom?: TMarginSizes;
     renderedDescription?: React.ReactNode;
   };
 }
@@ -117,10 +132,30 @@ export interface IProjectItem {
   readonly caseStudy?: boolean;
   readonly caseStudyUrl?: string;
   readonly description: string;
+  readonly date_published?: string;
   renderedDescription: React.ReactNode;
 }
 
 export interface IProjectContent {
   readonly collection: "projects";
   readonly item: BaseItem & IProjectItem;
+}
+
+export interface ICardItem extends ICard {
+  readonly content?: string;
+  renderedContent?: React.ReactNode;
+  readonly actionLabel?: string;
+  readonly actionHref?: string;
+}
+export interface ICardContent {
+  readonly collection: "cards";
+  readonly item: BaseItem & ICardItem;
+}
+
+export interface IAnimationItem extends React.PropsWithChildren<IAnimation> {
+  readonly content?: string;
+}
+export interface IAnimationContent {
+  readonly collection: "animations";
+  readonly item: BaseItem & IAnimationItem;
 }

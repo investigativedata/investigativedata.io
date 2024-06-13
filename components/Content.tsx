@@ -5,8 +5,15 @@ import AspectRatio from "@mui/joy/AspectRatio";
 import Button from "@mui/joy/Button";
 import Stack from "@mui/joy/Stack";
 import Typography from "@mui/joy/Typography";
-import { Hero } from "@investigativedata/style";
+import {
+  Animation,
+  BLACK,
+  Hero,
+  MARGINS,
+  WHITE,
+} from "@investigativedata/style";
 import { getFileUrl } from "@/lib/directus";
+import Card from "./Card";
 import Project from "./Project";
 
 export default function Content(data: TContent): React.ReactNode {
@@ -15,23 +22,48 @@ export default function Content(data: TContent): React.ReactNode {
     if (!!data.item.mediaSrc) {
       data.item.mediaSrc = getFileUrl(data.item.mediaSrc);
     }
-    if (!!data.item.actionLabel && !!data.item.actionHref) {
+    if (
+      (!!data.item.actionLabel && !!data.item.actionHref) ||
+      (!!data.item.primaryActionLabel && !!data.item.primaryActionHref)
+    ) {
       action = (
-        <Button
-          component="a"
-          href={data.item.actionHref}
-          sx={{
-            backgroundColor: "inherit",
-            "&:hover": {
-              backgroundColor: "inherit",
-            },
-            "&:active": (theme) => ({
-              backgroundColor: theme.colorSchemes.dark.palette.text,
-            }),
-          }}
-        >
-          {data.item.actionLabel}
-        </Button>
+        <Stack direction="row" flexWrap="wrap" gap={2}>
+          {!!data.item.actionLabel && (
+            <Button
+              component="a"
+              href={data.item.actionHref}
+              sx={{
+                backgroundColor: "inherit",
+                "&:hover": {
+                  backgroundColor: "inherit",
+                },
+                "&:active": (theme) => ({
+                  backgroundColor: theme.colorSchemes.dark.palette.text,
+                }),
+              }}
+            >
+              {data.item.actionLabel}
+            </Button>
+          )}
+          {!!data.item.primaryActionLabel && (
+            <Button
+              component="a"
+              href={data.item.primaryActionHref}
+              sx={{
+                color: WHITE,
+                backgroundColor: BLACK,
+                "&:hover": {
+                  backgroundColor: BLACK,
+                },
+                "&:active": (theme) => ({
+                  backgroundColor: theme.colorSchemes.dark.palette.text,
+                }),
+              }}
+            >
+              {data.item.primaryActionLabel}
+            </Button>
+          )}
+        </Stack>
       );
     }
     return (
@@ -40,21 +72,34 @@ export default function Content(data: TContent): React.ReactNode {
     );
   }
   if (data.collection === "mdx")
-    return <Stack gap={2}>{data.item.renderedContent}</Stack>;
+    return (
+      <Stack gap={2} marginBottom={MARGINS[data.item.marginBottom]}>
+        {data.item.renderedContent}
+      </Stack>
+    );
   if (data.collection === "typography") {
-    if (data.item.dangerouslySetInnerHtml && data.item.children) {
-      const { children, ...props } = data.item;
+    const {
+      marginBottom = "none",
+      dangerouslySetInnerHtml,
+      children,
+      ...props
+    } = data.item;
+    if (dangerouslySetInnerHtml && children) {
       return (
-        <Typography {...props}>
+        <Typography {...props} marginBottom={MARGINS[marginBottom]}>
           <span dangerouslySetInnerHTML={{ __html: children }} />
         </Typography>
       );
     }
-    return <Typography {...data.item} />;
+    return (
+      <Typography {...props} marginBottom={MARGINS[marginBottom]}>
+        {children}
+      </Typography>
+    );
   }
   if (data.collection === "images")
     return (
-      <Stack>
+      <Stack marginBottom={MARGINS[data.item.marginBottom || "sm"]}>
         <AspectRatio
           sx={{
             width: data.item.width || "100%",
@@ -71,11 +116,18 @@ export default function Content(data: TContent): React.ReactNode {
           />
         </AspectRatio>
         {data.item.renderedDescription && (
-          <span style={{ paddingTop: 16 }}>
+          <span style={{ paddingTop: 12 }}>
             {data.item.renderedDescription}
           </span>
         )}
       </Stack>
     );
   if (data.collection === "projects") return <Project {...data.item} />;
+  if (data.collection === "cards") return <Card {...data.item} />;
+  if (data.collection === "animations") {
+    const { height, width, src, children } = data.item;
+    const props = { height, width, src: getFileUrl(src) };
+    // @ts-ignore
+    return <Animation {...props}>{children}</Animation>;
+  }
 }

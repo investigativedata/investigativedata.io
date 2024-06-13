@@ -1,6 +1,6 @@
 {
   "name": "investigativedata.io",
-  "version": "0.1.0",
+  "version": "0.9.9",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -9,18 +9,18 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@directus/sdk": "^16.0.0",
+    "@directus/sdk": "^16.1.0",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
-    "@investigativedata/style": "^0.1.4",
+    "@investigativedata/style": "^0.1.9",
     "@mdx-js/loader": "^3.0.1",
     "@mdx-js/react": "^3.0.1",
-    "@mui/icons-material": "^5.15.18",
+    "@mui/icons-material": "^5.15.19",
     "@mui/joy": "^5.0.0-beta.36",
-    "@next/mdx": "^14.2.3",
+    "@next/mdx": "^14.2.4",
     "@types/mdx": "^2.0.13",
-    "next": "14.2.3",
-    "next-mdx-remote": "^4.4.1",
+    "next": "14.2.4",
+    "next-mdx-remote": "^4",
     "react": "^18",
     "react-dom": "^18",
     "slugify": "^1.6.6"
@@ -31,8 +31,7 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint": "^8",
-    "eslint-config-next": "14.2.3",
-    "next-export-optimize-images": "^4.4.0",
+    "eslint-config-next": "14.2.4",
     "typescript": "^5"
   }
 }

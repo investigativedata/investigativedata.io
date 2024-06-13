@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import Typography from "@mui/joy/Typography";
 import {
+  ASSETS_BASE_URL,
   DIRECTUS_API_TOKEN,
   DIRECTUS_DEFAULT_PAGE_FILTER,
   DIRECTUS_URL,
@@ -19,10 +20,10 @@ export default directus;
 
 export function getFileUrl(fileId: string): string {
   if (fileId.indexOf("http") > -1) return fileId;
-  return `${DIRECTUS_URL}/assets/${fileId}`;
+  return ASSETS_BASE_URL + fileId;
 }
 
-const cleanProps = (props: TContent): TContent => {
+export const cleanProps = (props: TContent): TContent => {
   const {
     status,
     user_created,
@@ -79,7 +80,28 @@ function serializeMdx(child: TContent): TContent {
       />
     );
   }
-  // @ts-ignore
+  if (collection === "cards" && item.content) {
+    item.renderedContent = (
+      <MDXRemote
+        source={item.content}
+        components={{
+          ...MDX_COMPONENTS,
+          p: (props: React.PropsWithChildren) => (
+            <Typography level="body-md">{props.children}</Typography>
+          ),
+        }}
+      />
+    );
+  }
+  if (collection === "animations" && item.content) {
+    item.children = (
+      <MDXRemote
+        source={item.content}
+        components={{ ...MDX_COMPONENTS, p: (props) => <span {...props} /> }}
+      />
+    );
+  }
+  // @ts-ignore FIXME
   return { ...child, item, collection };
 }
 
@@ -125,11 +147,14 @@ export async function getPage(slug: string[]): Promise<IPage> {
             "item.anchor",
             "item.background",
             "item.backgroundImage",
+            "item.maxWidth",
+            "item.fullHeight",
+            "item.horizontal",
+            "item.textAlignCenter",
+            "item.padding",
             "item.content",
             "item.content.collection",
             "item.content.item.*",
-            "item.maxWidth",
-            "item.fullHeight",
           ],
         },
       ],
