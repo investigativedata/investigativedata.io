@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { TContent } from "@/lib/types";
 import Image from "next/image";
 import AspectRatio from "@mui/joy/AspectRatio";
@@ -7,9 +7,11 @@ import Stack from "@mui/joy/Stack";
 import Typography from "@mui/joy/Typography";
 import {
   Animation,
+  BACKGROUNDS,
   BLACK,
   Hero,
   MARGINS,
+  PageContext,
   WHITE,
 } from "@investigativedata/style";
 import { getFileUrl } from "@/lib/directus";
@@ -17,6 +19,7 @@ import Card from "./Card";
 import Project from "./Project";
 
 export default function Content(data: TContent): React.ReactNode {
+  const { currentColor } = useContext(PageContext);
   if (data.collection === "heroes") {
     let action;
     if (!!data.item.mediaSrc) {
@@ -50,7 +53,7 @@ export default function Content(data: TContent): React.ReactNode {
               component="a"
               href={data.item.primaryActionHref}
               sx={{
-                color: WHITE,
+                color: BACKGROUNDS[currentColor],
                 backgroundColor: BLACK,
                 "&:hover": {
                   backgroundColor: BLACK,
