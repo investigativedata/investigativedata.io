@@ -56,7 +56,8 @@ export type TCollection =
   | "images"
   | "cards"
   | "projects"
-  | "animations";
+  | "animations"
+  | "newsletters";
 
 export type TContent =
   | IHeroContent
@@ -65,7 +66,8 @@ export type TContent =
   | ITypographyContent
   | ICardContent
   | IProjectContent
-  | IAnimationContent;
+  | IAnimationContent
+  | INewsletterContent;
 
 interface BaseItem {
   readonly id: string;
@@ -158,4 +160,13 @@ export interface IAnimationItem extends React.PropsWithChildren<IAnimation> {
 export interface IAnimationContent {
   readonly collection: "animations";
   readonly item: BaseItem & IAnimationItem;
+}
+export interface INewsletterItem {
+  readonly action: string;
+  readonly listUid: string;
+}
+
+export interface INewsletterContent {
+  readonly collection: "newsletters";
+  readonly item: BaseItem & INewsletterItem;
 }

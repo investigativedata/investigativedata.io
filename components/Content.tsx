@@ -12,10 +12,10 @@ import {
   Hero,
   MARGINS,
   PageContext,
-  WHITE,
 } from "@investigativedata/style";
 import { getFileUrl } from "@/lib/directus";
 import Card from "./Card";
+import NewsletterForm from "./NewsletterForm";
 import Project from "./Project";
 
 export default function Content(data: TContent): React.ReactNode {
@@ -127,6 +127,8 @@ export default function Content(data: TContent): React.ReactNode {
     );
   if (data.collection === "projects") return <Project {...data.item} />;
   if (data.collection === "cards") return <Card {...data.item} />;
+  if (data.collection === "newsletters")
+    return <NewsletterForm {...data.item} />;
   if (data.collection === "animations") {
     const { height, width, src, children } = data.item;
     const props = { height, width, src: getFileUrl(src) };
