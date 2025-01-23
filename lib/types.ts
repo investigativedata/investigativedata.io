@@ -2,12 +2,12 @@ import { TypographyProps } from "@mui/joy/Typography";
 import { ColorPaletteProp } from "@mui/joy/styles";
 import {
   IAnimation,
+  ICard,
   IHero,
   IMediaScreen as Style_IMediaScreen,
   IScreen as Style_IScreen,
   TMarginSizes,
 } from "@investigativedata/style";
-import { ICard } from "@investigativedata/style";
 
 // PAGES
 
@@ -54,6 +54,7 @@ export type TCollection =
   | "typography"
   | "mdx"
   | "images"
+  | "files"
   | "cards"
   | "projects"
   | "animations"
@@ -63,6 +64,7 @@ export type TContent =
   | IHeroContent
   | IMdxContent
   | IImageContent
+  | IFileContent
   | ITypographyContent
   | ICardContent
   | IProjectContent
@@ -123,6 +125,17 @@ export interface IImageContent {
     readonly marginBottom?: TMarginSizes;
     renderedDescription?: React.ReactNode;
   };
+}
+
+export interface IFileItem extends BaseItem {
+  readonly name: string;
+  readonly file: string;
+  readonly mimetype: string;
+}
+
+export interface IFileContent {
+  readonly collection: "files";
+  readonly item: IFileItem;
 }
 
 export interface IProjectItem {

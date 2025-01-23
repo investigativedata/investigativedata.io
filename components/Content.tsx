@@ -15,6 +15,7 @@ import {
 } from "@investigativedata/style";
 import { getFileUrl } from "@/lib/directus";
 import Card from "./Card";
+import File from "./File";
 import NewsletterForm from "./NewsletterForm";
 import Project from "./Project";
 
@@ -125,6 +126,7 @@ export default function Content(data: TContent): React.ReactNode {
         )}
       </Stack>
     );
+  if (data.collection === "files") return <File {...data.item} />;
   if (data.collection === "projects") return <Project {...data.item} />;
   if (data.collection === "cards") return <Card {...data.item} />;
   if (data.collection === "newsletters")
