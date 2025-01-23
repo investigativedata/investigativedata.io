@@ -11,11 +11,12 @@ type IParams = {
   readonly slug?: string[];
 };
 
-export async function generateMetadata({
-  params,
-}: {
-  params: IParams;
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: {
+    params: Promise<IParams>;
+  }
+): Promise<Metadata> {
+  const params = await props.params;
   const data = await getPage(params.slug || ["index"]);
   return {
     title: `${data.title} – ${DEFAULT_TITLE}`,
@@ -28,11 +29,12 @@ const getPageMenu = (screens: IScreen[]): IPageMenuItem[] =>
     .filter(({ item }) => !!item.anchor)
     .map(({ item }) => ({ label: item.name, href: `#${slugify(item.name)}` }));
 
-export default async function SlugPage({
-  params,
-}: {
-  params: { slug: string[] };
-}) {
+export default async function SlugPage(
+  props: {
+    params: Promise<{ slug: string[] }>;
+  }
+) {
+  const params = await props.params;
   if (params.slug.length === 1 && params.slug[0] === "index") {
     return permanentRedirect("/");
   }

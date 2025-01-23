@@ -7,11 +7,12 @@ type IParams = {
   readonly slug?: string[];
 };
 
-export async function generateMetadata({
-  params,
-}: {
-  params: IParams;
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: {
+    params: Promise<IParams>;
+  }
+): Promise<Metadata> {
+  const params = await props.params;
   const data = await getPage(params.slug || ["index"]);
   return {
     title: `${data.title} – ${DEFAULT_TITLE}`,
