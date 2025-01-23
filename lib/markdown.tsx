@@ -1,6 +1,8 @@
+import remarkGfm from "remark-gfm";
 import { MDXComponents } from "mdx/types";
 import Image, { ImageProps } from "next/image";
 import NLink from "next/link";
+import { Table } from "@mui/joy";
 import Button, { ButtonProps } from "@mui/joy/Button";
 import MLink from "@mui/joy/Link";
 import List, { ListProps } from "@mui/joy/List";
@@ -30,6 +32,9 @@ const MDX_COMPONENTS: MDXComponents = {
   // img: (props: { src: string }) => <Image fill={true} {...props} alt="" />,
   // @ts-ignore
   // a: (props: React.PropsWithChildren<{ href: string }>) => <Link {...props} />,
+  table: (props: React.PropsWithChildren) => (
+    <Table {...{ size: "lg", ...props }} />
+  ),
   ul: (props: React.PropsWithChildren) => <List {...props} />,
   ol: (props: React.PropsWithChildren) => (
     <List component="ol" marker="decimal" {...props} />
@@ -43,3 +48,9 @@ const MDX_COMPONENTS: MDXComponents = {
 };
 
 export default MDX_COMPONENTS;
+
+export const MDX_OPTIONS = {
+  mdxOptions: {
+    remarkPlugins: [remarkGfm],
+  },
+};

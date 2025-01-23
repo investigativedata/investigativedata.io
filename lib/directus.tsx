@@ -9,7 +9,7 @@ import {
   DIRECTUS_DEFAULT_PAGE_FILTER,
   DIRECTUS_URL,
 } from "@/config";
-import MDX_COMPONENTS from "./markdown";
+import MDX_COMPONENTS, { MDX_OPTIONS } from "./markdown";
 
 const directus = createDirectus(DIRECTUS_URL)
   .with(rest())
@@ -40,7 +40,11 @@ function serializeMdx(child: TContent): TContent {
   const { collection, item } = cleanProps(child);
   if (collection === "mdx" && item.content) {
     item.renderedContent = (
-      <MDXRemote source={item.content} components={MDX_COMPONENTS} />
+      <MDXRemote
+        source={item.content}
+        components={MDX_COMPONENTS}
+        options={MDX_OPTIONS}
+      />
     );
   }
   if (collection === "heroes" && item.teaser) {
@@ -51,6 +55,7 @@ function serializeMdx(child: TContent): TContent {
           ...MDX_COMPONENTS,
           p: (props: React.PropsWithChildren) => <span>{props.children}</span>,
         }}
+        options={MDX_OPTIONS}
       />
     );
   }
@@ -64,6 +69,7 @@ function serializeMdx(child: TContent): TContent {
             <Typography level="body-md">{props.children}</Typography>
           ),
         }}
+        options={MDX_OPTIONS}
       />
     );
   }
@@ -77,6 +83,7 @@ function serializeMdx(child: TContent): TContent {
             <Typography level="body-sm">{props.children}</Typography>
           ),
         }}
+        options={MDX_OPTIONS}
       />
     );
   }
@@ -90,6 +97,7 @@ function serializeMdx(child: TContent): TContent {
             <Typography level="body-md">{props.children}</Typography>
           ),
         }}
+        options={MDX_OPTIONS}
       />
     );
   }
@@ -98,6 +106,7 @@ function serializeMdx(child: TContent): TContent {
       <MDXRemote
         source={item.content}
         components={{ ...MDX_COMPONENTS, p: (props) => <span {...props} /> }}
+        options={MDX_OPTIONS}
       />
     );
   }
