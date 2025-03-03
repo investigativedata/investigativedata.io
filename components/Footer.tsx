@@ -36,6 +36,9 @@ export default function Footer() {
             <Typography level="body-sm">
               <Link href="/legal">Legal Documents</Link>
             </Typography>
+            <Typography level="body-sm">
+              <Link href="https://status.investigativedata.io">System status</Link>
+            </Typography>
           </Stack>
           <Stack
             direction={{ xs: "column", sm: "row" }}
