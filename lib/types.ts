@@ -27,7 +27,7 @@ export interface IPage extends IPageBase {
 interface IScreenItem extends Style_IScreen {
   readonly id: string;
   readonly name: string;
-  readonly horizontal: boolean;
+  readonly horizontal?: boolean;
   readonly anchor?: boolean;
   content?: TContent[];
 }
@@ -58,6 +58,7 @@ export type TCollection =
   | "cards"
   | "projects"
   | "animations"
+  | "articles"
   | "newsletters";
 
 export type TContent =
@@ -98,7 +99,7 @@ export interface ITypographyContent {
   readonly collection: "typography";
   readonly item: BaseItem &
     Omit<TypographyProps, "marginBottom"> & {
-      readonly dangerouslySetInnerHtml: boolean;
+      readonly dangerouslySetInnerHtml?: boolean;
       readonly marginBottom?: TMarginSizes;
     };
 }
@@ -112,19 +113,21 @@ export interface IMdxContent {
   };
 }
 
+interface IImageItem extends BaseItem {
+  readonly src: string;
+  readonly alt: string;
+  readonly position: "flex-start" | "center" | "flex-end";
+  readonly shadow?: boolean;
+  readonly ratio?: string;
+  readonly width?: number;
+  readonly description?: string;
+  readonly marginBottom?: TMarginSizes;
+  renderedDescription?: React.ReactNode;
+}
+
 export interface IImageContent {
   readonly collection: "images";
-  readonly item: BaseItem & {
-    readonly src: string;
-    readonly alt: string;
-    readonly position: "flex-start" | "center" | "flex-end";
-    readonly shadow?: boolean;
-    readonly ratio?: string;
-    readonly width?: number;
-    readonly description?: string;
-    readonly marginBottom?: TMarginSizes;
-    renderedDescription?: React.ReactNode;
-  };
+  readonly item: IImageItem;
 }
 
 export interface IFileItem extends BaseItem {
@@ -182,4 +185,21 @@ export interface INewsletterItem {
 export interface INewsletterContent {
   readonly collection: "newsletters";
   readonly item: BaseItem & INewsletterItem;
+}
+
+export interface IArticleBase {
+  readonly id: string;
+  readonly title: string;
+  readonly titleShort?: string;
+  readonly published_at: string;
+  readonly subtitle?: string;
+  readonly teaser?: string;
+  readonly teaserShort?: string;
+  readonly heroImage: IImageItem;
+}
+
+export interface IArticle extends IArticleBase {
+  readonly tags?: string[];
+  readonly articleImage?: IMediaScreenItem;
+  content?: TContent[];
 }

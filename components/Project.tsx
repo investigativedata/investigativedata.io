@@ -2,17 +2,11 @@ import { IProjectItem } from "@/lib/types";
 import Image from "next/image";
 import { AspectRatio } from "@mui/joy";
 import Button from "@mui/joy/Button";
-import Chip from "@mui/joy/Chip";
 import Stack from "@mui/joy/Stack";
 import Typography from "@mui/joy/Typography";
-import { styled } from "@mui/joy/styles";
-import { Card, FONT_SIZES, theme } from "@investigativedata/style";
+import { Card, FONT_SIZES } from "@investigativedata/style";
 import { getFileUrl } from "@/lib/directus";
-
-const Tag = styled(Chip)({
-  color: theme.palette.common.white,
-  backgroundColor: theme.palette.common.black,
-});
+import { Tag } from "./common";
 
 export default function Project(props: React.PropsWithChildren<IProjectItem>) {
   const action = (

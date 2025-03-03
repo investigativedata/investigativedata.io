@@ -1,6 +1,6 @@
 export const DEFAULT_TITLE = "||)·|() investigativedata.io";
 export const DIRECTUS_SITE =
-  process.env.DIRECTUS_SITE || "investigativedata.io";
+  process.env.NEXT_PUBLIC_DIRECTUS_SITE || "investigativedata.io";
 export const DIRECTUS_URL =
   process.env.DIRECTUS_URL || "https://cms.investigativedata.net";
 export const ASSETS_BASE_URL =

@@ -8,6 +8,7 @@ import Link from "next/link";
 import Box from "@mui/joy/Box";
 import Button from "@mui/joy/Button";
 import Stack from "@mui/joy/Stack";
+import { ColorPaletteProp } from "@mui/joy/styles";
 import {
   BACKGROUNDS,
   Drawer,
@@ -20,6 +21,7 @@ import {
   Screen,
 } from "@investigativedata/style";
 import PreviewAlert from "@/components/PreviewAlert";
+import { DIRECTUS_SITE } from "@/config";
 import { getFileUrl } from "@/lib/directus";
 import Content from "./Content";
 import Footer from "./Footer";
@@ -56,20 +58,25 @@ const renderScreen = (props: IScreen | IMediaScreen, isLast: boolean) =>
     </Box>
   );
 
-export default function Page({
-  data,
+interface IPageLayout {
+  readonly title: string;
+  readonly menu: IPageBase[];
+  readonly color?: ColorPaletteProp;
+  readonly pageMenu?: IPageMenuItem[];
+  readonly showSection?: boolean;
+  readonly previewMode?: boolean;
+}
+
+export function PageLayout({
+  title,
   menu,
-  pageMenu,
+  color = "neutral",
+  pageMenu = [],
   showSection = true,
   previewMode = true,
-}: {
-  data: IPage;
-  menu: IPageBase[];
-  pageMenu?: IPageMenuItem[];
-  showSection?: boolean;
-  previewMode?: boolean;
-}) {
-  const [section, sayHi] = useState<string>(showSection ? data.title : "");
+  children,
+}: React.PropsWithChildren<IPageLayout>) {
+  const [section, sayHi] = useState<string>(showSection ? title : "");
   useEffect(() => {
     if (typeof document !== "undefined") {
       const params = new URLSearchParams(document.location.search);
@@ -87,6 +94,7 @@ export default function Page({
           {m.title}
         </DrawerMenuItem>
       ))}
+      <DrawerMenuItem href="/blog/">Blog</DrawerMenuItem>
       <Button component={Link} href="/contact">
         Contact
       </Button>
@@ -96,7 +104,7 @@ export default function Page({
   const { currentColor } = useContext(PageContext);
 
   return (
-    <PageContextProvider initialColor={data.color}>
+    <PageContextProvider initialColor={color}>
       {previewMode && <PreviewAlert />}
       <Header
         sx={{
@@ -105,20 +113,48 @@ export default function Page({
           transition: "background 0.8s ease",
         }}
         fixed
+        homepage={DIRECTUS_SITE}
         section={section}
         drawer={drawer}
         pageMenu={pageMenu}
-        color={data.color}
+        color={color}
       />
       <Box
         component="main"
         paddingTop={{ xs: "70px", md: pageMenu?.length ? "180px" : "150px" }}
       >
-        {data.screens.map((s, i) =>
-          renderScreen(s, i === data.screens.length - 1),
-        )}
+        {children}
       </Box>
       <Footer />
     </PageContextProvider>
+  );
+}
+
+export default function Page({
+  data,
+  menu,
+  pageMenu,
+  showSection = true,
+  previewMode = true,
+}: {
+  data: IPage;
+  menu: IPageBase[];
+  pageMenu?: IPageMenuItem[];
+  showSection?: boolean;
+  previewMode?: boolean;
+}) {
+  return (
+    <PageLayout
+      title={data.title}
+      color={data.color}
+      menu={menu}
+      pageMenu={pageMenu}
+      showSection={showSection}
+      previewMode={previewMode}
+    >
+      {data.screens.map((s, i) =>
+        renderScreen(s, i === data.screens.length - 1),
+      )}
+    </PageLayout>
   );
 }

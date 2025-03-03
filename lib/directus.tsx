@@ -1,5 +1,17 @@
-import { authentication, createDirectus, readItems, rest } from "@directus/sdk";
-import { IPage, IPageBase, TContent } from "@/lib/types";
+import {
+  authentication,
+  createDirectus,
+  readItem,
+  readItems,
+  rest,
+} from "@directus/sdk";
+import {
+  IArticle,
+  IArticleBase,
+  IPage,
+  IPageBase,
+  TContent,
+} from "@/lib/types";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import Typography from "@mui/joy/Typography";
@@ -148,24 +160,11 @@ export async function getPage(slug: string[]): Promise<IPage> {
       },
       fields: [
         "*",
-        {
-          screens: [
-            "collection",
-            "item.id",
-            "item.name",
-            "item.anchor",
-            "item.background",
-            "item.backgroundImage",
-            "item.maxWidth",
-            "item.fullHeight",
-            "item.horizontal",
-            "item.textAlignCenter",
-            "item.padding",
-            "item.content",
-            "item.content.collection",
-            "item.content.item.*",
-          ],
-        },
+        "screens.collection",
+        "screens.item",
+        "screens.item.*",
+        "screens.item.*.*",
+        "screens.item.*.*.*",
       ],
     }),
   )) as IPage[];
@@ -179,4 +178,42 @@ export async function getPage(slug: string[]): Promise<IPage> {
     return page;
   }
   notFound();
+}
+
+export async function getArticles(): Promise<IArticleBase[]> {
+  return (
+    await directus.request(
+      readItems("articles", {
+        filter: DIRECTUS_DEFAULT_PAGE_FILTER,
+        fields: [
+          "id",
+          "title",
+          "titleShort",
+          "subtitle",
+          "teaser",
+          "teaserShort",
+          "published_at",
+          "heroImage.*",
+        ],
+      }),
+    )
+  ).sort(
+    (a, b) =>
+      new Date(b.published_at).getTime() - new Date(a.published_at).getTime(),
+  ) as IArticleBase[];
+}
+
+export async function getArticle(id: string): Promise<IArticle> {
+  const article = (await directus.request(
+    readItem("articles", id, {
+      filter: {
+        ...DIRECTUS_DEFAULT_PAGE_FILTER,
+      },
+      fields: ["*", "articleImage.*", "content.*", "content.item.*"],
+    }),
+  )) as IArticle;
+  if (article.content) {
+    article.content = article.content.map(serializeMdx);
+  }
+  return article;
 }
