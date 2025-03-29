@@ -1,4 +1,5 @@
-export const DEFAULT_TITLE = "||)·|() investigativedata.io";
+export const DEFAULT_TITLE =
+  "OpenAleph, the versatile open source search platform by the Data and Research Center – DARC, originally started by OCCRP as Aleph";
 export const DIRECTUS_SITE =
   process.env.NEXT_PUBLIC_DIRECTUS_SITE || "investigativedata.io";
 export const DIRECTUS_URL =

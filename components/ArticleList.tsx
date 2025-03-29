@@ -39,7 +39,7 @@ export default function ArticleList({
 }) {
   return (
     <PageLayout title="Blog" menu={menu} previewMode={PREVIEW}>
-      <Screen maxWidth="lg">
+      <Screen maxWidth="lg" padding="lg">
         {articles.map((a) => (
           <ArticleItem key={a.id} {...a} />
         ))}

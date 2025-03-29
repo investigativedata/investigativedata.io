@@ -12,7 +12,7 @@
     "@directus/sdk": "^19.0.1",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
-    "@investigativedata/style": "^0.2.1",
+    "@investigativedata/style": "^0.2.1-oa-rc1",
     "@mdx-js/loader": "^3.1.0",
     "@mdx-js/react": "^3.1.0",
     "@mui/icons-material": "^6.4.6",

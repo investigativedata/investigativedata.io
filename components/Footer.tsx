@@ -37,7 +37,9 @@ export default function Footer() {
               <Link href="/legal">Legal Documents</Link>
             </Typography>
             <Typography level="body-sm">
-              <Link href="https://status.investigativedata.io">System status</Link>
+              <Link href="https://status.investigativedata.io">
+                System status
+              </Link>
             </Typography>
           </Stack>
           <Stack
@@ -46,14 +48,13 @@ export default function Footer() {
             textAlign={{ xs: "center", sm: "inherit" }}
           >
             <Typography level="body-sm">
-              <strong>investigraph</strong> was funded by{" "}
-              <Link href="https://www.media-lab.de/en/offering/media-tech-lab/">
-                Media Tech Lab Bayern
+              <strong>OpenAleph</strong> is a{" "}
+              <Link href="https://dataresearchcenter.org">DARC</Link> project
+              and is open source, released under the{" "}
+              <Link href="https://github.com/investigativedata/aleph#MIT-1-ov-file">
+                MIT license
               </Link>
-            </Typography>
-            <Typography level="body-sm">
-              <strong>Secure Research Hub</strong> was funded by{" "}
-              <Link href="https://www.miz-babelsberg.de/">MIZ Babelsberg</Link>
+              .
             </Typography>
           </Stack>
         </Stack>

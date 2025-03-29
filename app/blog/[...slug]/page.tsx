@@ -39,5 +39,5 @@ export default async function ArticlePage(props: {
 
 export async function generateStaticParams() {
   const pages = await getArticles();
-  return pages.map((data) => makeSlug(data));
+  return pages.map((data) => ({ slug: makeSlug(data) }));
 }
