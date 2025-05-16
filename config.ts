@@ -10,7 +10,7 @@ export const DIRECTUS_DRAFT_TOKEN =
   process.env.DIRECTUS_DRAFT_TOKEN || "secret-draft-token";
 export const DIRECTUS_API_TOKEN = process.env.DIRECTUS_API_TOKEN || "";
 
-export const PREVIEW = (process.env.PREVIEW || "1") === "1";
+export const PREVIEW = (process.env.PREVIEW || "0") === "1";
 
 // const status_filter = PREVIEW ? {} : { page: { status: { _eq: "published" } } };
 const status_filter = PREVIEW ? {} : {};
