@@ -10,7 +10,7 @@ out:
 	PREVIEW=0 EXPORT=1 npm run build
 
 publish: out
-	aws s3 --endpoint-url https://s3.investigativedata.org sync ./out s3://investigativedata.io 
+	aws s3 --endpoint-url https://s3.investigativedata.org sync ./out s3://openaleph.org
 
 clean:
 	rm -rf out
