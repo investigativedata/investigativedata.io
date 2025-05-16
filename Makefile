@@ -13,6 +13,7 @@ publish: out
 	aws s3 --endpoint-url https://s3.investigativedata.org sync ./out s3://openaleph.org
 
 clean:
+	rm -rf .next
 	rm -rf out
 
 serve:
