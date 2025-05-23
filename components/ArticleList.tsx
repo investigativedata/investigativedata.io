@@ -25,7 +25,7 @@ const ArticleItem = (a: IArticleBase) => {
       mediaSrc={getFileUrl(a.heroImage.src)}
       mediaRatio={a.heroImage.ratio}
       mediaBorder={a.heroImage.shadow}
-      marginBottom="none"
+      marginBottom="md"
     />
   );
 };
