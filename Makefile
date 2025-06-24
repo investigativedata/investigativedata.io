@@ -1,3 +1,5 @@
+export NEXT_PUBLIC_DIRECTUS_SITE=openaleph.org
+
 all: clean publish
 
 install:
@@ -5,6 +7,9 @@ install:
 	npm i ../style
 	rm -rf ./node_modules/@emotion/react
 	cd ./node_modules/@emotion ; ln -s ../../../style/node_modules/react .
+
+dev:
+	npm run dev
 
 out:
 	PREVIEW=0 EXPORT=1 npm run build

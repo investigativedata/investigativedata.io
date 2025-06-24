@@ -94,6 +94,7 @@ export function PageLayout({
           {m.title}
         </DrawerMenuItem>
       ))}
+      <DrawerMenuItem href="/docs/">Documentation</DrawerMenuItem>
       <DrawerMenuItem href="/blog/">Blog</DrawerMenuItem>
       <Button component={Link} href="/contact">
         Contact
