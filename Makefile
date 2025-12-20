@@ -4,9 +4,9 @@ all: clean publish
 
 install:
 	npm i
-	npm i ../style
-	rm -rf ./node_modules/@emotion/react
-	cd ./node_modules/@emotion ; ln -s ../../../style/node_modules/react .
+	# npm i ../style
+	# rm -rf ./node_modules/@emotion/react
+	# cd ./node_modules/@emotion ; ln -s ../../../style/node_modules/react .
 
 dev:
 	npm run dev
