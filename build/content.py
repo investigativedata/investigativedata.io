@@ -2,11 +2,11 @@
 
 import json
 import os
+import re
 import shutil
 from pathlib import Path
 
 import tomli_w
-from slugify import slugify
 
 from build.assets import get_file_url, resolve_file_urls
 from build.converter import convert_content
@@ -14,6 +14,17 @@ from build.directus import ASSETS_BASE_URL
 
 CONTENT_DIR = Path("content")
 DATA_DIR = Path("data")
+
+
+def _js_slugify(text: str) -> str:
+    """Match npm ``slugify`` package default behavior: replace whitespace with
+    ``-``, preserve ASCII punctuation, strip emojis and other non-ASCII."""
+    text = re.sub(r"\s+", "-", text.strip())
+    # Keep only ASCII characters (letters, digits, punctuation) like JS slugify
+    text = re.sub(r"[^\x20-\x7E]", "", text)
+    # Clean up leading/trailing/duplicate dashes left by removed chars
+    text = re.sub(r"-{2,}", "-", text).strip("-")
+    return text
 
 
 def _write_file(path: Path, content: str):
@@ -122,14 +133,14 @@ def _make_article_slug(article: dict) -> str:
     published = article.get("published_at", "")
     year = published[:4]
     month = published[5:7]
-    title_slug = slugify(article.get("title", "untitled"))
+    title_slug = _js_slugify(article.get("title", "untitled"))
     article_id = article.get("id", "")
     return f"blog/{year}/{month}/{title_slug}/{article_id}"
 
 
 def _make_article_dir_slug(article: dict) -> str:
     """Generate a filesystem-safe directory name for the article."""
-    title_slug = slugify(article.get("title", "untitled"))
+    title_slug = _js_slugify(article.get("title", "untitled"))
     article_id = article.get("id", "")
     return f"{title_slug}-{article_id}"
 

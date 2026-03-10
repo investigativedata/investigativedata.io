@@ -1,5 +1,4 @@
 httpx
 markdown
 Pygments
-python-slugify
 tomli-w
