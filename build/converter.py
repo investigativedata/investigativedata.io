@@ -4,7 +4,14 @@ import re
 
 import markdown
 
-_md = markdown.Markdown(extensions=["tables", "fenced_code", "attr_list"])
+_md = markdown.Markdown(extensions=[
+    "tables",
+    "fenced_code",
+    "attr_list",
+    "codehilite",
+], extension_configs={
+    "codehilite": {"css_class": "highlight", "guess_lang": False},
+})
 
 # Regex to strip JSX component tags like <Component prop="val">...</Component> or <Component />
 _JSX_TAG_RE = re.compile(r"</?[A-Z][A-Za-z0-9]*(?:\s[^>]*)?\s*/?>")

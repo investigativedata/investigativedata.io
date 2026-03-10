@@ -1,0 +1,108 @@
+// Code blocks — Pygments "lovelace" theme + layout styling
+
+// Fenced code blocks: <pre><code class="language-*">
+pre {
+  line-height: 150%;
+  font-size: var(--body-xs-font-size);
+  overflow-x: auto;
+  background: var(--color-gray-100);
+  border-radius: 0.5rem;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: var(--l);
+}
+
+code {
+  font-family: var(--font-display), monospace;
+  font-size: 0.85em;
+}
+
+// Inline code
+p code, li code, td code {
+  background-color: var(--color-gray-100);
+  padding: 0.15em 0.35em;
+  border-radius: 4px;
+}
+
+// Code block container
+.highlight {
+  background: var(--color-gray-50);
+  border: 1px solid var(--color-gray-200);
+  border-radius: 0.5rem;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: var(--l);
+  overflow-x: auto;
+
+  pre { margin: 0; padding: 0; background: none; }
+  code { font-family: var(--font-display), monospace; font-size: var(--body-xs-font-size); background: none; padding: 0; }
+
+  // Pygments token colors (lovelace)
+  .hll { background-color: #ffffcc; }
+  .c   { color: #888; font-style: italic; }
+  .err { background-color: #A848A8; }
+  .k   { color: #2838B0; }
+  .o   { color: #666; }
+  .p   { color: #888; }
+  .ch  { color: #287088; font-style: italic; }
+  .cm  { color: #888; font-style: italic; }
+  .cp  { color: #289870; }
+  .cpf { color: #888; font-style: italic; }
+  .c1  { color: #888; font-style: italic; }
+  .cs  { color: #888; font-style: italic; }
+  .gd  { color: #C02828; }
+  .ge  { font-style: italic; }
+  .gr  { color: #C02828; }
+  .gh  { color: #666; }
+  .gi  { color: #388038; }
+  .go  { color: #666; }
+  .gp  { color: #444; }
+  .gs  { font-weight: bold; }
+  .gu  { color: #444; }
+  .gt  { color: #2838B0; }
+  .kc  { color: #444; font-style: italic; }
+  .kd  { color: #2838B0; font-style: italic; }
+  .kn  { color: #2838B0; }
+  .kp  { color: #2838B0; }
+  .kr  { color: #2838B0; }
+  .kt  { color: #2838B0; font-style: italic; }
+  .m   { color: #444; }
+  .s   { color: #B83838; }
+  .na  { color: #388038; }
+  .nb  { color: #388038; }
+  .nc  { color: #287088; }
+  .no  { color: #B85820; }
+  .nd  { color: #287088; }
+  .ni  { color: #709030; }
+  .ne  { color: #908828; }
+  .nf  { color: #785840; }
+  .nl  { color: #289870; }
+  .nn  { color: #289870; }
+  .nt  { color: #2838B0; }
+  .nv  { color: #B04040; }
+  .ow  { color: #A848A8; }
+  .w   { color: #A89028; }
+  .mb  { color: #444; }
+  .mf  { color: #444; }
+  .mh  { color: #444; }
+  .mi  { color: #444; }
+  .mo  { color: #444; }
+  .sa  { color: #444; }
+  .sb  { color: #B83838; }
+  .sc  { color: #A848A8; }
+  .dl  { color: #B85820; }
+  .sd  { color: #B85820; font-style: italic; }
+  .s2  { color: #B83838; }
+  .se  { color: #709030; }
+  .sh  { color: #B83838; }
+  .si  { color: #B83838; text-decoration: underline; }
+  .sx  { color: #A848A8; }
+  .sr  { color: #A848A8; }
+  .s1  { color: #B83838; }
+  .ss  { color: #B83838; }
+  .bp  { color: #388038; font-style: italic; }
+  .fm  { color: #B85820; }
+  .vc  { color: #B04040; }
+  .vg  { color: #908828; }
+  .vi  { color: #B04040; }
+  .vm  { color: #B85820; }
+  .il  { color: #444; }
+}
