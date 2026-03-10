@@ -1,9 +1,0 @@
-Contact: mailto:security@investigativedata.org
-Contact: mailto:simon.woerpel@pm.me
-Expires: 2025-06-30T22:00:00.000Z
-Encryption: https://keys.openpgp.org/search?q=hi%40investigativedata.org
-Encryption: https://keys.openpgp.org/search?q=simon.woerpel%40pm.me
-Preferred-Languages: en,de
-Canonical: https://investigativedata.io/security.txt
-Canonical: https://investigativedata.io/.well-known/security.txt
-

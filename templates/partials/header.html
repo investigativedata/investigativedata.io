@@ -1,0 +1,46 @@
+<header class="header" id="site-header">
+  <div class="header__container">
+    <div class="header__row">
+      <div class="header__left">
+        <h3 class="header__homepage-link">
+          <a href="/" class="header__homepage-anchor">{{ site_data.name | default(value=config.title) }}</a>{% if breadcrumb %}<strong class="header__section">{{ breadcrumb }}</strong>{% endif %}
+        </h3>
+      </div>
+      <div class="header__center" id="header-logo">
+        {% if site_data.logo %}
+          <a href="/" class="header__logo">
+            <img src="{{ site_data.logo }}" alt="{{ site_data.name }}" class="header__logo-img">
+          </a>
+        {% endif %}
+      </div>
+      <div class="header__right">
+        <button class="burger" id="burger-btn" aria-label="Open menu">
+          <svg width="65" height="35" viewBox="0 0 65 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2.22217 32.6389H62.7777" stroke="currentColor" stroke-width="3" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M2.22217 17.5H62.7777" stroke="currentColor" stroke-width="3" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M2.22217 2.36111H62.7777" stroke="currentColor" stroke-width="3" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="drawer" id="drawer">
+  <div class="drawer__overlay" id="drawer-overlay"></div>
+  <nav class="drawer__panel">
+    <button class="drawer__close" id="drawer-close" aria-label="Close drawer">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+    <div class="drawer__content">
+      {% for item in site_data.menu %}
+        <a href="/{{ item.slug }}/" class="drawer__link">{{ item.title }}</a>
+      {% endfor %}
+      <a href="/blog/" class="drawer__link">Blog</a>
+      <a href="/contact/" class="btn btn--white">Contact</a>
+    </div>
+  </nav>
+</div>

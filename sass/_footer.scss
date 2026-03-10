@@ -1,0 +1,48 @@
+// Footer — from Figma:
+// bg background, py var(--l)=32px
+// Layout: links left, disclaimer right (flex, justify-between)
+// Links: Body/xs (16px regular) underlined
+// Disclaimer: Body/xs-bold (16px bold) + text buttons
+
+.footer {
+  background-color: var(--bg-black);
+  color: var(--color-white);
+  padding: var(--l) var(--l);
+
+  &__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--l);
+    max-width: var(--container-xl);
+    margin: 0 auto;
+  }
+
+  &__content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--l);
+    width: 100%;
+  }
+
+  &__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--l);
+    font-family: var(--body-xs-font-family);
+    font-size: var(--body-xs-font-size);
+    font-weight: var(--font-weight-regular);
+    line-height: 1.3;
+
+    a {
+      color: inherit;
+    }
+
+    strong {
+      font-weight: var(--font-weight-bold);
+    }
+  }
+}

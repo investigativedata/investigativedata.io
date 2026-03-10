@@ -1,0 +1,247 @@
+// Design tokens — computed from style/src/styles/variables.css
+// Original uses --font-scale: 0.6 applied to rem values. Here we use the final computed values.
+
+:root {
+  // Colors - Teal (Green)
+  --color-teal-50: #f1fff8;
+  --color-teal-100: #daffec;
+  --color-teal-200: #beffdf;
+  --color-teal-300: #9dffd0;
+  --color-teal-400: #83ffc3;
+  --color-teal-500: #69feb5;
+  --color-teal-600: #63eeaa;
+  --color-teal-700: #58d99a;
+  --color-teal-800: #51c68c;
+  --color-teal-900: #43a473;
+
+  // Colors - Orange
+  --color-orange-50: #faeae8;
+  --color-orange-100: #fecec0;
+  --color-orange-200: #feae98;
+  --color-orange-300: #fe8f6f;
+  --color-orange-400: #fe764f;
+  --color-orange-500: #ff5f33;
+  --color-orange-600: #f4592f;
+  --color-orange-700: #e6522a;
+  --color-orange-800: #d74c26;
+  --color-orange-900: #bd401f;
+
+  // Colors - Purple
+  --color-purple-50: #ede7f6;
+  --color-purple-100: #d1c4e9;
+  --color-purple-200: #b39ddb;
+  --color-purple-300: #9575cd;
+  --color-purple-400: #7e57c2;
+  --color-purple-500: #673ab7;
+  --color-purple-600: #5e35b1;
+  --color-purple-700: #512da8;
+  --color-purple-800: #4527a0;
+  --color-purple-900: #311b92;
+
+  // Colors - Yellow
+  --color-yellow-50: #fffee8;
+  --color-yellow-100: #fffac5;
+  --color-yellow-200: #fff69e;
+  --color-yellow-300: #fef177;
+  --color-yellow-400: #fcec57;
+  --color-yellow-500: #f9e737;
+  --color-yellow-600: #ffdd3b;
+  --color-yellow-700: #ffc533;
+  --color-yellow-800: #fdad2b;
+  --color-yellow-900: #f9841c;
+
+  // Colors - Gray
+  --color-gray-50: #f9f9f9;
+  --color-gray-100: #f2f2f2;
+  --color-gray-200: #e8e8e8;
+  --color-gray-300: #d8d8d8;
+  --color-gray-400: #b4b4b4;
+  --color-gray-500: #949494;
+  --color-gray-600: #6c6c6c;
+  --color-gray-700: #595959;
+  --color-gray-800: #3a3a3a;
+  --color-gray-900: #1a1a1a;
+
+  // Semantic colors
+  --color-white: #fff8f1;
+  --color-black: #1a1a1a;
+
+  // Background colors
+  --bg-white: var(--color-white);
+  --bg-black: var(--color-black);
+  --bg-green: var(--color-teal-300);
+  --bg-orange: var(--color-orange-400);
+  --bg-yellow: var(--color-yellow-100);
+  --bg-purple: var(--color-purple-200);
+
+  // Typography — Font Families
+  --font-display: 'Sligoil Micro', sans-serif;
+  --font-body: 'Inter', sans-serif;
+
+  // Font weights
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  // Base body font weight (300 for darc mode)
+  --body-font-weight: 400;
+
+  // Typography — Headers Sligoil
+  // Sligoil-xl: 6rem * 0.6 = 3.6rem
+  --headers-sligoil-xl-font-family: var(--font-display);
+  --headers-sligoil-xl-font-size: 3.6rem;
+  --headers-sligoil-xl-line-height: 100%;
+  --headers-sligoil-xl-font-weight: 400;
+  --headers-sligoil-xl-letter-spacing: -0.02em;
+
+  // Sligoil-m: 2.5rem * 0.6 = 1.5rem
+  --headers-sligoil-m-font-family: var(--font-display);
+  --headers-sligoil-m-font-size: 1.5rem;
+  --headers-sligoil-m-line-height: 100%;
+  --headers-sligoil-m-font-weight: 400;
+  --headers-sligoil-m-letter-spacing: -0.02em;
+
+  // Typography — Headers Inter
+  // Inter-l: 4rem * 0.6 = 2.4rem
+  --headers-inter-l-font-family: var(--font-body);
+  --headers-inter-l-font-size: 2.4rem;
+  --headers-inter-l-line-height: 120%;
+  --headers-inter-l-font-weight: 600;
+  --headers-inter-l-letter-spacing: -0.01em;
+
+  // Inter-m: 2.5rem * 0.6 = 1.5rem
+  --headers-inter-m-font-family: var(--font-body);
+  --headers-inter-m-font-size: 1.5rem;
+  --headers-inter-m-line-height: 120%;
+  --headers-inter-m-font-weight: 700;
+  --headers-inter-m-letter-spacing: -0.01em;
+
+  // Inter-s: 1.5rem * 0.6 = 0.9rem
+  --headers-inter-s-font-family: var(--font-body);
+  --headers-inter-s-font-size: 0.9rem;
+  --headers-inter-s-line-height: 120%;
+  --headers-inter-s-font-weight: 700;
+  --headers-inter-s-letter-spacing: -0.01em;
+
+  // Typography — Body
+  // Body/m: 2.5rem * 0.6 = 1.5rem
+  --body-m-font-family: var(--font-body);
+  --body-m-font-size: 1.5rem;
+  --body-m-line-height: 130%;
+  --body-m-font-weight: 500;
+  --body-m-letter-spacing: -0.02em;
+
+  --body-m-bold-font-family: var(--font-body);
+  --body-m-bold-font-size: 1.5rem;
+  --body-m-bold-line-height: 130%;
+  --body-m-bold-font-weight: 700;
+
+  // Body/s: 1.5rem * 0.6 = 0.9rem
+  --body-s-font-family: var(--font-body);
+  --body-s-font-size: 0.9rem;
+  --body-s-line-height: 130%;
+  --body-s-font-weight: var(--body-font-weight);
+  --body-s-letter-spacing: -0.02em;
+
+  --body-s-bold-font-family: var(--font-body);
+  --body-s-bold-font-size: 0.9rem;
+  --body-s-bold-line-height: 130%;
+  --body-s-bold-font-weight: 700;
+
+  // Body/xs: readable small text (deployed ~14-16px)
+  --body-xs-font-family: var(--font-body);
+  --body-xs-font-size: 0.875rem;
+  --body-xs-line-height: 130%;
+  --body-xs-font-weight: var(--body-font-weight);
+  --body-xs-letter-spacing: -0.02em;
+
+  --body-xs-bold-font-family: var(--font-body);
+  --body-xs-bold-font-size: 0.875rem;
+  --body-xs-bold-line-height: 130%;
+  --body-xs-bold-font-weight: 700;
+
+  // Body/xxs: tiny labels
+  --body-xxs-font-family: var(--font-body);
+  --body-xxs-font-size: 0.625rem;
+  --body-xxs-line-height: 130%;
+  --body-xxs-font-weight: var(--body-font-weight);
+  --body-xxs-letter-spacing: 0.02em;
+
+  // Spacing shortcuts
+  --xs: 0.625rem;
+  --s: 1.25rem;
+  --m: 2.5rem;
+  --l: 2rem;
+  --xl: 4rem;
+
+  // Stroke / Border
+  --stroke-width: 3px;
+  --stroke-width-sm: 2px;
+
+  // Border Radius
+  --radius-button: 26px;
+  --radius-card: 1.6rem;
+  --radius-chip-sm: 0.8rem;
+
+  // Margins (directus screen margins)
+  --margin-none: 0;
+  --margin-sm: 1.6rem;
+  --margin-md: 2.4rem;
+  --margin-lg: 6rem;
+
+  // Padding (screen padding)
+  --padding-sm: 1.6rem;
+  --padding-md: 2.4rem;
+  --padding-lg: 6rem;
+
+  // Layout — Container max widths
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1280px;
+
+  // Transitions
+  --transition-fast: 150ms ease;
+  --transition-normal: 300ms ease;
+
+  // Shadows
+  --solid-shadow-left: -4px 4px 0px 0px var(--color-black);
+  --solid-shadow-right: 2px 2px 0px 0px var(--color-black);
+  --shadow-button: var(--solid-shadow-right);
+  --shadow-button-light: 2px 2px 0px 0px var(--color-white);
+
+  // Z-index
+  --z-header: 1000;
+  --z-drawer: 1100;
+  --z-overlay: 1050;
+
+  --background: var(--color-white);
+  --text: var(--color-gray-900);
+}
+
+.darc-mode {
+  --background: var(--bg-black);
+  --text: var(--color-white);
+  --body-font-weight: 300;
+  --body-m-font-weight: 300;
+  --body-s-font-weight: 300;
+  --body-xs-font-weight: 300;
+}
+
+// Responsive margins
+@media (min-width: 768px) {
+  :root {
+    --margin-sm: 1.6rem;
+    --margin-md: 2.4rem;
+    --margin-lg: 6rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --margin-sm: 3.2rem;
+    --margin-md: 6rem;
+    --margin-lg: 12rem;
+  }
+}

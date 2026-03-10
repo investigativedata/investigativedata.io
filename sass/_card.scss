@@ -1,0 +1,87 @@
+// Card / Text Box — from style/src/components/Card
+// border 4px, radius 2rem, padding xl/l
+// Color variants, size variants (default/small)
+
+.card {
+  border: var(--stroke-width) solid var(--text);
+  border-radius: 2rem;
+  padding: var(--xl) var(--l);
+  display: flex;
+  flex-direction: column;
+  gap: var(--l);
+  align-items: flex-start;
+  justify-content: flex-start;
+
+  // Color variants
+  &--white { background-color: var(--color-white); color: var(--text); }
+  &--black {
+    background-color: var(--color-black);
+    color: var(--color-white);
+    border-color: var(--color-white);
+  }
+  &--green { background-color: var(--bg-green); color: var(--text); }
+  &--orange { background-color: var(--bg-orange); color: var(--text); }
+  &--yellow { background-color: var(--bg-yellow); color: var(--text); }
+  &--purple { background-color: var(--bg-purple); color: var(--text); }
+
+  &__icon {
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+
+  // Title: body-m-bold
+  &__title {
+    font-family: var(--body-m-font-family);
+    font-size: var(--body-m-font-size);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--body-m-line-height);
+    align-self: stretch;
+    padding: 0;
+  }
+
+  &__body {
+    align-self: stretch;
+    flex: 1;
+  }
+
+  &__action {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--m);
+    margin-top: var(--m);
+  }
+
+  // Default size: icon 12rem, content body-m
+  &--default &__icon { width: 12rem; height: 12rem; }
+  &--default &__body {
+    font-family: var(--body-m-font-family);
+    font-size: var(--body-m-font-size);
+    line-height: var(--body-m-line-height);
+    font-weight: var(--body-m-font-weight);
+  }
+
+  // Small size: icon 9rem, content body-s
+  &--small &__icon { width: 9rem; height: 9rem; }
+  &--small &__body {
+    font-family: var(--body-s-font-family);
+    font-size: var(--body-s-font-size);
+    line-height: var(--body-s-line-height);
+    font-weight: var(--body-s-font-weight);
+  }
+
+  // Default: inherit bg
+  background-color: inherit;
+  color: inherit;
+}
+
+.darc-mode .card {
+  background-color: var(--bg-black);
+  border-color: var(--color-white);
+}

@@ -1,0 +1,69 @@
+// Project card — from Figma:
+// bg background, border 4px solid text, radius var(--l)=32px, padding var(--l)=32px
+// gap var(--l)=32px between sections
+// Tags: bg text, color background, radius var(--m)=16px, px var(--m), py var(--xs)
+// Image: border 4px solid text
+// Topline: Body/s-bold (24px bold)
+// Header: Headers/Inter-m (40px, bold, lh 1.2, ls -1px) — actually Body/l-semibold
+// Body labels: Body/m-bold (font-size-m bold), Body text: Body/m (font-size-m regular)
+// Button: small variant (border 3px, font-size-s)
+
+.project {
+  // Inherits .card styles, but override as needed
+
+  &__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding-bottom: var(--m);
+  }
+
+  &__image {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border: var(--stroke-width) solid var(--text);
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  // Body/s-bold
+  &__partner {
+    font-family: var(--body-s-font-family);
+    font-size: var(--font-size-s);
+    font-weight: var(--font-weight-bold);
+    line-height: 1.3;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  // Headers/Inter-l (project title is larger)
+  &__title {
+    font-family: var(--headers-inter-l-font-family);
+    font-size: var(--headers-inter-l-font-size);
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.2;
+    letter-spacing: -0.4px;
+    padding-top: 0;
+    padding-bottom: var(--l);
+  }
+
+  &__description {
+    flex: 1;
+    padding-bottom: var(--l);
+  }
+
+  &__actions {
+    display: flex;
+    gap: var(--s);
+    flex-wrap: wrap;
+  }
+}
+
+.darc-mode .project__image {
+  border-color: var(--color-white);
+}

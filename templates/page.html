@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% import "macros/content.html" as content_macros %}
+
+{% block content %}
+{% set data = load_data(path=page.colocated_path ~ "data.json") %}
+{% for screen in data.screens %}
+  {{ content_macros::render_screen(screen=screen) }}
+{% endfor %}
+{% endblock %}

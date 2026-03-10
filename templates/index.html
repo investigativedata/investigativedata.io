@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% import "macros/content.html" as content_macros %}
+
+{% block title %}<title>{{ config.title }}</title>{% endblock %}
+
+{% block content %}
+{% set data = load_data(path="data/homepage.json") %}
+{% for screen in data.screens %}
+  {{ content_macros::render_screen(screen=screen) }}
+{% endfor %}
+{% endblock %}

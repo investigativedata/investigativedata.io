@@ -1,0 +1,4 @@
+httpx
+markdown
+python-slugify
+tomli-w

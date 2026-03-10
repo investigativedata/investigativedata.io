@@ -1,36 +1,53 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# investigativedata.io
 
-## Getting Started
+Static website built with [Zola](https://www.getzola.org/). Content is fetched from a headless [Directus](https://directus.io/) CMS via a Python pre-build script.
 
-First, run the development server:
+## Prerequisites
+
+- [Zola](https://www.getzola.org/documentation/getting-started/installation/) (static site generator)
+- Python 3.10+
+- Environment variables:
+  - `DIRECTUS_API_TOKEN` — API token for the Directus CMS
+  - `NEXT_PUBLIC_DIRECTUS_SITE` — Site identifier (default: `openaleph.org`)
+
+## Setup
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+make install    # Create .venv and install Python dependencies
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Development
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+make dev        # Fetch content from Directus + start Zola dev server (http://localhost:1111)
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Build
 
-## Learn More
+```bash
+make build      # Fetch content + build static site → public/
+make serve      # Serve the built site locally (python http.server)
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Deploy
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+make publish    # Build + sync public/ to S3
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Other commands
 
-## Deploy on Vercel
+```bash
+make fetch      # Only fetch content from Directus → content/ + data/
+make clean      # Remove generated content/, data/*.json, and public/
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Architecture
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```
+build.py → Directus API → content/*.md + data/*.json → zola build → public/
+```
+
+1. **Python fetcher** (`build/`) fetches pages, articles, and site config from Directus, resolves asset URLs, converts markdown to HTML, and writes Zola content files.
+2. **Zola** compiles SCSS, renders Tera templates, and outputs a static site.
+3. **Vanilla JS** (~50 lines) handles the mobile drawer toggle and scroll-based background color transitions.

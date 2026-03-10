@@ -1,0 +1,13 @@
+base_url = "https://openaleph.org"
+title = "OpenAleph"
+description = "OpenAleph, the versatile open source search platform by the Data and Research Center"
+compile_sass = true
+build_search_index = false
+
+[markdown]
+highlight_code = true
+
+[extra]
+
+[link_checker]
+skip_prefixes = ["https://cms.investigativedata.net"]

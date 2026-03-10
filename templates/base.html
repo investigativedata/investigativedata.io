@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {% block title %}<title>{% if page.title %}{{ page.title }} | {% endif %}{{ config.title }}</title>{% endblock %}
+  {% block meta %}
+  <meta name="description" content="{{ config.description }}">
+  {% endblock %}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+</head>
+{% set site_data = load_data(path="data/site.json") %}
+{% set_global breadcrumb = "" %}
+{% block breadcrumb_block %}
+  {% if page.title %}{% set_global breadcrumb = page.title %}{% elif section.title %}{% set_global breadcrumb = section.title %}{% endif %}
+{% endblock %}
+<body class="{% if site_data.darc %}darc-mode{% endif %}">
+  <div id="page-wrapper" class="page-wrapper bg--{{ site_data.darc | default(value=false) | as_str | replace(from='true', to='black') | replace(from='false', to='white') }}">
+    {% include "partials/header.html" %}
+    <main class="main">
+      {% block content %}{% endblock %}
+    </main>
+    {% include "partials/footer.html" %}
+  </div>
+  <script src="/js/main.js"></script>
+</body>
+</html>

@@ -1,28 +1,29 @@
-export NEXT_PUBLIC_DIRECTUS_SITE=openaleph.org
+export NEXT_PUBLIC_DIRECTUS_SITE ?= openaleph.org
 
-all: clean publish
+PYTHON ?= .venv/bin/python
+
+.PHONY: all build fetch clean dev serve publish install
+
+all: clean build
 
 install:
-	npm i
-	npm i ./style
-	rm -rf ./node_modules/@emotion/react
-	cd ./node_modules/@emotion ; ln -s ../../style/node_modules/react .
-	# npm i ../style
-	# rm -rf ./node_modules/@emotion/react
-	# cd ./node_modules/@emotion ; ln -s ../../../style/node_modules/react .
+	python3 -m venv .venv
+	.venv/bin/pip install -r requirements.txt
 
-dev:
-	npm run dev
+fetch:
+	$(PYTHON) build.py
 
-out:
-	PREVIEW=0 EXPORT=1 npm run build
+build: fetch
+	zola build
 
-publish: out
-	aws s3 --endpoint-url https://s3.investigativedata.org sync ./out s3://openaleph.org
+dev: fetch
+	zola serve
 
 clean:
-	rm -rf .next
-	rm -rf out
+	rm -rf content/ data/ public/
 
 serve:
-	cd out ; python3 -m http.server
+	cd public && python3 -m http.server
+
+publish: build
+	aws s3 --endpoint-url https://s3.investigativedata.org sync ./public s3://$(NEXT_PUBLIC_DIRECTUS_SITE)

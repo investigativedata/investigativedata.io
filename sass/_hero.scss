@@ -1,0 +1,193 @@
+// Hero / Block — from style/src/sections/Hero
+// Uses CSS grid: 2-column on desktop (content + media), 1-column on mobile
+// Title variants: h1 = Sligoil-xl (landing), h2 = Inter-l (sub-blocks)
+// TagLine: body-xs bold
+// Teaser: body-m medium
+// Has margin-bottom variants matching original responsive values
+
+.hero {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  gap: 2rem;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+@media (min-width: 768px) {
+  .hero {
+    grid-template-columns: 5fr 6fr;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+}
+
+// Section header (tagline + title)
+.hero__header {
+  margin-bottom: 0;
+}
+
+// TagLine: body-s bold (deployed renders at ~19px bold)
+.hero__tagline {
+  font-family: var(--body-s-font-family);
+  font-size: var(--body-s-font-size);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--body-s-line-height);
+  padding: 0;
+  margin-bottom: 0.25rem;
+}
+
+// Title H1 — Headers/Sligoil-xl (landing heroes)
+.hero__title--h1 {
+  font-family: var(--headers-sligoil-xl-font-family);
+  font-size: var(--headers-sligoil-xl-font-size);
+  font-weight: var(--headers-sligoil-xl-font-weight);
+  line-height: var(--headers-sligoil-xl-line-height);
+  letter-spacing: var(--headers-sligoil-xl-letter-spacing);
+  padding-bottom: 1.25rem;
+  margin-top: 0;
+}
+
+// Title H2 — Headers/Inter-l (sub-block heroes)
+.hero__title--h2 {
+  font-family: var(--headers-inter-l-font-family);
+  font-size: var(--headers-inter-l-font-size);
+  font-weight: var(--headers-inter-l-font-weight);
+  line-height: var(--headers-inter-l-line-height);
+  padding-bottom: 1.25rem;
+  margin-top: 0;
+}
+
+// Teaser text: body-m medium
+.hero__teaser {
+  hyphens: none;
+  font-family: var(--body-m-font-family);
+  font-size: var(--body-m-font-size);
+  font-weight: var(--body-m-font-weight);
+  line-height: var(--body-m-line-height);
+
+  span { display: inline; }
+  p {
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+  }
+}
+
+// Media column — outer padding (space between column edge and media container)
+.hero__media-col {
+  padding: 0;
+  order: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .hero__media-col {
+    padding: 1.5rem;
+  }
+
+  .hero__media-col--right { order: 2; }
+  .hero__media-col--left { order: 1; }
+}
+
+@media (min-width: 1024px) {
+  .hero__media-col {
+    padding: 2rem;
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+  }
+}
+
+// Media container — padding around the bordered image (image fills the border)
+.hero__media {
+  width: 100%;
+  padding: 1rem;
+}
+
+@media (min-width: 768px) {
+  .hero__media { padding: 2rem; }
+}
+
+@media (min-width: 1024px) {
+  .hero__media { padding: 4rem; }
+}
+
+// Inner image wrapper — border + shadow sit here, image fills edge-to-edge
+.hero__media-inner {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.hero__media-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero__media-inner--bordered {
+  border: var(--stroke-width) solid var(--color-black);
+  box-shadow: var(--shadow-button);
+}
+
+// Content column
+.hero__content-col {
+  padding: 0;
+  order: 2;
+}
+
+@media (min-width: 768px) {
+  .hero__content-col--left { order: 1; }
+  .hero__content-col--right { order: 2; }
+}
+
+// Actions
+.hero__actions {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: row;
+  gap: var(--s);
+  flex-wrap: wrap;
+}
+
+.hero__actions--center {
+  justify-content: center;
+}
+
+// Landing variant — centered single column
+.hero--landing {
+  grid-template-columns: 1fr;
+  text-align: center;
+
+  .hero__content-col { order: 1; }
+  .hero__media-col { order: 2; }
+}
+
+@media (min-width: 768px) {
+  .hero--landing {
+    grid-template-columns: 1fr;
+  }
+}
+
+// Margin bottom variants (responsive, from original)
+.hero--mb-none { margin-bottom: 0; }
+.hero--mb-sm { margin-bottom: 1.6rem; }
+.hero--mb-md { margin-bottom: 2rem; }
+.hero--mb-lg { margin-bottom: 2.4rem; }
+
+@media (min-width: 768px) {
+  .hero--mb-sm { margin-bottom: 1.6rem; }
+  .hero--mb-md { margin-bottom: 2.4rem; }
+  .hero--mb-lg { margin-bottom: 6rem; }
+}
+
+@media (min-width: 1024px) {
+  .hero--mb-sm { margin-bottom: 3.2rem; }
+  .hero--mb-md { margin-bottom: 6rem; }
+  .hero--mb-lg { margin-bottom: 12rem; }
+}
