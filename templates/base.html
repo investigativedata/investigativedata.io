@@ -18,7 +18,7 @@
   {% if page.title %}{% set_global breadcrumb = page.title %}{% elif section.title %}{% set_global breadcrumb = section.title %}{% endif %}
 {% endblock %}
 <body class="{% if site_data.darc %}darc-mode{% endif %}">
-  <div id="page-wrapper" class="page-wrapper bg--{{ site_data.darc | default(value=false) | as_str | replace(from='true', to='black') | replace(from='false', to='white') }}">
+  <div id="page-wrapper" class="page-wrapper bg--{% if site_data.darc %}black{% else %}white{% endif %}">
     {% include "partials/header.html" %}
     <main class="main">
       {% block content %}{% endblock %}

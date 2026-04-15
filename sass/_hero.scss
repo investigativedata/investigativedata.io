@@ -135,6 +135,11 @@
   box-shadow: var(--shadow-button);
 }
 
+.darc-mode .hero__media-inner--bordered {
+  border-color: var(--color-white);
+  box-shadow: var(--shadow-button-light);
+}
+
 // Content column
 .hero__content-col {
   padding: 0;

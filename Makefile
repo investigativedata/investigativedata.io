@@ -1,4 +1,4 @@
-export NEXT_PUBLIC_DIRECTUS_SITE ?= openaleph.org
+export DIRECTUS_SITE ?= dataresearchcenter.org
 
 PYTHON ?= .venv/bin/python
 
@@ -26,4 +26,4 @@ serve:
 	cd public && python3 -m http.server
 
 publish: build
-	aws s3 --endpoint-url https://s3.investigativedata.org sync ./public s3://$(NEXT_PUBLIC_DIRECTUS_SITE)
+	aws s3 --endpoint-url https://s3.investigativedata.org sync ./public s3://$(DIRECTUS_SITE)

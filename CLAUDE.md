@@ -87,7 +87,7 @@ Design tokens and component styles ported from the old `@investigativedata/style
 **Environment Variables:**
 - `DIRECTUS_URL` — CMS API endpoint (default: `https://cms.investigativedata.net`)
 - `DIRECTUS_API_TOKEN` — API access token
-- `NEXT_PUBLIC_DIRECTUS_SITE` — Site identifier for content filtering (default: `investigativedata.io`)
+- `DIRECTUS_SITE` — Site identifier for content filtering (default: `dataresearchcenter.org`)
 - `ASSETS_BASE_URL` — Base URL for file assets (default: `https://assets.investigativedata.org/cms/`)
 
 **`config.toml`:** Zola config with `base_url`, `compile_sass = true`, search index disabled.

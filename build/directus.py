@@ -6,10 +6,7 @@ import httpx
 
 DIRECTUS_URL = os.environ.get("DIRECTUS_URL", "https://cms.investigativedata.net")
 DIRECTUS_API_TOKEN = os.environ.get("DIRECTUS_API_TOKEN", "")
-DIRECTUS_SITE = os.environ.get(
-    "NEXT_PUBLIC_DIRECTUS_SITE",
-    os.environ.get("DIRECTUS_SITE", "investigativedata.io"),
-)
+DIRECTUS_SITE = os.environ.get("DIRECTUS_SITE", "dataresearchcenter.org")
 ASSETS_BASE_URL = os.environ.get(
     "ASSETS_BASE_URL", "https://assets.investigativedata.org/cms/"
 )
