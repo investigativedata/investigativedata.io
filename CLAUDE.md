@@ -1,95 +1,144 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Guidance for Claude Code when working in this repository.
 
-## Build Commands
+## What this is
+
+A [Zensical](https://zensical.org/) (mkdocs-material successor) site that
+also serves as the **shared design + project template** for downstream DARC
+websites. Content is plain markdown under `docs/`. The same `mkdocs.yml`
+runs under `mkdocs serve` (using mkdocs-material) too — both packages live
+in the same `.venv`.
+
+## Commands
 
 ```bash
-# Installation
-make install         # Create .venv + pip install requirements.txt
+zensical serve           # http://localhost:8000 (live reload)
+zensical build           # → ./site
 
-# Development
-make fetch           # Fetch Directus content → content/ + data/
-make dev             # Fetch + zola serve (http://localhost:1111)
-
-# Production
-make build           # Fetch + zola build → public/
-make publish         # Build + deploy to S3
-
-# Utilities
-make clean           # Remove content/, data/*.json, public/
-make serve           # Serve static build locally (python http.server)
+# alternative runtime — same config, drop-in
+mkdocs serve
+mkdocs build
 ```
 
-## Architecture Overview
-
-This is a Zola static site. A Python pre-build script (`build.py`) fetches content from a headless Directus CMS at `https://cms.investigativedata.net`, converts markdown to HTML, and writes colocated JSON data files that Zola templates consume via `load_data()`.
-
-### Build Pipeline
+## Architecture
 
 ```
-build.py → Directus API → content/*.md + data/*.json → zola build → public/
+docs/
+  index.md                 # markdown pages
+  reference.md             # authoring reference (every component, copy-pasteable)
+  typography.md
+  stylesheets/
+    darc-zensical.css      # SHARED design system (synced upstream — see Note below)
+    tokens.css             # project-specific tokens (semantic neutrals, accents,
+                           #   spacing, stroke, radii, shadows, transitions)
+    components.css         # custom components: .screen, .hero, .btn, .grid.cards
+                           #   modifiers, profile cards, kbd chips, global img frame
+    site.css               # layout chrome — drawer, header, footer, scroll-color
+                           #   body classes, typography pin-overrides
+    extra.css              # last-mile site overrides (kept small)
+  javascripts/
+    scroll-color.js        # per-section bg swap on scroll, light-scheme only
+  overrides/               # zensical/material template overrides
+    main.html              # block site_nav swap: TOC left, nav as right overlay
+    partials/
+      header.html          # 3-column header (site name | logo | actions+burger)
+      footer.html          # vanilla .md-footer-meta with column links
+      logo.html            # per-scheme logo (Neg in dark, Pos in light)
+      copyright.html       # DARC attribution
+      .icons/lucide        # → symlink into installed zensical's lucide set (or copy)
+mkdocs.yml                 # site_name, palette, plugins, markdown_extensions, nav
+main.py                    # NOT used (no macros plugin)
 ```
 
-1. **Fetch** all pages, articles, site config from Directus
-2. **Process** each content block: resolve asset URLs, convert markdown→HTML
-3. **Write** Zola content files (`.md` frontmatter + `.json` data)
-4. **Build** with Zola (compiles SCSS, renders templates)
+Note: `darc-zensical.css` is the shared cross-project design layer — keep it
+in sync with the upstream `zensical-theme-darc` repo and avoid putting
+project-specific tweaks here.
 
-### Content Model
+## Design system
 
-Pages contain Screens, which contain Content arrays. Content types: heroes, mdx, typography, images, files, cards, projects, animations, profiles, newsletters.
+Tokens are layered:
 
-**Routing:**
-- `/` — Homepage (slug "index")
-- `/<slug>/` — Pages (supports multi-segment paths like `solutions/aleph`)
-- `/blog/` — Article listing
-- `/blog/YYYY/MM/slug/id` — Individual articles (exact URLs preserved via Zola `path` frontmatter)
+1. `darc-zensical.css` (upstream) — `--oa-*` palette, `--font-sans`,
+   `--font-mono`, scheme tokens (`--bg`, `--text`, `--md-*-color`),
+   admonition + code highlight colors per scheme.
+2. `tokens.css` (project) — semantic aliases (`--color-black`, `--color-white`),
+   marketing section accents (`--bg-{white,black,green,orange,yellow,purple}`),
+   spacing scale (`--xs`, `--s`, `--l`, `--xl`), `--stroke-width: 3px`,
+   `--radius-{card,chip-sm}`, `--shadow-button{,-light}`, transitions.
+3. `components.css` + `site.css` — apply tokens to elements.
 
-### Python Build System (`build/`)
+**Single border weight everywhere**: `var(--stroke-width)` (3px). To rescale
+globally, change the one line in `tokens.css`.
 
-- **`directus.py`** — Directus REST API client (httpx). Fetches pages, articles, site config, menu pages.
-- **`assets.py`** — Recursively resolves Directus file IDs to full asset URLs (`https://assets.investigativedata.org/cms/`).
-- **`converter.py`** — Markdown→HTML conversion per content type. Mirrors the per-collection rendering from the old `serializeMdx()`.
-- **`content.py`** — Generates Zola `content/` files. Handles leaf pages (colocated `data.json`), parent pages (section `_index.md` + `data/page_*.json`), blog articles, and blog section.
-- **`build.py`** — Entry point. Fetches all data first, then cleans and generates.
+## Components
 
-**Key detail:** Pages that are parents of other pages (e.g. `solutions` has children `solutions/aleph`) become Zola sections (`_index.md`) with their data stored in `data/page_<slug>.json` instead of colocated. The `page-section.html` template handles these.
+Every component is plain markdown + a small wrapper class. No macros, no
+Python plugins.
 
-### Zola Templates (`templates/`)
+| Component | Class(es) |
+|---|---|
+| Section / screen | `.screen` + `.screen--bg-{color}` + optional `.screen--full-height` |
+| Hero (landing) | `.hero.hero--landing` (single column, Sligoil-mono h1) |
+| Hero (2-col w/ media) | `.hero` containing one inner `<div markdown>` (content) and one image — order swaps sides |
+| Buttons | `.btn` (secondary outline) + `.btn.btn--primary` (filled inverse) |
+| Card grid | `<div class="grid cards" markdown>` + markdown list |
+| Card full-width | `{ .card--full }` on a list item |
+| Profile cards | add `profiles` to the grid: `<div class="grid cards profiles" markdown>` |
+| Tag chips | `<kbd>` |
+| Form / input | plain `<form>` + `<input>` (generic CSS) |
+| Inline text utils | `.muted`, `.dim` |
+| Image opt-outs | `{.no-border}`, `{.no-shadow}` |
 
-- **`base.html`** — HTML shell, loads `data/site.json` for header/footer/nav
-- **`index.html`** — Homepage, loads `data/homepage.json`
-- **`page.html`** — Leaf pages, loads colocated `data.json`
-- **`page-section.html`** — Parent pages (sections), loads from `data/page_*.json`
-- **`section.html`** — Blog listing, loads `data/blog_articles.json`
-- **`blog-article.html`** — Single article with content blocks
-- **`macros/content.html`** — Content block dispatcher + per-type rendering macros (hero, mdx, typography, image, card, project, profile, newsletter, file, animation)
-- **`partials/header.html`** — Fixed header with nav + burger button
-- **`partials/footer.html`** — Footer with links
+See `docs/reference.md` for copy-pasteable snippets and links to upstream
+Zensical primitives where relevant.
 
-### SCSS (`sass/`)
+## Layout chrome
 
-Design tokens and component styles ported from the old `@investigativedata/style` package. BEM naming. Zola compiles SCSS automatically (`compile_sass = true` in `config.toml`).
+- **Header**: 3-column grid (`md-header__title` | centered `md-logo` | actions
+  group with palette / search / source / burger). Always-visible burger.
+- **Drawer**: `.md-sidebar--primary` repurposed as a right-side overlay panel
+  (24rem max-width, offset hard shadow at `--stroke-width`, slides in via the
+  existing `#__drawer` checkbox). Renders the stock `partials/nav.html`
+  inside, restyled flat with hover-only underline.
+- **TOC**: `.md-sidebar--secondary` moved to the LEFT at desktop widths.
+- **Footer**: vanilla `.md-footer-meta` from zensical-darc, plus a small
+  flexbox column layout for our two link rows.
 
-**Color variants:** white, black, orange, green, yellow, purple. Applied via `.screen--bg-*` and `.bg--*` classes. Dark mode via `.darc-mode` class.
+## Scroll-color
 
-**Key partials:** `_variables.scss` (all design tokens), `_base.scss` (reset + typography defaults), `_screen.scss` (section layout), `_hero.scss`, `_card.scss`, `_button.scss`, `_header.scss`, `_drawer.scss`.
+`docs/javascripts/scroll-color.js` toggles `bg--{color}` on `<body>` and
+`md-header--bg-{color}` on `.md-header` as `data-background-color` sections
+cross the viewport midpoint.
 
-### Vanilla JS (`static/js/main.js`)
+**Light mode only** — dark mode (`data-md-color-scheme="slate"`) keeps the
+darc-zensical palette regardless of which section is active. The JS still
+toggles classes uniformly; the CSS gate is in `site.css`:
+`body[data-md-color-scheme="default"].bg--*`.
 
-~55 lines total:
-1. **Drawer toggle** — burger button opens/closes mobile nav drawer
-2. **Scroll-based background color** — reads `data-background-color` attributes on sections, updates `.page-wrapper` class on scroll to match current section's color
+## Conventions
 
-### Configuration
+- `markdown` attribute on every wrapper `<div>` / `<section>` is required to
+  keep Python-Markdown parsing inside HTML.
+- `<br>` for line breaks inside headings (markdown's two-trailing-spaces and
+  `\` rules don't apply in headings).
+- Body text in light mode is `--color-black` (#1a1a1a) at weight 500;
+  dark mode is `--color-white` at weight 400. Pinned in `site.css`.
+- Inline `<a>` color inherits — no orange accent. Underline stays as the
+  affordance.
+- Icon shortcodes (`:lucide-x:`, `:material-x:`, `:simple-x:`,
+  `:octicons-x:`, `:fontawesome-x:`) resolve via `pymdownx.emoji` configured
+  with `zensical.extensions.emoji.{twemoji,to_svg}` in `mkdocs.yml`. Lucide
+  is the default UI set.
 
-**Environment Variables:**
-- `DIRECTUS_URL` — CMS API endpoint (default: `https://cms.investigativedata.net`)
-- `DIRECTUS_API_TOKEN` — API access token
-- `DIRECTUS_SITE` — Site identifier for content filtering (default: `dataresearchcenter.org`)
-- `ASSETS_BASE_URL` — Base URL for file assets (default: `https://assets.investigativedata.org/cms/`)
+## Customising for a downstream site
 
-**`config.toml`:** Zola config with `base_url`, `compile_sass = true`, search index disabled.
+Edit only:
 
-**`requirements.txt`:** httpx, markdown, python-slugify, tomli-w.
+- `mkdocs.yml` — `site_name`, `site_url`, `repo_url`, `nav`, `theme.logo`,
+  `extra.logo_light`, `extra.social`.
+- `docs/stylesheets/extra.css` — site-specific CSS overrides.
+- `docs/*.md` — pages.
+
+Do **not** modify `darc-zensical.css` — it ships from the upstream
+`zensical-theme-darc` repo and stays in sync across DARC sites.

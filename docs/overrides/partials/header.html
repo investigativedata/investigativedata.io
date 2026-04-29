@@ -1,0 +1,80 @@
+{#-
+  Header – three-column marketing layout, mirroring the original site:
+    [ site name + breadcrumb ]   [ centered logo ]   [ palette · search · burger ]
+
+  Keeps mkdocs-material's data-md-component attributes so the bundled JS
+  (palette toggle, search box, drawer checkbox) keeps working.
+-#}
+{% set class = "md-header" %}
+{% if "navigation.tabs.sticky" in features %}
+  {% set class = class ~ " md-header--shadow md-header--lifted" %}
+{% elif "navigation.tabs" not in features %}
+  {% set class = class ~ " md-header--shadow" %}
+{% endif %}
+<header class="{{ class }}" data-md-component="header">
+  <div class="md-header__inner md-grid">
+
+    {# LEFT – site name (grid column 1, by source order) #}
+    <div class="md-header__title">
+      <a href="{{ config.extra.homepage | d(nav.homepage.url, true) | url }}"
+         class="md-header__site-link">
+        {{ config.site_name }}
+      </a>
+    </div>
+
+    {# CENTER – clickable logo back to home (grid column 2, auto-width) #}
+    <a href="{{ config.extra.homepage | d(nav.homepage.url, true) | url }}"
+       title="{{ config.site_name | e }}"
+       class="md-header__button md-logo"
+       aria-label="{{ config.site_name }}"
+       data-md-component="logo">
+      {% include "partials/logo.html" %}
+    </a>
+
+    {# RIGHT – palette · search · repo · burger (grid column 3) #}
+    <div class="md-header__actions">
+      {% if config.theme.palette %}
+        {% if not config.theme.palette is mapping %}
+          {% include "partials/palette.html" %}
+        {% endif %}
+      {% endif %}
+      {% if not config.theme.palette is mapping %}
+        {% include "partials/javascripts/palette.html" %}
+      {% endif %}
+
+      {# Search detection – Zensical registers the plugin as "search",
+         mkdocs-material as "material/search". Look up whichever exists. #}
+      {% set search_key = "search" if "search" in config.plugins
+                          else ("material/search" if "material/search" in config.plugins else none) %}
+      {% if search_key %}
+        {% set search = config.plugins[search_key] | attr("config") %}
+        {% if search and search.enabled %}
+          <label class="md-header__button md-icon" for="__search" aria-label="{{ lang.t('search') | d('Search') }}">
+            {% set icon = config.theme.icon.search or "lucide/search" %}
+            {% include ".icons/" ~ icon ~ ".svg" %}
+          </label>
+          {% include "partials/search.html" %}
+        {% endif %}
+      {% endif %}
+
+      {% if config.repo_url %}
+        <div class="md-header__source">
+          {% include "partials/source.html" %}
+        </div>
+      {% endif %}
+
+      {# Burger – opens the right-side overlay nav (always visible, all widths). #}
+      <label class="md-header__button md-icon md-header__burger" for="__drawer"
+             aria-label="{{ lang.t('nav.title') | d('Navigation') }}">
+        {% set icon = config.theme.icon.menu or "lucide/menu" %}
+        {% include ".icons/" ~ icon ~ ".svg" %}
+      </label>
+    </div>
+  </div>
+
+  {% if "navigation.tabs.sticky" in features %}
+    {% if "navigation.tabs" in features %}
+      {% include "partials/tabs.html" %}
+    {% endif %}
+  {% endif %}
+</header>

@@ -1,4 +1,2 @@
+zensical
 httpx
-markdown
-Pygments
-tomli-w

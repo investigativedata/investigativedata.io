@@ -1,66 +1,61 @@
 # investigativedata.io
 
-Static website built with [Zola](https://www.getzola.org/). Content is fetched from a headless [Directus](https://directus.io/) CMS via a Python pre-build script.
+Shared design system + project template for DARC's downstream websites,
+built with [Zensical](https://zensical.org/) (the mkdocs-material successor).
 
-This repo powers multiple sites from the same codebase — the `DIRECTUS_SITE` environment variable controls which site's content is fetched.
-
-## Prerequisites
-
-- [Zola](https://www.getzola.org/documentation/getting-started/installation/) (static site generator)
-- Python 3.10+
-- Environment variables:
-  - `DIRECTUS_API_TOKEN` — API token for the Directus CMS
-  - `DIRECTUS_SITE` — Site identifier (default: `dataresearchcenter.org`)
+Content lives as plain markdown under `docs/`. The site theme, custom
+components, and configuration in this repo are the starting point that
+each downstream site forks or extends.
 
 ## Setup
 
 ```bash
-make install    # Create .venv and install Python dependencies
+pip install zensical
 ```
 
 ## Development
 
-The default site is [dataresearchcenter.org](https://dataresearchcenter.org):
-
 ```bash
-make dev        # Fetch content + start Zola dev server (http://localhost:1111)
-```
-
-To run a different site, set `DIRECTUS_SITE`:
-
-```bash
-DIRECTUS_SITE=investigativedata.io make dev
-DIRECTUS_SITE=openaleph.org make dev
+zensical serve     # → http://localhost:8000 (live reload)
 ```
 
 ## Build
 
 ```bash
-make build      # Fetch content + build static site → public/
-make serve      # Serve the built site locally (python http.server)
+zensical build     # → ./site
 ```
 
-## Deploy
-
-```bash
-make publish    # Build + sync public/ to S3
-```
-
-## Other commands
-
-```bash
-make fetch      # Only fetch content from Directus → content/ + data/
-make clean      # Remove generated content/, data/*.json, and public/
-```
-
-## Architecture
+## Layout
 
 ```
-build.py → Directus API → content/*.md + data/*.json → zola build → public/
+docs/
+  index.md                    # pages, written in markdown
+  reference.md                # component authoring reference
+  stylesheets/
+    tokens.css                # project-specific design tokens
+    components.css            # custom components (.hero, .grid.cards, .btn, …)
+    site.css                  # layout, header/footer, scroll-color hooks
+    extra.css                 # last-mile site overrides
+  javascripts/
+    scroll-color.js           # per-section background swap on scroll
+  overrides/                  # zensical template overrides (header, footer, main)
+mkdocs.yml                    # zensical config (site name, nav, palette, plugins)
 ```
 
-1. **Python fetcher** (`build/`) fetches pages, articles, and site config from Directus, resolves asset URLs, converts markdown to HTML, and writes Zola content files.
-2. **Zola** compiles SCSS, renders Tera templates, and outputs a static site.
-3. **Vanilla JS** (~50 lines) handles the mobile drawer toggle and scroll-based background color transitions.
+## Authoring
 
-Sites with `darc: true` in their Directus config automatically get dark mode styling (warm white on black, lighter font weights).
+See [`docs/reference.md`](docs/reference.md) for copy-pasteable markdown for
+every component (hero, card grid, profile cards, buttons, forms, admonitions,
+icons, etc.) and links to the underlying Zensical primitives.
+
+## Customising downstream
+
+For a downstream site, edit:
+
+- `mkdocs.yml` – `site_name`, `site_url`, `nav`, `theme.logo`, social links
+- `docs/stylesheets/extra.css` – site-specific CSS overrides
+- `docs/*.md` – pages
+
+  
+`https://dataresearchcenter.github.io/zensical-theme-darc/stylesheets/darc-zensical.css` (from https://github.com/dataresearchcenter/zensical-theme-darc) is the shared design layer and stays in
+sync upstream – do not put project-specific tweaks there.

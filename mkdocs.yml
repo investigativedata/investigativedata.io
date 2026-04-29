@@ -1,0 +1,83 @@
+site_name: Data and Research Center
+site_url: https://dataresearchcenter.org
+site_description: The Data and Research Center is an independent organization providing bespoke data and research services for investigative teams.
+
+theme:
+  name: material
+  custom_dir: docs/overrides
+  logo: https://cdn.investigativedata.org/style/logos/darc/svg/DARC-Logo-RGB-Horizontal-Neg.svg
+  favicon: https://cdn.investigativedata.org/style/logos/darc/favicon.ico
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.sections
+    - toc.follow
+    - content.code.copy
+    - header.autohide
+  palette:
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: lucide/sun
+        name: Switch to light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: lucide/moon
+        name: Switch to dark mode
+  icon:
+    menu: lucide/menu
+
+extra:
+  logo_light: https://cdn.investigativedata.org/style/logos/darc/svg/DARC-Logo-RGB-Horizontal-Pos.svg
+  social:
+    - icon: lucide/mail
+      link: mailto:hi@dataresearchcenter.org
+    - icon: lucide/globe
+      link: https://dataresearchcenter.org
+    - icon: simple/github
+      link: https://github.com/dataresearchcenter
+
+extra_css:
+  - https://dataresearchcenter.github.io/zensical-theme-darc/stylesheets/darc-zensical.css
+  - stylesheets/tokens.css
+  - stylesheets/components.css
+  - stylesheets/site.css
+  - stylesheets/extra.css
+
+extra_javascript:
+  - javascripts/scroll-color.js
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - footnotes
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  # String references resolve to Zensical's bundled icon-aware
+  # to_svg/twemoji helpers (zensical/config.py:453-457) – these scan
+  # `templates/.icons/{lucide,material,simple,octicons,fontawesome}/`
+  # so `:lucide-x:` / `:material-x:` / `:simple-x:` / `:octicons-x:` /
+  # `:fontawesome-...:` shortcodes render as inline SVG.
+  - pymdownx.emoji:
+      emoji_index: zensical.extensions.emoji.twemoji
+      emoji_generator: zensical.extensions.emoji.to_svg
+
+plugins:
+  - search
+
+nav:
+  - index.md
+  - typography.md
+  - reference.md

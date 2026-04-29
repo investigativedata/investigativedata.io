@@ -1,0 +1,751 @@
+/* ───────────────────────────────────────────────────────────────────
+   DARC zensical theme — shared documentation design
+   ───────────────────────────────────────────────────────────────────
+   Generic, project-agnostic layer for zensical / mkdocs-material docs
+   used across DARC projects. Adapted from the OpenAleph design
+   handoff (Inter + Sligoil, DARC ember accent, light + dark schemes).
+
+   Register in mkdocs.yml — this file provides the @font-face
+   declarations for Inter + Sligoil Micro (font files served from
+   the DARC CDN), maps tokens onto mkdocs-material per scheme, and
+   the project extra sheet adds any site-specific overrides:
+
+       extra_css:
+         - stylesheets/darc-zensical.css
+         - stylesheets/extra.css   # project-specific overrides, last
+
+   This sheet only touches COLORS / BORDERS / FONT-FAMILY and adds
+   a few shared marketing components. Font sizes, line heights,
+   spacing, and margins are inherited from zensical's defaults.
+   ─────────────────────────────────────────────────────────────────── */
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   Font faces — Inter + Sligoil Micro
+   (inlined from https://cdn.investigativedata.org/style/fonts.min.css;
+   font files still served from the DARC CDN)
+   ═══════════════════════════════════════════════════════════════════ */
+@font-face { font-display: swap; font-family: Inter; font-style: normal; font-weight: 100; src: url(https://cdn.investigativedata.org/style/fonts/inter/web/Inter-Thin.woff2?v=3.19) format("woff2"), url(https://cdn.investigativedata.org/style/fonts/inter/web/Inter-Thin.woff?v=3.19) format("woff"); }
+@font-face { font-display: swap; font-family: Inter; font-style: italic; font-weight: 100; src: url(https://cdn.investigativedata.org/style/fonts/inter/web/Inter-ThinItalic.woff2?v=3.19) format("woff2"), url(https://cdn.investigativedata.org/style/fonts/inter/web/Inter-ThinItalic.woff?v=3.19) format("woff"); }
+@font-face { font-display: swap; font-family: Inter; font-style: normal; font-weight: 200; src: url(https://cdn.investigativedata.org/style/fonts/inter/web/Inter-ExtraLight.woff2?v=3.19) format("woff2"), url(https://cdn.investigativedata.org/style/fonts/inter/web/Inter-ExtraLight.woff?v=3.19) format("woff"); }
+@font-face { font-display: swap; font-family: Inter; font-style: italic; font-weight: 200; src: url(https://cdn.investigativedata.org/style/fonts/inter/web/Inter-ExtraLightItalic.woff2?v=3.19) format("woff2"), url(https://cdn.investigativedata.org/style/fonts/inter/web/Inter-ExtraLightItalic.woff?v=3.19) format("woff"); }
+@font-face { font-display: swap; font-family: Inter; font-style: normal; font-weight: 300; src: url(https://cdn.investigativedata.org/style/fonts/inter/web/Inter-Light.woff2?v=3.19) format("woff2"), url(https://cdn.investigativedata.org/style/fonts/inter/web/Inter-Light.woff?v=3.19) format("woff"); }
+@font-face { font-display: swap; font-family: Inter; font-style: italic; font-weight: 300; src: url(https://cdn.investigativedata.org/style/fonts/inter/web/Inter-LightItalic.woff2?v=3.19) format("woff2"), url(https://cdn.investigativedata.org/style/fonts/inter/web/Inter-LightItalic.woff?v=3.19) format("woff"); }
+@font-face { font-display: swap; font-family: Inter; font-style: normal; font-weight: 400; src: url(https://cdn.investigativedata.org/style/fonts/inter/web/Inter-Regular.woff2?v=3.19) format("woff2"), url(https://cdn.investigativedata.org/style/fonts/inter/web/Inter-Regular.woff?v=3.19) format("woff"); }
+@font-face { font-display: swap; font-family: Inter; font-style: italic; font-weight: 400; src: url(https://cdn.investigativedata.org/style/fonts/inter/web/Inter-Italic.woff2?v=3.19) format("woff2"), url(https://cdn.investigativedata.org/style/fonts/inter/web/Inter-Italic.woff?v=3.19) format("woff"); }
+@font-face { font-display: swap; font-family: Inter; font-style: normal; font-weight: 500; src: url(https://cdn.investigativedata.org/style/fonts/inter/web/Inter-Medium.woff2?v=3.19) format("woff2"), url(https://cdn.investigativedata.org/style/fonts/inter/web/Inter-Medium.woff?v=3.19) format("woff"); }
+@font-face { font-display: swap; font-family: Inter; font-style: italic; font-weight: 500; src: url(https://cdn.investigativedata.org/style/fonts/inter/web/Inter-MediumItalic.woff2?v=3.19) format("woff2"), url(https://cdn.investigativedata.org/style/fonts/inter/web/Inter-MediumItalic.woff?v=3.19) format("woff"); }
+@font-face { font-display: swap; font-family: Inter; font-style: normal; font-weight: 600; src: url(https://cdn.investigativedata.org/style/fonts/inter/web/Inter-SemiBold.woff2?v=3.19) format("woff2"), url(https://cdn.investigativedata.org/style/fonts/inter/web/Inter-SemiBold.woff?v=3.19) format("woff"); }
+@font-face { font-display: swap; font-family: Inter; font-style: italic; font-weight: 600; src: url(https://cdn.investigativedata.org/style/fonts/inter/web/Inter-SemiBoldItalic.woff2?v=3.19) format("woff2"), url(https://cdn.investigativedata.org/style/fonts/inter/web/Inter-SemiBoldItalic.woff?v=3.19) format("woff"); }
+@font-face { font-display: swap; font-family: Inter; font-style: normal; font-weight: 700; src: url(https://cdn.investigativedata.org/style/fonts/inter/web/Inter-Bold.woff2?v=3.19) format("woff2"), url(https://cdn.investigativedata.org/style/fonts/inter/web/Inter-Bold.woff?v=3.19) format("woff"); }
+@font-face { font-display: swap; font-family: Inter; font-style: italic; font-weight: 700; src: url(https://cdn.investigativedata.org/style/fonts/inter/web/Inter-BoldItalic.woff2?v=3.19) format("woff2"), url(https://cdn.investigativedata.org/style/fonts/inter/web/Inter-BoldItalic.woff?v=3.19) format("woff"); }
+@font-face { font-display: swap; font-family: Inter; font-style: normal; font-weight: 800; src: url(https://cdn.investigativedata.org/style/fonts/inter/web/Inter-ExtraBold.woff2?v=3.19) format("woff2"), url(https://cdn.investigativedata.org/style/fonts/inter/web/Inter-ExtraBold.woff?v=3.19) format("woff"); }
+@font-face { font-display: swap; font-family: Inter; font-style: italic; font-weight: 800; src: url(https://cdn.investigativedata.org/style/fonts/inter/web/Inter-ExtraBoldItalic.woff2?v=3.19) format("woff2"), url(https://cdn.investigativedata.org/style/fonts/inter/web/Inter-ExtraBoldItalic.woff?v=3.19) format("woff"); }
+@font-face { font-display: swap; font-family: Inter; font-style: normal; font-weight: 900; src: url(https://cdn.investigativedata.org/style/fonts/inter/web/Inter-Black.woff2?v=3.19) format("woff2"), url(https://cdn.investigativedata.org/style/fonts/inter/web/Inter-Black.woff?v=3.19) format("woff"); }
+@font-face { font-display: swap; font-family: Inter; font-style: italic; font-weight: 900; src: url(https://cdn.investigativedata.org/style/fonts/inter/web/Inter-BlackItalic.woff2?v=3.19) format("woff2"), url(https://cdn.investigativedata.org/style/fonts/inter/web/Inter-BlackItalic.woff?v=3.19) format("woff"); }
+@font-face { font-named-instance: "Regular"; font-display: swap; font-family: "Inter var"; font-style: normal; font-weight: 100 900; src: url(https://cdn.investigativedata.org/style/fonts/inter/web/Inter-roman.var.woff2?v=3.19) format("woff2"); }
+@font-face { font-named-instance: "Italic"; font-display: swap; font-family: "Inter var"; font-style: italic; font-weight: 100 900; src: url(https://cdn.investigativedata.org/style/fonts/inter/web/Inter-italic.var.woff2?v=3.19) format("woff2"); }
+@font-face { font-display: swap; font-family: "Inter var experimental"; font-style: oblique 0deg 10deg; font-weight: 100 900; src: url(https://cdn.investigativedata.org/style/fonts/inter/web/Inter.var.woff2?v=3.19) format("woff2"); }
+@font-face { font-display: swap; font-family: "Sligoil Micro"; font-style: normal; font-weight: 400; src: url(https://cdn.investigativedata.org/style/fonts/sligoil/web/Sligoil-Micro.eot); src: url(https://cdn.investigativedata.org/style/fonts/sligoil/web/Sligoil-Micro.eot?#iefix) format("embedded-opentype"), url(https://cdn.investigativedata.org/style/fonts/sligoil/web/Sligoil-Micro.woff2) format("woff2"), url(https://cdn.investigativedata.org/style/fonts/sligoil/web/Sligoil-Micro.woff) format("woff"), url(https://cdn.investigativedata.org/style/fonts/sligoil/web/Sligoil-Micro.ttf) format("truetype"), url(https://cdn.investigativedata.org/style/fonts/sligoil/web/Sligoil-Micro.svg#Sligoil-Micro) format("svg"); }
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   Design tokens — DARC palette
+   ═══════════════════════════════════════════════════════════════════ */
+:root,
+[data-md-color-scheme="default"],
+[data-md-color-scheme="slate"] {
+    --oa-black: #1a1a1a;
+    --oa-white: #ffffff;
+    --oa-paper: #fff8f1;
+
+    --oa-gray-50:  #f9f9f9;
+    --oa-gray-100: #f2f2f2;
+    --oa-gray-200: #e8e8e8;
+    --oa-gray-300: #d8d8d8;
+    --oa-gray-400: #b4b4b4;
+    --oa-gray-500: #949494;
+    --oa-gray-600: #6c6c6c;
+    --oa-gray-700: #595959;
+    --oa-gray-800: #3a3a3a;
+    --oa-gray-900: #1a1a1a;
+
+    --oa-green-50:  #f1fff8;
+    --oa-green-100: #daffec;
+    --oa-green-200: #beffdf;
+    --oa-green-300: #9dffd0;
+    --oa-green-400: #83ffc3;
+    --oa-green-500: #69feb5;
+    --oa-green-600: #63eeaa;
+    --oa-green-700: #58d99a;
+    --oa-green-800: #51c68c;
+    --oa-green-900: #43a473;
+
+    --oa-orange-50:  #faeae8;
+    --oa-orange-100: #fecec0;
+    --oa-orange-200: #feae98;
+    --oa-orange-300: #fe8f6f;
+    --oa-orange-400: #fe764f;
+    --oa-orange-500: #ff5f33;
+    --oa-orange-600: #f4592f;
+    --oa-orange-700: #e6522a;
+    --oa-orange-800: #d74c26;
+    --oa-orange-900: #bd401f;
+
+    --oa-purple-50:  #ede7f6;
+    --oa-purple-100: #d1c4e9;
+    --oa-purple-200: #b39ddb;
+    --oa-purple-300: #9575cd;
+    --oa-purple-400: #7e57c2;
+    --oa-purple-500: #673ab7;
+    --oa-purple-600: #5e35b1;
+    --oa-purple-700: #512da8;
+    --oa-purple-800: #4527a0;
+    --oa-purple-900: #311b92;
+
+    --oa-yellow-50:  #fffee8;
+    --oa-yellow-100: #fffac5;
+    --oa-yellow-200: #fff69e;
+    --oa-yellow-300: #fef177;
+    --oa-yellow-400: #fcec57;
+    --oa-yellow-500: #f9e737;
+    --oa-yellow-600: #ffdd3b;
+    --oa-yellow-700: #ffc533;
+    --oa-yellow-800: #fdad2b;
+    --oa-yellow-900: #f9841c;
+
+    --font-sans: "Inter", "Liberation Sans", "Arial", sans-serif;
+    --font-mono: "Sligoil Micro", ui-monospace, Menlo, monospace;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Semantic tokens + mkdocs-material color mapping
+   (colors only — sizes/spacing inherit from zensical defaults)
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ──── Light (default) ──── */
+[data-md-color-scheme="default"] {
+    --bg:          var(--oa-paper);
+    --panel:       var(--oa-white);
+    --panel-2:     var(--oa-gray-100);
+    --line:        var(--oa-gray-200);
+    --line-strong: var(--oa-gray-300);
+    --text:        var(--oa-black);
+    --text-dim:    var(--oa-gray-700);
+    --text-mute:   var(--oa-gray-500);
+    --accent:      var(--oa-orange-500);
+    --accent-bg:   rgba(255, 95, 51, 0.10);
+    --accent-ink:  var(--oa-black);
+
+    --md-text-font: var(--font-sans);
+    --md-code-font: var(--font-mono);
+
+    --md-default-bg-color:           var(--bg);
+    --md-default-fg-color:           var(--text);
+    --md-default-fg-color--light:    var(--text-dim);
+    --md-default-fg-color--lighter:  var(--text-mute);
+    --md-default-fg-color--lightest: var(--line);
+
+    --md-primary-fg-color:           var(--accent);
+    --md-primary-fg-color--dark:     var(--oa-orange-700);
+    --md-primary-fg-color--light:    var(--oa-orange-300);
+    --md-primary-bg-color:           var(--oa-white);
+    --md-primary-bg-color--light:    rgba(255, 255, 255, 0.7);
+
+    /* Translucent bg used by the blurred header */
+    --md-default-bg-color--light:    rgba(255, 248, 241, 0.75);
+
+    --md-accent-fg-color:            var(--accent);
+    --md-accent-fg-color--transparent: var(--accent-bg);
+    --md-accent-bg-color:            var(--oa-white);
+    --md-accent-bg-color--light:     rgba(255, 255, 255, 0.7);
+
+    --md-typeset-color:              var(--text);
+    --md-typeset-a-color:            var(--accent);
+    --md-typeset-del-color:          rgba(215, 76, 38, 0.15);
+    --md-typeset-ins-color:          rgba(105, 254, 181, 0.25);
+    --md-typeset-mark-color:         rgba(253, 173, 43, 0.3);
+    --md-typeset-table-color:        var(--line);
+
+    --md-code-bg-color:              var(--panel-2);
+    --md-code-fg-color:              var(--text);
+    --md-code-hl-color:              var(--accent-bg);
+    --md-code-hl-keyword-color:      var(--oa-purple-700);
+    --md-code-hl-constant-color:     var(--oa-purple-600);
+    --md-code-hl-number-color:       var(--oa-purple-500);
+    --md-code-hl-string-color:       var(--oa-green-900);
+    --md-code-hl-function-color:     var(--oa-orange-700);
+    --md-code-hl-special-color:      var(--oa-orange-700);
+    --md-code-hl-variable-color:     var(--oa-yellow-900);
+    --md-code-hl-name-color:         var(--text);
+    --md-code-hl-operator-color:     var(--oa-gray-700);
+    --md-code-hl-punctuation-color:  var(--oa-gray-700);
+    --md-code-hl-comment-color:      var(--oa-gray-500);
+    --md-code-hl-generic-color:      var(--text-dim);
+
+    --md-admonition-bg-color:        var(--panel);
+    --md-admonition-fg-color:        var(--text);
+
+    /* Admonition accents (deep shades for legibility on white panel) */
+    --admonition-info:    var(--oa-purple-700);
+    --admonition-warning: var(--oa-yellow-900);
+    --admonition-danger:  var(--oa-orange-800);
+    --admonition-success: var(--oa-green-900);
+
+    --md-footer-bg-color:            var(--oa-gray-100);
+    --md-footer-bg-color--dark:      var(--oa-gray-200);
+    --md-footer-fg-color:            var(--oa-gray-700);
+    --md-footer-fg-color--light:     var(--oa-gray-600);
+    --md-footer-fg-color--lighter:   var(--oa-gray-500);
+}
+
+/* ──── Dark (slate) ──── */
+[data-md-color-scheme="slate"] {
+    --bg:          var(--oa-black);
+    --panel:       #1f1f1f;
+    --panel-2:     #262626;
+    --line:        #2e2e2e;
+    --line-strong: #3a3a3a;
+    --text:        var(--oa-white);
+    --text-dim:    var(--oa-gray-400);
+    --text-mute:   var(--oa-gray-600);
+    --accent:      var(--oa-orange-500);
+    --accent-bg:   rgba(255, 95, 51, 0.12);
+    --accent-ink:  var(--oa-black);
+
+    --md-text-font: var(--font-sans);
+    --md-code-font: var(--font-mono);
+    --md-hue: 0;
+
+    --md-default-bg-color:           var(--bg);
+    --md-default-fg-color:           var(--text);
+    --md-default-fg-color--light:    var(--text-dim);
+    --md-default-fg-color--lighter:  var(--text-mute);
+    --md-default-fg-color--lightest: var(--line);
+
+    --md-primary-fg-color:           var(--bg);
+    --md-primary-fg-color--dark:     var(--oa-black);
+    --md-primary-fg-color--light:    var(--panel);
+    --md-primary-bg-color:           var(--text);
+    --md-primary-bg-color--light:    var(--text-dim);
+
+    /* Translucent bg used by the blurred header */
+    --md-default-bg-color--light:    rgba(26, 26, 26, 0.75);
+
+    --md-accent-fg-color:            var(--accent);
+    --md-accent-fg-color--transparent: var(--accent-bg);
+    --md-accent-bg-color:            var(--oa-white);
+    --md-accent-bg-color--light:     rgba(255, 255, 255, 0.7);
+
+    --md-typeset-color:              var(--text);
+    --md-typeset-a-color:            var(--accent);
+    --md-typeset-del-color:          rgba(215, 76, 38, 0.2);
+    --md-typeset-ins-color:          rgba(105, 254, 181, 0.2);
+    --md-typeset-mark-color:         rgba(253, 173, 43, 0.3);
+    --md-typeset-table-color:        var(--line);
+
+    --md-code-bg-color:              var(--panel);
+    --md-code-fg-color:              var(--text);
+    --md-code-hl-color:              var(--accent-bg);
+    --md-code-hl-keyword-color:      var(--oa-purple-200);
+    --md-code-hl-constant-color:     var(--oa-purple-300);
+    --md-code-hl-number-color:       var(--oa-purple-300);
+    --md-code-hl-string-color:       var(--oa-green-500);
+    --md-code-hl-function-color:     var(--oa-orange-500);
+    --md-code-hl-special-color:      var(--oa-orange-500);
+    --md-code-hl-variable-color:     var(--oa-yellow-300);
+    --md-code-hl-name-color:         var(--text);
+    --md-code-hl-operator-color:     var(--oa-gray-400);
+    --md-code-hl-punctuation-color:  var(--oa-gray-400);
+    --md-code-hl-comment-color:      var(--oa-gray-600);
+    --md-code-hl-generic-color:      var(--text-dim);
+
+    --md-admonition-bg-color:        var(--panel);
+    --md-admonition-fg-color:        var(--text);
+
+    /* Admonition accents (lighter shades for legibility on near-black panel) */
+    --admonition-info:    var(--oa-purple-300);
+    --admonition-warning: var(--oa-yellow-700);
+    --admonition-danger:  var(--oa-orange-500);
+    --admonition-success: var(--oa-green-500);
+
+    --md-footer-bg-color:            #000;          /* deeper than --oa-black page bg, for band contrast */
+    --md-footer-bg-color--dark:      #000;
+    --md-footer-fg-color:            var(--oa-gray-500);
+    --md-footer-fg-color--light:     var(--oa-gray-400);
+    --md-footer-fg-color--lighter:   var(--oa-gray-700);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Header / search — color-only overrides
+   (background + blur inherited from zensical defaults via the
+   translucent --md-default-bg-color--light token set per scheme)
+   ═══════════════════════════════════════════════════════════════════ */
+.md-header { color: var(--text); }
+.md-header__title { color: var(--text); font-family: var(--font-mono); }
+.md-tabs { color: var(--text-dim); }
+
+/* Per-scheme logo (see overrides/partials/logo.html).
+   Both variants render in markup; the wrong one is hidden per scheme. */
+.md-logo__img { display: block; }
+[data-md-color-scheme="default"] .md-logo__img--dark  { display: none !important; }
+[data-md-color-scheme="slate"]   .md-logo__img--light { display: none !important; }
+
+/* ═══════════════════════════════════════════════════════════════════
+   Sidebars (left nav active state in DARC ember)
+   ═══════════════════════════════════════════════════════════════════ */
+.md-nav__title { color: var(--text-mute); }
+.md-nav__link { color: var(--text-dim); text-decoration: none; }
+.md-nav__link:hover,
+.md-nav__link:focus { color: var(--text); }
+.md-nav__item .md-nav__link--active,
+.md-nav__item--active > .md-nav__link {
+    color: var(--accent);
+    font-weight: 500;
+}
+
+/* Right TOC active border in accent */
+.md-sidebar--secondary .md-nav__link--active {
+    color: var(--accent);
+    border-left-color: var(--accent);
+}
+
+/* zensical ≥0.0.36 wraps nav-link text in <span class="md-typeset">, whose
+   global color rule blocks the inherited --active color from reaching the
+   text. Force inner spans to inherit so hover/active colors show through. */
+.md-nav__link .md-typeset { color: inherit; }
+
+/* ═══════════════════════════════════════════════════════════════════
+   Article (.md-typeset) — colors only
+   ═══════════════════════════════════════════════════════════════════ */
+.md-typeset { color: var(--text-dim); }
+
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3,
+.md-typeset h4 { color: var(--text); }
+
+/* H1 in mono, regular weight — DARC display style */
+.md-typeset h1 {
+    font-family: var(--font-mono);
+    font-weight: 400;
+}
+
+.md-typeset p,
+.md-typeset li { color: var(--text-dim); }
+.md-typeset strong { color: var(--text); }
+
+.md-typeset a { color: var(--accent); }
+.md-typeset a:hover,
+.md-typeset a:focus { color: var(--text); }
+
+.md-typeset ul li::marker { color: var(--accent); }
+
+/* Inline code — DARC panel chip */
+.md-typeset code {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    color: var(--text);
+}
+.md-typeset a code {
+    color: var(--accent);
+    background: var(--accent-bg);
+    border-color: var(--accent-bg);
+}
+.md-typeset a:hover code,
+.md-typeset a:focus code {
+    color: var(--text);
+}
+.md-typeset h1 code,
+.md-typeset h2 code,
+.md-typeset h3 code,
+.md-typeset h4 code {
+    background: transparent;
+    border: 0;
+    color: inherit;
+}
+
+/* Code blocks — same panel chrome */
+.md-typeset pre > code,
+.md-typeset .highlight pre {
+    background: var(--panel);
+    color: var(--text);
+}
+.md-typeset .highlighttable {
+    background: var(--panel);
+    border: 1px solid var(--line);
+}
+.md-typeset .highlighttable .linenos {
+    background: transparent;
+    color: var(--text-mute);
+    border-right: 1px solid var(--line);
+}
+
+/* Filename label → terminal chrome with ember dot */
+.md-typeset .highlight > .filename {
+    background: var(--panel);
+    color: var(--text-mute);
+    border-bottom: 1px solid var(--line);
+    font-family: var(--font-mono);
+}
+.md-typeset .highlight > .filename::before {
+    content: "";
+    display: inline-block;
+    width: 0.5em;
+    height: 0.5em;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-right: 0.5em;
+    vertical-align: middle;
+}
+
+.md-clipboard { color: var(--text-mute); }
+.md-clipboard:hover { color: var(--text); }
+
+/* Blockquote — accent rule, no size change */
+.md-typeset blockquote {
+    border-left-color: var(--accent);
+    color: var(--text-dim);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Admonitions — DARC callout palette
+   ═══════════════════════════════════════════════════════════════════ */
+.md-typeset .admonition,
+.md-typeset details {
+    background: var(--panel);
+    border-color: var(--line);
+    border-left: 2px solid var(--accent);
+    box-shadow: none;
+}
+.md-typeset .admonition-title,
+.md-typeset summary {
+    background: transparent;
+    color: var(--accent);
+    font-family: var(--font-mono);
+}
+/* Lucide icon (mask-image) inherits the title color */
+.md-typeset .admonition-title::before,
+.md-typeset summary::before {
+    background-color: currentColor;
+}
+.md-typeset .admonition > p,
+.md-typeset details > p { color: var(--text); }
+
+/* Variants — re-tint border + title using per-scheme tokens */
+.md-typeset .admonition.note,
+.md-typeset .admonition.info,
+.md-typeset details.note,
+.md-typeset details.info { border-left-color: var(--admonition-info); }
+.md-typeset .admonition.note > .admonition-title,
+.md-typeset .admonition.info > .admonition-title,
+.md-typeset details.note > summary,
+.md-typeset details.info > summary { color: var(--admonition-info); }
+
+.md-typeset .admonition.warning,
+.md-typeset .admonition.caution,
+.md-typeset details.warning,
+.md-typeset details.caution { border-left-color: var(--admonition-warning); }
+.md-typeset .admonition.warning > .admonition-title,
+.md-typeset .admonition.caution > .admonition-title,
+.md-typeset details.warning > summary,
+.md-typeset details.caution > summary { color: var(--admonition-warning); }
+
+.md-typeset .admonition.danger,
+.md-typeset .admonition.error,
+.md-typeset .admonition.failure,
+.md-typeset details.danger,
+.md-typeset details.error,
+.md-typeset details.failure { border-left-color: var(--admonition-danger); }
+.md-typeset .admonition.danger > .admonition-title,
+.md-typeset .admonition.error > .admonition-title,
+.md-typeset details.danger > summary { color: var(--admonition-danger); }
+
+.md-typeset .admonition.tip,
+.md-typeset .admonition.success,
+.md-typeset .admonition.hint,
+.md-typeset details.tip,
+.md-typeset details.success { border-left-color: var(--admonition-success); }
+.md-typeset .admonition.tip > .admonition-title,
+.md-typeset .admonition.success > .admonition-title,
+.md-typeset details.tip > summary { color: var(--admonition-success); }
+
+/* ═══════════════════════════════════════════════════════════════════
+   Tabs (content tabs) — accent on active
+   ═══════════════════════════════════════════════════════════════════ */
+.md-typeset .tabbed-labels > label { color: var(--text-mute); }
+.md-typeset .tabbed-labels > label:hover { color: var(--text); }
+.md-typeset .tabbed-set > input:checked + label {
+    color: var(--accent);
+    border-color: var(--accent);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Tables — DARC panel
+   ═══════════════════════════════════════════════════════════════════ */
+.md-typeset table:not([class]) {
+    background: var(--panel);
+    border-color: var(--line);
+    box-shadow: none;
+}
+.md-typeset table:not([class]) th {
+    background: var(--panel-2);
+    color: var(--text);
+    border-bottom: 1px solid var(--line);
+}
+.md-typeset table:not([class]) td {
+    border-top-color: var(--line);
+    color: var(--text-dim);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Footer — black with muted gray text
+   ═══════════════════════════════════════════════════════════════════ */
+.md-footer { border-top: none; }
+.md-footer__inner { background: var(--bg); }
+.md-footer__link { color: var(--text-dim); }
+.md-footer__link:hover { color: var(--text); opacity: 1; }
+
+.md-footer-meta { background: var(--md-footer-bg-color--dark); }
+.md-footer-meta,
+.md-footer-meta *,
+.md-footer-meta.md-typeset,
+.md-footer-meta.md-typeset a:not(:focus, :hover),
+.md-copyright,
+.md-copyright__highlight {
+    color: var(--md-footer-fg-color) !important;
+}
+.md-footer-meta.md-typeset a:focus,
+.md-footer-meta.md-typeset a:hover {
+    color: var(--text) !important;
+}
+.md-social__link {
+    color: var(--md-footer-fg-color);
+    transition: color 0.15s;
+}
+.md-social__link:hover { color: var(--text); }
+
+/* ═══════════════════════════════════════════════════════════════════
+   Shared utility classes (for overrides/home.html, marketing pages)
+   ═══════════════════════════════════════════════════════════════════ */
+
+.mono { font-family: var(--font-mono); font-feature-settings: "tnum" 1; }
+.display-num {
+    font-family: var(--font-mono);
+    font-feature-settings: "tnum" 1;
+    letter-spacing: -0.01em;
+}
+
+.section-label {
+    font-family: var(--font-mono);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-mute);
+}
+.section-label--accent { color: var(--accent); }
+
+.mono-tag {
+    display: inline-block;
+    font-family: var(--font-mono);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Hero (custom home.html marketing component — not in zensical)
+   ═══════════════════════════════════════════════════════════════════ */
+.darc-hero {
+    padding: 4rem 1.2rem 3rem;
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 4rem;
+    align-items: end;
+    max-width: 61rem;  /* matches zensical .md-grid */
+    margin: 0 auto;
+}
+.darc-hero--solo { grid-template-columns: 1fr; }
+
+.darc-hero__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    margin: 0 0 1.5rem;
+    padding: 0.3em 0.85em;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+}
+.darc-hero__eyebrow-dot {
+    width: 0.5em;
+    height: 0.5em;
+    border-radius: 50%;
+    background: var(--accent);
+}
+
+.darc-hero__title {
+    font-family: var(--font-mono);
+    font-size: clamp(3.5rem, 9vw, 9rem);
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+    font-weight: 400;
+    color: var(--text);
+    margin: 0;
+}
+.darc-hero__title em {
+    color: var(--accent);
+    font-style: normal;
+}
+
+.darc-hero__content {
+    font-size: 1.2em;  /* bumps lede + buttons; title has its own clamp */
+}
+
+.darc-hero__lede {
+    margin-top: 1.75rem;
+    max-width: 30rem;
+    color: var(--text-dim);
+}
+.darc-hero__lede code {
+    font-family: var(--font-mono);
+    padding: 0.05em 0.4em;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    color: var(--accent);
+}
+
+.darc-hero__cta {
+    margin-top: 2.25rem;
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* Stats card — terminal flavour */
+.darc-stats {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 0.6rem;
+    overflow: hidden;
+}
+.darc-stats__header {
+    display: flex;
+    gap: 0.5em;
+    align-items: center;
+    padding: 0.6rem 1rem;
+    border-bottom: 1px solid var(--line);
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--text-mute);
+}
+.darc-stats__header-dot {
+    width: 0.5em;
+    height: 0.5em;
+    border-radius: 50%;
+    background: var(--accent);
+}
+.darc-stats__row {
+    display: grid;
+    grid-template-columns: minmax(5rem, auto) 1fr;
+    align-items: baseline;
+    gap: 1.25rem;
+    padding: 1.25rem;
+    border-bottom: 1px solid var(--line);
+}
+.darc-stats__row:last-child { border-bottom: none; }
+.darc-stats__value {
+    font-family: var(--font-mono);
+    font-feature-settings: "tnum" 1;
+    font-weight: 500;
+    color: var(--accent);
+    letter-spacing: -0.02em;
+}
+.darc-stats__label {
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-family: var(--font-mono);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Buttons — colors only; zensical defaults handle size/padding
+   ═══════════════════════════════════════════════════════════════════ */
+.md-typeset .md-button {
+    border: 1px solid var(--line);
+    border-radius: 999px;  /* full pill regardless of font-size */
+    background: transparent;
+    color: var(--text);
+    font-weight: 400;
+}
+.md-typeset .md-button:hover,
+.md-typeset .md-button:focus {
+    border-color: var(--line-strong);
+    color: var(--text);
+    background: transparent;
+    opacity: 1;
+}
+[data-md-color-scheme="default"] .md-typeset .md-button:not(.md-button--primary) {
+    background: var(--oa-white);
+}
+[data-md-color-scheme="default"] .md-typeset .md-button:not(.md-button--primary):hover {
+    background: var(--oa-gray-50);
+}
+
+.md-typeset .md-button--primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-ink);
+}
+.md-typeset .md-button--primary:hover,
+.md-typeset .md-button--primary:focus {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-ink);
+    opacity: 1;
+    filter: brightness(1.05);
+}
+.md-typeset .md-button svg {
+    width: 1em;
+    height: 1em;
+    fill: currentColor;
+    vertical-align: -0.125em;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Doc grid — next-step cells used in articles
+   ═══════════════════════════════════════════════════════════════════ */
+.md-typeset .doc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 0.4rem;
+    overflow: hidden;
+}
+.md-typeset .doc-grid__cell {
+    background: var(--panel);
+    padding: 1rem;
+    color: var(--text-dim);
+    text-decoration: none;
+    transition: background 0.12s;
+}
+.md-typeset .doc-grid__cell:hover { background: var(--panel-2); }
+.md-typeset .doc-grid__cell h4 { color: var(--text); }
+.md-typeset .doc-grid__cell p { color: var(--text-dim); }
+
+@media (max-width: 768px) {
+    .darc-hero {
+        grid-template-columns: 1fr;
+        padding: 2.5rem 1.25rem;
+        gap: 2.5rem;
+    }
+    .darc-hero__cta { flex-direction: column; align-items: stretch; }
+    .md-typeset .doc-grid { grid-template-columns: 1fr; }
+}
