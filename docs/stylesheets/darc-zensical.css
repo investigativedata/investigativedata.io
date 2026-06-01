@@ -1,11 +1,11 @@
 /* ───────────────────────────────────────────────────────────────────
-   DARC zensical theme — shared documentation design
+   DARC zensical theme – shared documentation design
    ───────────────────────────────────────────────────────────────────
    Generic, project-agnostic layer for zensical / mkdocs-material docs
    used across DARC projects. Adapted from the OpenAleph design
    handoff (Inter + Sligoil, DARC ember accent, light + dark schemes).
 
-   Register in mkdocs.yml — this file provides the @font-face
+   Register in mkdocs.yml – this file provides the @font-face
    declarations for Inter + Sligoil Micro (font files served from
    the DARC CDN), maps tokens onto mkdocs-material per scheme, and
    the project extra sheet adds any site-specific overrides:
@@ -21,7 +21,7 @@
 
 
 /* ═══════════════════════════════════════════════════════════════════
-   Font faces — Inter + Sligoil Micro
+   Font faces – Inter + Sligoil Micro
    (inlined from https://cdn.investigativedata.org/style/fonts.min.css;
    font files still served from the DARC CDN)
    ═══════════════════════════════════════════════════════════════════ */
@@ -50,7 +50,7 @@
 
 
 /* ═══════════════════════════════════════════════════════════════════
-   Design tokens — DARC palette
+   Design tokens – DARC palette
    ═══════════════════════════════════════════════════════════════════ */
 :root,
 [data-md-color-scheme="default"],
@@ -120,7 +120,7 @@
 
 /* ═══════════════════════════════════════════════════════════════════
    Semantic tokens + mkdocs-material color mapping
-   (colors only — sizes/spacing inherit from zensical defaults)
+   (colors only – sizes/spacing inherit from zensical defaults)
    ═══════════════════════════════════════════════════════════════════ */
 
 /* ──── Light (default) ──── */
@@ -277,7 +277,7 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   Header / search — color-only overrides
+   Header / search – color-only overrides
    (background + blur inherited from zensical defaults via the
    translucent --md-default-bg-color--light token set per scheme)
    ═══════════════════════════════════════════════════════════════════ */
@@ -316,7 +316,7 @@
 .md-nav__link .md-typeset { color: inherit; }
 
 /* ═══════════════════════════════════════════════════════════════════
-   Article (.md-typeset) — colors only
+   Article (.md-typeset) – colors only
    ═══════════════════════════════════════════════════════════════════ */
 .md-typeset { color: var(--text-dim); }
 
@@ -325,7 +325,7 @@
 .md-typeset h3,
 .md-typeset h4 { color: var(--text); }
 
-/* H1 in mono, regular weight — DARC display style */
+/* H1 in mono, regular weight – DARC display style */
 .md-typeset h1 {
     font-family: var(--font-mono);
     font-weight: 400;
@@ -341,7 +341,7 @@
 
 .md-typeset ul li::marker { color: var(--accent); }
 
-/* Inline code — DARC panel chip */
+/* Inline code – DARC panel chip */
 .md-typeset code {
     background: var(--panel);
     border: 1px solid var(--line);
@@ -365,7 +365,7 @@
     color: inherit;
 }
 
-/* Code blocks — same panel chrome */
+/* Code blocks – same panel chrome */
 .md-typeset pre > code,
 .md-typeset .highlight pre {
     background: var(--panel);
@@ -402,14 +402,14 @@
 .md-clipboard { color: var(--text-mute); }
 .md-clipboard:hover { color: var(--text); }
 
-/* Blockquote — accent rule, no size change */
+/* Blockquote – accent rule, no size change */
 .md-typeset blockquote {
     border-left-color: var(--accent);
     color: var(--text-dim);
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   Admonitions — DARC callout palette
+   Admonitions – DARC callout palette
    ═══════════════════════════════════════════════════════════════════ */
 .md-typeset .admonition,
 .md-typeset details {
@@ -432,7 +432,7 @@
 .md-typeset .admonition > p,
 .md-typeset details > p { color: var(--text); }
 
-/* Variants — re-tint border + title using per-scheme tokens */
+/* Variants – re-tint border + title using per-scheme tokens */
 .md-typeset .admonition.note,
 .md-typeset .admonition.info,
 .md-typeset details.note,
@@ -471,7 +471,7 @@
 .md-typeset details.tip > summary { color: var(--admonition-success); }
 
 /* ═══════════════════════════════════════════════════════════════════
-   Tabs (content tabs) — accent on active
+   Tabs (content tabs) – accent on active
    ═══════════════════════════════════════════════════════════════════ */
 .md-typeset .tabbed-labels > label { color: var(--text-mute); }
 .md-typeset .tabbed-labels > label:hover { color: var(--text); }
@@ -481,7 +481,7 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   Tables — DARC panel
+   Tables – DARC panel
    ═══════════════════════════════════════════════════════════════════ */
 .md-typeset table:not([class]) {
     background: var(--panel);
@@ -499,7 +499,7 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   Footer — black with muted gray text
+   Footer – black with muted gray text
    ═══════════════════════════════════════════════════════════════════ */
 .md-footer { border-top: none; }
 .md-footer__inner { background: var(--bg); }
@@ -553,7 +553,7 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   Hero (custom home.html marketing component — not in zensical)
+   Hero (custom home.html marketing component – not in zensical)
    ═══════════════════════════════════════════════════════════════════ */
 .darc-hero {
     padding: 4rem 1.2rem 3rem;
@@ -626,7 +626,7 @@
     flex-wrap: wrap;
 }
 
-/* Stats card — terminal flavour */
+/* Stats card – terminal flavour */
 .darc-stats {
     background: var(--panel);
     border: 1px solid var(--line);
@@ -674,7 +674,7 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   Buttons — colors only; zensical defaults handle size/padding
+   Buttons – colors only; zensical defaults handle size/padding
    ═══════════════════════════════════════════════════════════════════ */
 .md-typeset .md-button {
     border: 1px solid var(--line);
@@ -718,7 +718,7 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   Doc grid — next-step cells used in articles
+   Doc grid – next-step cells used in articles
    ═══════════════════════════════════════════════════════════════════ */
 .md-typeset .doc-grid {
     display: grid;

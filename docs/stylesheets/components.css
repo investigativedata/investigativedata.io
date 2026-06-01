@@ -24,11 +24,11 @@
 .md-typeset img.no-border { border: none; }
 .md-typeset img.no-shadow { box-shadow: none; }
 
-/* Inline text utilities — usage: `text {.muted}` or `text {.dim}` */
+/* Inline text utilities – usage: `text {.muted}` or `text {.dim}` */
 .md-typeset .muted { opacity: .6; }
 .md-typeset .dim   { color: var(--text-dim); }
 
-/* Profile cards — opt-in via `<div class="grid cards profiles">`.
+/* Profile cards – opt-in via `<div class="grid cards profiles">`.
    Each list item is a 2-column grid: avatar (col 1, spans 2 rows) +
    name (col 2, row 1) + title (col 2, row 2). Anything after that
    (bio, buttons) spans both columns. */
@@ -53,7 +53,7 @@
 .md-typeset .grid.cards.profiles > ul > li > *:nth-child(n+4) {
   grid-column: 1 / -1;
 }
-/* Profile avatar — remote portrait image cropped to a circle, with the
+/* Profile avatar – remote portrait image cropped to a circle, with the
    design's stroke-width round border. Overrides the global rectangular
    border + drops the offset shadow. */
 .md-typeset .grid.cards.profiles img {
@@ -135,6 +135,16 @@
 }
 @media (min-width: 768px)  { .hero { grid-template-columns: 5fr 6fr; gap: 4rem; margin-bottom: 6rem; } }
 @media (min-width: 1024px) { .hero { margin-bottom: 8rem; } }
+
+/* On mobile the hero collapses to one column and the two children stack in
+   source order. Source order controls L/R on desktop (≥768px), but on mobile
+   we always want the media on top — otherwise a content-first hero (text left
+   / media right) stacks text-then-media. Pull the image's paragraph first.
+   Media-first heroes already lead with the image, so this is a no-op there. */
+@media (max-width: 767.98px) {
+  .md-typeset .hero > p:has(img),
+  .md-typeset .hero > img { order: -1; }
+}
 
 .hero--landing,
 .hero--landing * { text-align: center; }
@@ -319,13 +329,19 @@ body[data-md-color-scheme="slate"] .md-typeset .btn:not(.btn--primary):hover {
 }
 
 /* Action paragraph (last p containing buttons) gets visible breathing
-   room above it, independent of the auto-push to the bottom. */
+   room above it, independent of the auto-push to the bottom. Lay the
+   buttons out as a wrapping flex row (like the hero action row) so a pair
+   of buttons keeps a gap side-by-side AND a row-gap once they wrap and
+   stack on narrow cards / mobile. */
 .md-typeset .grid.cards > ul > li > p:has(> .btn),
 .md-typeset .grid > .card > p:has(> .btn) {
   padding-top: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s);
 }
 
-/* `.card--full` modifier — span every column of the parent grid.
+/* `.card--full` modifier – span every column of the parent grid.
    Works whether the class lands on the <li> directly OR on any
    descendant (attr_list often attaches it to a child paragraph in
    the list-syntax). Block syntax: `<div class="card card--full">…</div>`. */
@@ -389,12 +405,16 @@ body[data-md-color-scheme="slate"] .md-typeset kbd {
 .md-typeset form input[type="url"] {
   flex: 1 1 240px;
   min-width: 0;
-  padding: var(--xs) var(--s);
+  /* Match `.btn` box metrics exactly (same padding + line-height) so the
+     input — and the stretched submit button beside it — render at the same
+     size as buttons elsewhere (e.g. in cards), not taller. */
+  padding: .625em 2em;
   border: var(--stroke-width) solid var(--color-black);
   border-radius: 9999px;
   background: transparent;
   color: var(--color-black);
   font: inherit;
+  line-height: normal;
 }
 body[data-md-color-scheme="slate"] .md-typeset form input[type="email"],
 body[data-md-color-scheme="slate"] .md-typeset form input[type="text"],

@@ -32,7 +32,7 @@ Quaerat ex voluptas doloribus omnis fugit. Sapiente quo dolorum ut deserunt ulla
 
 ## Hero – sub-block with media
 
-Order the two direct children of `.hero` to swap sides — content wrapper
+Order the two direct children of `.hero` to swap sides – content wrapper
 first means content on the left, image on the right.
 
 [Read the docs](#){.btn}

@@ -37,6 +37,10 @@
   color: var(--text, var(--md-default-fg-color));
   /* Offset hard shadow uses the same stroke as every other border in the design. */
   box-shadow: calc(-1 * var(--stroke-width)) var(--stroke-width) 0 0 var(--color-black);
+  /* Sharp corners. Upstream darc-zensical rounds the drawer (16px) inside a
+     mobile media query — "rounded only in smaller views" — but the design
+     uses sharp panels everywhere, so pin it to 0 at all widths. */
+  border-radius: 0;
   transform: translateX(100%);
   transition: transform var(--transition-normal, 300ms ease);
   pointer-events: none;
@@ -103,7 +107,7 @@ body[data-md-color-scheme="slate"] .md-sidebar--nav-overlay {
   margin: 0;
   padding: 0;
   font-size: 1.05rem;                   /* matches landing-hero teaser */
-  font-weight: normal;                  /* no bold, even on active */
+  font-weight: var(--font-weight-body); /* same weight as body (light 500 / dark 400) */
   text-decoration: none;
 }
 
@@ -348,14 +352,21 @@ body[data-md-color-scheme="default"][class*="bg--"] .md-main {
    Dark mode   → body text is the DARC white token (#fff8f1).
    In both schemes mkdocs-material's `.md-typeset { color: var(--md-default-fg-color--light) }`
    would otherwise paint body text a dimmed gray, which we don't want
-   inside cards or anywhere else. */
+   inside cards or anywhere else.
+
+   The weight is exposed as `--font-weight-body` (scheme-scoped) so the
+   drawer nav can share the exact same value and the two never drift:
+   light = medium (500), dark = regular (400). */
+body[data-md-color-scheme="default"] { --font-weight-body: 500; }
+body[data-md-color-scheme="slate"]   { --font-weight-body: 400; }
+
 body[data-md-color-scheme="default"] .md-typeset,
 body[data-md-color-scheme="default"] .md-typeset p,
 body[data-md-color-scheme="default"] .md-typeset li,
 body[data-md-color-scheme="default"] .md-typeset blockquote,
 body[data-md-color-scheme="default"] .md-typeset .footnote {
   color: var(--color-black);
-  font-weight: 500;
+  font-weight: var(--font-weight-body);
 }
 body[data-md-color-scheme="slate"] .md-typeset,
 body[data-md-color-scheme="slate"] .md-typeset p,
@@ -363,16 +374,17 @@ body[data-md-color-scheme="slate"] .md-typeset li,
 body[data-md-color-scheme="slate"] .md-typeset blockquote,
 body[data-md-color-scheme="slate"] .md-typeset .footnote {
   color: var(--color-white);
+  font-weight: var(--font-weight-body);
 }
 
-/* Hero h2 only — full-bold in both schemes. Headings outside heroes
+/* Hero h2 only – full-bold in both schemes. Headings outside heroes
    keep mkdocs-material's defaults. */
 .md-typeset .hero h2,
 [data-md-color-scheme="slate"] .md-typeset .hero h2 { font-weight: 700; }
 
 /* Inline links inherit the surrounding text color (no orange accent).
    Mkdocs-material defaults to `--md-typeset-a-color` for `<a>` and
-   `--md-accent-fg-color` on hover — both override here. Underline
+   `--md-accent-fg-color` on hover – both override here. Underline
    stays as the visual affordance. */
 .md-typeset a,
 .md-typeset a:hover {
