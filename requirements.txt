@@ -1,4 +1,2 @@
 mkdocs-material[imaging]
 mkdocs-redirects
-zensical
-httpx
