@@ -8,8 +8,8 @@ on:
 jobs:
   publish:
     environment:
-      name: openaleph.org
-      url: https://openaleph.org
+      name: dataresearchcenter.org
+      url: https://dataresearchcenter.org
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
