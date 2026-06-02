@@ -40,7 +40,7 @@ jobs:
             echo "   Auto-generated from docs/stylesheets/ by .github/workflows/pages.yml."
             echo "   Consume with a single entry, then add your own overrides last:"
             echo "     extra_css:"
-            echo "       - https://dataresearchcenter.github.io/darc-zensical-page/darc.css"
+            echo "       - https://dataresearchcenter.github.io/zensical-pages/darc.css"
             echo "       - stylesheets/extra.css */"
             printf '\n/* ===== darc-zensical.css (fetched from upstream) ===== */\n'
             curl -fsSL https://dataresearchcenter.github.io/zensical-theme-darc/stylesheets/darc-zensical.css
