@@ -30,14 +30,14 @@
     </div>
   {% endif %}
 
-  {# Primary (site nav) – RIGHT-side overlay drawer at all widths. #}
+  {# Primary (site nav) – RIGHT-side overlay drawer at all widths. Always
+     rendered (no `hidden`): it's the burger-toggled overlay, not a persistent
+     sidebar, so `hide: navigation` must NOT hide it — the blog plugin sets that
+     on every post, which would otherwise leave the burger opening an invisible
+     (display:none) drawer. #}
   {% if nav %}
-    {% set hidden = "" %}
-    {% if page.meta and page.meta.hide and "navigation" in page.meta.hide %}
-      {% set hidden = "hidden" %}
-    {% endif %}
     <div class="md-sidebar md-sidebar--primary md-sidebar--nav-overlay drawer__panel"
-         data-md-component="sidebar" data-md-type="navigation" {{ hidden }}>
+         data-md-component="sidebar" data-md-type="navigation">
       <label class="drawer__close" for="__drawer" aria-label="Close menu">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">

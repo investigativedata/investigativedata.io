@@ -25,11 +25,14 @@
 [dir=rtl] .md-sidebar--nav-overlay {
   position: fixed;
   top: 0;
-  right: 0;
+  right: -3px;  /* stroke width */
   bottom: 0;
   left: auto;
   width: 100%;
-  max-width: 22rem;
+  /* min() keeps the 22rem panel on desktop but caps it below the viewport on
+     phones (where material's root font is 20px, so 22rem = 440px > screen),
+     so the panel + backdrop show instead of going full-width. */
+  max-width: min(22rem, 85vw);
   height: 100%;
   margin: 0;
   padding: 5rem 1.75rem 2rem;          /* tighter overall – top clears the close X */
@@ -98,6 +101,42 @@ body[data-md-color-scheme="slate"] .md-sidebar--nav-overlay {
 .md-sidebar--nav-overlay .md-nav__list { display: flex; flex-direction: column; gap: 1.25rem; }
 .md-sidebar--nav-overlay .md-nav__item { margin: 0; padding: 0; }
 
+/* Mobile: mkdocs-material turns the primary nav into absolutely-positioned
+   sliding panels (`position: absolute; top:0; left:0`) with `overflow-x: auto`.
+   Inside our overlay that ignores the drawer padding (content jams to the top-
+   left, covering the close button) and adds horizontal scrollbars. Re-assert
+   the static, in-flow flat list so it sits within the padding like at desktop. */
+@media screen and (max-width: 76.1875em) {
+  .md-sidebar--nav-overlay .md-nav,
+  .md-sidebar--nav-overlay .md-nav--primary,
+  .md-sidebar--nav-overlay .md-nav--primary > .md-nav__list {
+    position: static !important;
+    width: 100% !important;
+    height: auto !important;
+    transform: none !important;
+    overflow: visible !important;
+  }
+
+  /* Drop mkdocs-material's integrated table-of-contents (it nests under the
+     active page in the mobile nav drawer — the "extra TOC menu") and its
+     toggle chevron, so the drawer stays a clean flat page list. */
+  .md-sidebar--nav-overlay .md-nav--secondary {
+    display: none !important;
+  }
+  .md-sidebar--nav-overlay .md-nav__link--active .md-nav__icon {
+    display: none;
+  }
+
+  /* No separator lines between nav items — material adds item borders AND an
+     inset box-shadow line on the list at mobile; drop both for the flat look. */
+  .md-sidebar--nav-overlay .md-nav--primary .md-nav__item {
+    border: 0;
+  }
+  .md-sidebar--nav-overlay .md-nav--primary .md-nav__list {
+    box-shadow: none;
+  }
+}
+
 .md-sidebar--nav-overlay .md-nav__link,
 .md-sidebar--nav-overlay .md-nav__link[href]:hover:not(.md-nav__link--active),
 .md-sidebar--nav-overlay .md-nav__link--active {
@@ -111,12 +150,16 @@ body[data-md-color-scheme="slate"] .md-sidebar--nav-overlay {
   text-decoration: none;
 }
 
-/* Apply the underline to the inner `.md-ellipsis` span – the link
-   wrapper's text-decoration is masked by the flex child. Match
-   mkdocs-material's `.md-nav--primary .md-nav__link[href]:hover` specificity
-   so we beat its color/background hover rule too. */
-.md-sidebar--nav-overlay .md-nav__link[href]:hover .md-ellipsis,
-.md-sidebar--nav-overlay .md-nav__link[href]:hover {
+/* Underline on hover only. It goes on the inner `.md-ellipsis` span, NOT the
+   `.md-nav__link` <a>: that <a> is `display: flex`, and browsers don't honor
+   `text-decoration-thickness` on a flex container — the line silently falls
+   back to the ~1px `auto` thickness (that's the bug we kept chasing). The span
+   is a plain block, so the 3px is respected. It truncates with overflow:hidden,
+   which would clip the offset underline, so let it paint. */
+.md-sidebar--nav-overlay .md-nav__link .md-ellipsis {
+  overflow: visible;
+}
+.md-sidebar--nav-overlay .md-nav__link:hover .md-ellipsis {
   text-decoration: underline;
   text-decoration-color: currentColor;
   text-underline-offset: .2em;
@@ -377,17 +420,74 @@ body[data-md-color-scheme="slate"] .md-typeset .footnote {
   font-weight: var(--font-weight-body);
 }
 
-/* Hero h2 only – full-bold in both schemes. Headings outside heroes
-   keep mkdocs-material's defaults. */
-.md-typeset .hero h2,
-[data-md-color-scheme="slate"] .md-typeset .hero h2 { font-weight: 700; }
+/* Headings are bold. Mkdocs-material defaults h1/h2 to ~300 and h3/h4 to 400,
+   which reads too thin for the DARC design. Same specificity as material's
+   rule, but site.css loads after it so this wins. (h1 left to the hero /
+   page-title styling.) */
+.md-typeset h2,
+.md-typeset h3,
+.md-typeset h4 {
+  font-weight: 700;
+}
 
 /* Inline links inherit the surrounding text color (no orange accent).
    Mkdocs-material defaults to `--md-typeset-a-color` for `<a>` and
-   `--md-accent-fg-color` on hover – both override here. Underline
-   stays as the visual affordance. */
+   `--md-accent-fg-color` on hover – both override here. */
 .md-typeset a,
 .md-typeset a:hover {
   color: inherit;
+}
+
+/* Underline is the only affordance for links (neither mkdocs-material nor
+   upstream darc-zensical underlines `.md-typeset a`). Scope it to the page
+   CONTENT only: the footer, social icons and the nav drawer also live inside
+   `.md-typeset` containers, so a bare `.md-typeset a` rule leaks the underline
+   onto them. Buttons, header permalinks and blog post-title links (`.toclink`)
+   opt out — the latter are headings, not body links. */
+.md-content a:not(.btn):not(.headerlink):not(.toclink) {
+  text-decoration: underline;
+  text-decoration-color: currentColor;
+  text-decoration-thickness: 2px;
+  text-underline-offset: .2em;
+}
+
+/* Blog overview: each post excerpt renders as a <blockquote>. In the listing
+   preview show it as plain paragraph text — drop the quote border and indent.
+   Compound `.md-typeset` to match the specificity of material's directional
+   `[dir=ltr] .md-typeset blockquote` rule (site.css wins the tie by order). */
+.md-post__content.md-typeset blockquote {
+  border-left: 0;
+  border-right: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* Blog post detail page (`.md-content--post`, added by the blog plugin only on
+   individual posts): set blockquotes in italic. */
+.md-content--post blockquote {
+  font-style: italic;
+}
+
+/* Body unordered-list bullets → the DARC check mark (inline SVG marker).
+   Scoped to content; the inline `::before` + negative margin gives a hanging
+   marker without needing `position` on the <li>. Card grids (`.grid`) and
+   task lists keep their own markers (the ::before is reset there). */
+.md-content .md-typeset ul > li {
+  list-style: none;
+}
+.md-content .md-typeset ul > li::before {
+  content: "";
+  display: inline-block;
+  width: 1.05em;
+  height: 1.05em;
+  margin-left: -1.6em;
+  margin-right: .55em;
+  vertical-align: -.2em;
+  background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 72 72' fill='none'><path d='M61.4999 23.3001L53.4869 15.2871L27.7769 40.9971L18.5169 31.7371L10.5039 39.7501L27.9239 57.1901L61.4999 23.3001Z' fill='white'/><path d='M10.5 39.7599L27.92 57.1999L61.5 23.3099L53.487 15.2969L27.777 41.0069L18.517 31.7469L10.5 39.7599Z' stroke='%231A1A1A' stroke-width='3' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/></svg>") center / contain no-repeat;
+}
+/* Card grids and task lists are not prose bullet lists — no check mark. */
+.md-content .md-typeset .grid li::before,
+.md-content .md-typeset .task-list-item::before {
+  content: none;
 }
 
