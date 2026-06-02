@@ -16,43 +16,59 @@
   border: var(--stroke-width) solid var(--color-black);
   box-shadow: var(--shadow-button);
 }
+
 [data-md-color-scheme="slate"] .md-typeset img {
   border-color: var(--color-white);
 }
 
 /* Per-image opt-outs:  ![](url){.no-border}  /  {.no-shadow}  */
-.md-typeset img.no-border { border: none; }
-.md-typeset img.no-shadow { box-shadow: none; }
+.md-typeset img.no-border {
+  border: none;
+}
+
+.md-typeset img.no-shadow {
+  box-shadow: none;
+}
 
 /* Inline text utilities – usage: `text {.muted}` or `text {.dim}` */
-.md-typeset .muted { opacity: .6; }
-.md-typeset .dim   { color: var(--text-dim); }
+.md-typeset .muted {
+  opacity: .6;
+}
+
+.md-typeset .dim {
+  color: var(--text-dim);
+}
 
 /* Profile cards – opt-in via `<div class="grid cards profiles">`.
    Each list item is a 2-column grid: avatar (col 1, spans 2 rows) +
    name (col 2, row 1) + title (col 2, row 2). Anything after that
    (bio, buttons) spans both columns. */
-.md-typeset .grid.cards.profiles > ul > li {
+.md-typeset .grid.cards.profiles>ul>li {
   display: grid;
   grid-template-columns: auto 1fr;
   column-gap: 1rem;
 }
-.md-typeset .grid.cards.profiles > ul > li > p:nth-child(1) {
+
+.md-typeset .grid.cards.profiles>ul>li>p:nth-child(1) {
   grid-row: 1 / span 2;
   align-self: center;
   margin: 0;
 }
-.md-typeset .grid.cards.profiles > ul > li > p:nth-child(2) {
+
+.md-typeset .grid.cards.profiles>ul>li>p:nth-child(2) {
   align-self: end;
   margin: 0;
 }
-.md-typeset .grid.cards.profiles > ul > li > p:nth-child(3) {
+
+.md-typeset .grid.cards.profiles>ul>li>p:nth-child(3) {
   align-self: start;
   margin: 0 0 .75rem 0;
 }
-.md-typeset .grid.cards.profiles > ul > li > *:nth-child(n+4) {
+
+.md-typeset .grid.cards.profiles>ul>li>*:nth-child(n+4) {
   grid-column: 1 / -1;
 }
+
 /* Profile avatar – remote portrait image cropped to a circle, with the
    design's stroke-width round border. Overrides the global rectangular
    border + drops the offset shadow. */
@@ -81,36 +97,90 @@
 /* The section wraps itself – no inner div needed. Padding is on
    `.screen` (so the bg color spans the full viewport), and direct
    children are constrained to `--container-lg` and centered. */
+main.md-main,
 .screen {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
-  padding: 2rem 1rem;
-  gap: var(--l);
 }
 
-.screen > * {
+main.md-main>*,
+.screen>* {
   width: 100%;
   max-width: var(--container-lg);
+}
+
+/* Padding lives ONLY on the main container, so it's identical whether a page
+   uses .screen sections (marketing) or plain markdown (blog/other). .screen
+   carries no padding — nothing to double up — and stacked sections are spaced
+   by a gap instead. */
+main.md-main {
+  padding: 2rem 1rem;
+}
+.screen + .screen {
+  margin-block-start: 4rem;
+}
+
+/* Neutralise material's own content-container inset so main's padding is the
+   only horizontal inset (the desktop TOC-left layout in site.css re-adds its
+   own margins at >=76.25em). */
+.md-main__inner,
+.md-content__inner {
+  margin-inline: 0;
+  padding-inline: 0;
 }
 
 /* Per-section accent: sections are TRANSPARENT – the page-wrapper sets
    the visible background via the scroll-color JS. Sections only set
    text color and expose --section-accent for child components. */
-.screen--bg-white  { color: var(--color-black); --section-accent: var(--bg-white); }
-.screen--bg-black  { color: var(--color-white); --section-accent: var(--bg-black); }
-.screen--bg-green  { color: var(--color-black); --section-accent: var(--bg-green); }
-.screen--bg-orange { color: var(--color-black); --section-accent: var(--bg-orange); }
-.screen--bg-yellow { color: var(--color-black); --section-accent: var(--bg-yellow); }
-.screen--bg-purple { color: var(--color-black); --section-accent: var(--bg-purple); }
+.screen--bg-white {
+  color: var(--color-black);
+  --section-accent: var(--bg-white);
+}
 
-.screen--full-height { min-height: 100vh; }
+.screen--bg-black {
+  color: var(--color-white);
+  --section-accent: var(--bg-black);
+}
 
-@media (min-width: 640px)  { .screen { padding-inline: 1.5rem; } }
-@media (min-width: 768px)  { .screen { padding-block: 2.4rem; } }
-@media (min-width: 1024px) { .screen { padding: 6rem 2rem; } }
+.screen--bg-green {
+  color: var(--color-black);
+  --section-accent: var(--bg-green);
+}
+
+.screen--bg-orange {
+  color: var(--color-black);
+  --section-accent: var(--bg-orange);
+}
+
+.screen--bg-yellow {
+  color: var(--color-black);
+  --section-accent: var(--bg-yellow);
+}
+
+.screen--bg-purple {
+  color: var(--color-black);
+  --section-accent: var(--bg-purple);
+}
+
+.screen--full-height {
+  min-height: 100vh;
+}
+
+/* Responsive padding — only on main now. */
+@media (min-width: 640px) {
+  main.md-main { padding-inline: 1.5rem; }
+}
+
+@media (min-width: 768px) {
+  main.md-main { padding-block: 2.4rem; }
+}
+
+@media (min-width: 1024px) {
+  main.md-main { padding: 3rem 2rem; }
+}
 
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -133,8 +203,20 @@
   width: 100%;
   margin-bottom: 4rem;
 }
-@media (min-width: 768px)  { .hero { grid-template-columns: 5fr 6fr; gap: 4rem; margin-bottom: 6rem; } }
-@media (min-width: 1024px) { .hero { margin-bottom: 8rem; } }
+
+@media (min-width: 768px) {
+  .hero {
+    grid-template-columns: 5fr 6fr;
+    gap: 4rem;
+    margin-bottom: 6rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero {
+    margin-bottom: 8rem;
+  }
+}
 
 /* On mobile the hero collapses to one column and the two children stack in
    source order. Source order controls L/R on desktop (≥768px), but on mobile
@@ -142,26 +224,39 @@
    / media right) stacks text-then-media. Pull the image's paragraph first.
    Media-first heroes already lead with the image, so this is a no-op there. */
 @media (max-width: 767.98px) {
-  .md-typeset .hero > p:has(img),
-  .md-typeset .hero > img { order: -1; }
+
+  .md-typeset .hero>p:has(img),
+  .md-typeset .hero>img {
+    order: -1;
+  }
 }
 
 .hero--landing,
-.hero--landing * { text-align: center; }
-.hero--landing { grid-template-columns: 1fr; gap: var(--s); }
+.hero--landing * {
+  text-align: center;
+}
+
+.hero--landing {
+  grid-template-columns: 1fr;
+  gap: var(--s);
+}
+
 @media (min-width: 768px) {
-  .hero--landing { grid-template-columns: 1fr; }
+  .hero--landing {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* Landing-only typography – display-feel without the heavy weight. */
 .md-typeset .hero--landing strong:first-child,
-.md-typeset .hero--landing > p:first-child {
+.md-typeset .hero--landing>p:first-child {
   font-size: .8rem;
   font-weight: 500;
   letter-spacing: .02em;
   line-height: 1.3;
   margin-bottom: 0;
 }
+
 .md-typeset .hero--landing h1 {
   font-family: var(--font-mono);
   font-size: 2.4rem;
@@ -170,20 +265,28 @@
   letter-spacing: -0.01em;
   margin: 0 0 1rem 0;
 }
+
 /* Body paragraphs AND the action row share the same font-size, so the
    buttons (em-based padding) scale to match the teaser text. */
-.md-typeset .hero--landing > p {
+.md-typeset .hero--landing>p {
   font-size: 1.05rem;
   font-weight: 500;
   line-height: 1.45;
   margin-block: .25rem;
 }
-body[data-md-color-scheme="slate"] .md-typeset .hero--landing > p {
+
+body[data-md-color-scheme="slate"] .md-typeset .hero--landing>p {
   font-weight: 400;
 }
+
 @media (max-width: 640px) {
-  .md-typeset .hero--landing h1   { font-size: 1.8rem; }
-  .md-typeset .hero--landing > p  { font-size: 1rem; }
+  .md-typeset .hero--landing h1 {
+    font-size: 1.8rem;
+  }
+
+  .md-typeset .hero--landing>p {
+    font-size: 1rem;
+  }
 }
 
 /* Action row gets extra breathing room on landing. */
@@ -214,6 +317,7 @@ body[data-md-color-scheme="slate"] .md-typeset .hero--landing > p {
   gap: var(--s);
   margin-top: 1rem;
 }
+
 .md-typeset .hero--landing p:last-child:has(> .btn) {
   justify-content: center;
 }
@@ -255,11 +359,16 @@ body[data-md-color-scheme="slate"] .md-typeset .hero--landing > p {
   cursor: pointer;
   transition: box-shadow var(--transition-fast);
 }
+
 .md-typeset .btn:hover:not(:disabled) {
   text-decoration: none;
   box-shadow: var(--shadow-button);
 }
-.md-typeset .btn:disabled { opacity: .5; cursor: not-allowed; }
+
+.md-typeset .btn:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
 
 /* PRIMARY – light mode (black bg, white text) */
 .md-typeset .btn.btn--primary {
@@ -267,6 +376,7 @@ body[data-md-color-scheme="slate"] .md-typeset .hero--landing > p {
   color: var(--color-white);
   border-color: var(--color-black);
 }
+
 .md-typeset .btn.btn--primary:hover:not(:disabled) {
   color: var(--color-white);
   box-shadow: var(--shadow-button);
@@ -278,6 +388,7 @@ body[data-md-color-scheme="slate"] .md-typeset .btn.btn--primary {
   color: var(--color-black);
   border-color: var(--color-white);
 }
+
 body[data-md-color-scheme="slate"] .md-typeset .btn.btn--primary:hover:not(:disabled) {
   color: var(--color-black);
   box-shadow: var(--shadow-button-light);
@@ -289,6 +400,7 @@ body[data-md-color-scheme="slate"] .md-typeset .btn:not(.btn--primary) {
   color: var(--color-white);
   border-color: var(--color-white);
 }
+
 body[data-md-color-scheme="slate"] .md-typeset .btn:not(.btn--primary):hover {
   box-shadow: var(--shadow-button-light);
 }
@@ -304,10 +416,12 @@ body[data-md-color-scheme="slate"] .md-typeset .btn:not(.btn--primary):hover {
 */
 
 /* More breathing room between cards than mkdocs-material's stock .4rem. */
-.md-typeset .grid { gap: 1.5rem; }
+.md-typeset .grid {
+  gap: 1.5rem;
+}
 
-.md-typeset .grid.cards > ul > li,
-.md-typeset .grid > .card {
+.md-typeset .grid.cards>ul>li,
+.md-typeset .grid>.card {
   border: var(--stroke-width) solid var(--color-black);
   border-radius: var(--radius-card);
   box-shadow: none;
@@ -323,8 +437,8 @@ body[data-md-color-scheme="slate"] .md-typeset .btn:not(.btn--primary):hover {
 /* Push the last block of any card to the bottom of the card. The
    author convention is: end the markdown list item with a paragraph
    of `.btn` links, which becomes the natural call-to-action. */
-.md-typeset .grid.cards > ul > li > *:last-child,
-.md-typeset .grid > .card > *:last-child {
+.md-typeset .grid.cards>ul>li>*:last-child,
+.md-typeset .grid>.card>*:last-child {
   margin-top: auto;
 }
 
@@ -333,8 +447,8 @@ body[data-md-color-scheme="slate"] .md-typeset .btn:not(.btn--primary):hover {
    buttons out as a wrapping flex row (like the hero action row) so a pair
    of buttons keeps a gap side-by-side AND a row-gap once they wrap and
    stack on narrow cards / mobile. */
-.md-typeset .grid.cards > ul > li > p:has(> .btn),
-.md-typeset .grid > .card > p:has(> .btn) {
+.md-typeset .grid.cards>ul>li>p:has(> .btn),
+.md-typeset .grid>.card>p:has(> .btn) {
   padding-top: 1.5rem;
   display: flex;
   flex-wrap: wrap;
@@ -345,22 +459,24 @@ body[data-md-color-scheme="slate"] .md-typeset .btn:not(.btn--primary):hover {
    Works whether the class lands on the <li> directly OR on any
    descendant (attr_list often attaches it to a child paragraph in
    the list-syntax). Block syntax: `<div class="card card--full">…</div>`. */
-.md-typeset .grid.cards > ul > li.card--full,
-.md-typeset .grid.cards > ul > li:has(.card--full),
-.md-typeset .grid > .card.card--full {
+.md-typeset .grid.cards>ul>li.card--full,
+.md-typeset .grid.cards>ul>li:has(.card--full),
+.md-typeset .grid>.card.card--full {
   grid-column: 1 / -1;
 }
+
 /* No hover effect – explicitly cancel mkdocs-material's default
    `.md-typeset .grid > .card:hover { border-color:#0000; box-shadow:... }`. */
-.md-typeset .grid.cards > ul > li:hover,
-.md-typeset .grid > .card:hover {
+.md-typeset .grid.cards>ul>li:hover,
+.md-typeset .grid>.card:hover {
   border-color: var(--color-black);
   box-shadow: none;
 }
-[data-md-color-scheme="slate"] .md-typeset .grid.cards > ul > li,
-[data-md-color-scheme="slate"] .md-typeset .grid > .card,
-[data-md-color-scheme="slate"] .md-typeset .grid.cards > ul > li:hover,
-[data-md-color-scheme="slate"] .md-typeset .grid > .card:hover {
+
+[data-md-color-scheme="slate"] .md-typeset .grid.cards>ul>li,
+[data-md-color-scheme="slate"] .md-typeset .grid>.card,
+[data-md-color-scheme="slate"] .md-typeset .grid.cards>ul>li:hover,
+[data-md-color-scheme="slate"] .md-typeset .grid>.card:hover {
   border-color: var(--color-white);
 }
 
@@ -381,6 +497,7 @@ body[data-md-color-scheme="slate"] .md-typeset .btn:not(.btn--primary):hover {
   line-height: 1.2;
   font-family: inherit;
 }
+
 body[data-md-color-scheme="slate"] .md-typeset kbd {
   background: var(--color-white);
   color: var(--color-black);
@@ -399,6 +516,7 @@ body[data-md-color-scheme="slate"] .md-typeset kbd {
   align-items: stretch;
   margin: 0;
 }
+
 .md-typeset form input[type="email"],
 .md-typeset form input[type="text"],
 .md-typeset form input[type="search"],
@@ -416,6 +534,7 @@ body[data-md-color-scheme="slate"] .md-typeset kbd {
   font: inherit;
   line-height: normal;
 }
+
 body[data-md-color-scheme="slate"] .md-typeset form input[type="email"],
 body[data-md-color-scheme="slate"] .md-typeset form input[type="text"],
 body[data-md-color-scheme="slate"] .md-typeset form input[type="search"],
@@ -423,4 +542,8 @@ body[data-md-color-scheme="slate"] .md-typeset form input[type="url"] {
   border-color: var(--color-white);
   color: var(--color-white);
 }
-.md-typeset form input::placeholder { color: currentColor; opacity: .55; }
+
+.md-typeset form input::placeholder {
+  color: currentColor;
+  opacity: .55;
+}
