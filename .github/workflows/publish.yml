@@ -17,6 +17,10 @@ jobs:
         with:
           python-version: "3.13"
       - run: pip install -r requirements.txt
+      # pngquant: system binary the optimize plugin shells out to for PNG (not
+      # pip-installable). Optimize runs in CI (GitHub sets CI=true); Pillow for
+      # JPG comes via mkdocs-material[imaging] in requirements.txt.
+      - run: sudo apt-get update && sudo apt-get install -y pngquant
       - run: mkdocs build
       - uses: jakejarvis/s3-sync-action@master
         with:
