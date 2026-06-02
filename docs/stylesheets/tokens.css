@@ -1,0 +1,54 @@
+/* ───────────────────────────────────────────────────────────────────
+   tokens.css – project-specific tokens that aren't in darc-zensical.
+   Color ramps, fonts, and `--text`/`--background`/`--font-mono`
+   are all defined upstream in darc-zensical.css; we just add semantic
+   aliases plus a few marketing-only values (section accents, spacing,
+   stroke, radius, shadow, transition).
+   ─────────────────────────────────────────────────────────────────── */
+
+:root {
+  /* Semantic neutrals – alias the darc palette so component CSS reads
+     `var(--color-black)` instead of `var(--oa-black)`. */
+  --color-black: var(--oa-black);
+  --color-white: var(--oa-paper);
+
+  /* Section accent colors used by the scroll-color JS – not in darc */
+  --bg-white:  var(--oa-paper);
+  --bg-black:  var(--oa-black);
+  --bg-green:  var(--oa-green-300);
+  --bg-orange: var(--oa-orange-400);
+  --bg-yellow: var(--oa-yellow-100);
+  --bg-purple: var(--oa-purple-200);
+
+  /* Spacing (compact scale used throughout components) */
+  --xs: 0.625rem;
+  --s:  1.25rem;
+  --l:  2rem;
+  --xl: 4rem;
+
+  /* Stroke – single weight across the design system */
+  --stroke-width: 3px;
+
+  /* Radii */
+  --radius-card:    1.6rem;
+  --radius-chip-sm: 0.8rem;
+
+  /* Container max-width (matches mkdocs-material's .md-grid) */
+  --container-lg: 1024px;
+
+  /* Transitions */
+  --transition-fast:   150ms ease;
+  --transition-normal: 300ms ease;
+
+  /* Iconic offset hard shadow (used on hover for buttons + drawer) */
+  --shadow-button:       2px 2px 0 0 var(--color-black);
+  --shadow-button-light: 2px 2px 0 0 var(--color-white);
+
+  /* One bold weight, used for buttons + emphasis */
+  --font-weight-bold: 700;
+}
+
+/* In dark scheme, swap the default shadow to the white-tinted version. */
+[data-md-color-scheme="slate"] {
+  --shadow-button: var(--shadow-button-light);
+}

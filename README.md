@@ -1,36 +1,61 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# investigativedata.io
 
-## Getting Started
+Shared design system + project template for DARC's downstream websites,
+built with [Zensical](https://zensical.org/) (the mkdocs-material successor).
 
-First, run the development server:
+Content lives as plain markdown under `docs/`. The site theme, custom
+components, and configuration in this repo are the starting point that
+each downstream site forks or extends.
+
+## Setup
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pip install zensical
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Development
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+zensical serve     # → http://localhost:8000 (live reload)
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Build
 
-## Learn More
+```bash
+zensical build     # → ./site
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Layout
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+docs/
+  index.md                    # pages, written in markdown
+  reference.md                # component authoring reference
+  stylesheets/
+    tokens.css                # project-specific design tokens
+    components.css            # custom components (.hero, .grid.cards, .btn, …)
+    site.css                  # layout, header/footer, scroll-color hooks
+    extra.css                 # last-mile site overrides
+  javascripts/
+    scroll-color.js           # per-section background swap on scroll
+  overrides/                  # zensical template overrides (header, footer, main)
+mkdocs.yml                    # zensical config (site name, nav, palette, plugins)
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Authoring
 
-## Deploy on Vercel
+See [`docs/reference.md`](docs/reference.md) for copy-pasteable markdown for
+every component (hero, card grid, profile cards, buttons, forms, admonitions,
+icons, etc.) and links to the underlying Zensical primitives.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Customising downstream
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+For a downstream site, edit:
+
+- `mkdocs.yml` – `site_name`, `site_url`, `nav`, `theme.logo`, social links
+- `docs/stylesheets/extra.css` – site-specific CSS overrides
+- `docs/*.md` – pages
+
+  
+`https://dataresearchcenter.github.io/zensical-theme-darc/stylesheets/darc-zensical.css` (from https://github.com/dataresearchcenter/zensical-theme-darc) is the shared design layer and stays in
+sync upstream – do not put project-specific tweaks there.

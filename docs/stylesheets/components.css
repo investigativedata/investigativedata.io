@@ -1,0 +1,426 @@
+/* ───────────────────────────────────────────────────────────────────
+   components.css – ported from sass/_screen|_hero|_card|_button|
+   _project|_image|_animation.scss with nesting flattened to plain CSS.
+   Tokens come from tokens.css; per-section accent flow stays intact.
+   ─────────────────────────────────────────────────────────────────── */
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   Global image style – every content image gets the iconic black
+   border + offset hard shadow (the "hero" look applied site-wide).
+   Excludes round avatars and any `data-no-frame` opt-out.
+   ═══════════════════════════════════════════════════════════════════ */
+
+.md-typeset img {
+  display: block;
+  border: var(--stroke-width) solid var(--color-black);
+  box-shadow: var(--shadow-button);
+}
+[data-md-color-scheme="slate"] .md-typeset img {
+  border-color: var(--color-white);
+}
+
+/* Per-image opt-outs:  ![](url){.no-border}  /  {.no-shadow}  */
+.md-typeset img.no-border { border: none; }
+.md-typeset img.no-shadow { box-shadow: none; }
+
+/* Inline text utilities – usage: `text {.muted}` or `text {.dim}` */
+.md-typeset .muted { opacity: .6; }
+.md-typeset .dim   { color: var(--text-dim); }
+
+/* Profile cards – opt-in via `<div class="grid cards profiles">`.
+   Each list item is a 2-column grid: avatar (col 1, spans 2 rows) +
+   name (col 2, row 1) + title (col 2, row 2). Anything after that
+   (bio, buttons) spans both columns. */
+.md-typeset .grid.cards.profiles > ul > li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 1rem;
+}
+.md-typeset .grid.cards.profiles > ul > li > p:nth-child(1) {
+  grid-row: 1 / span 2;
+  align-self: center;
+  margin: 0;
+}
+.md-typeset .grid.cards.profiles > ul > li > p:nth-child(2) {
+  align-self: end;
+  margin: 0;
+}
+.md-typeset .grid.cards.profiles > ul > li > p:nth-child(3) {
+  align-self: start;
+  margin: 0 0 .75rem 0;
+}
+.md-typeset .grid.cards.profiles > ul > li > *:nth-child(n+4) {
+  grid-column: 1 / -1;
+}
+/* Profile avatar – remote portrait image cropped to a circle, with the
+   design's stroke-width round border. Overrides the global rectangular
+   border + drops the offset shadow. */
+.md-typeset .grid.cards.profiles img {
+  width: 4rem;
+  height: 4rem;
+  margin: 0;
+  border: var(--stroke-width) solid currentColor;
+  border-radius: 9999px;
+  object-fit: cover;
+  box-shadow: none;
+}
+
+/* profile pronouns */
+.md-typeset .grid.cards.profiles code {
+  background: none;
+  border: none;
+}
+
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   Screen / section wrapper
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* The section wraps itself – no inner div needed. Padding is on
+   `.screen` (so the bg color spans the full viewport), and direct
+   children are constrained to `--container-lg` and centered. */
+.screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 2rem 1rem;
+  gap: var(--l);
+}
+
+.screen > * {
+  width: 100%;
+  max-width: var(--container-lg);
+}
+
+/* Per-section accent: sections are TRANSPARENT – the page-wrapper sets
+   the visible background via the scroll-color JS. Sections only set
+   text color and expose --section-accent for child components. */
+.screen--bg-white  { color: var(--color-black); --section-accent: var(--bg-white); }
+.screen--bg-black  { color: var(--color-white); --section-accent: var(--bg-black); }
+.screen--bg-green  { color: var(--color-black); --section-accent: var(--bg-green); }
+.screen--bg-orange { color: var(--color-black); --section-accent: var(--bg-orange); }
+.screen--bg-yellow { color: var(--color-black); --section-accent: var(--bg-yellow); }
+.screen--bg-purple { color: var(--color-black); --section-accent: var(--bg-purple); }
+
+.screen--full-height { min-height: 100vh; }
+
+@media (min-width: 640px)  { .screen { padding-inline: 1.5rem; } }
+@media (min-width: 768px)  { .screen { padding-block: 2.4rem; } }
+@media (min-width: 1024px) { .screen { padding: 6rem 2rem; } }
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   Hero – minimum surface area
+   ═══════════════════════════════════════════════════════════════════
+     .hero            two-column grid (1 col on mobile, 5fr 6fr on tablet+).
+                      Author controls L/R by direct-child order.
+     .hero--landing   single centered column for splash blocks.
+
+   Everything else is plain markdown – strong/em for tagline + emphasis,
+   h1/h2 for titles, paragraphs for prose, and a final paragraph of
+   `.btn` links is auto-laid-out as the action row.
+*/
+
+.hero {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 4rem;
+}
+@media (min-width: 768px)  { .hero { grid-template-columns: 5fr 6fr; gap: 4rem; margin-bottom: 6rem; } }
+@media (min-width: 1024px) { .hero { margin-bottom: 8rem; } }
+
+/* On mobile the hero collapses to one column and the two children stack in
+   source order. Source order controls L/R on desktop (≥768px), but on mobile
+   we always want the media on top — otherwise a content-first hero (text left
+   / media right) stacks text-then-media. Pull the image's paragraph first.
+   Media-first heroes already lead with the image, so this is a no-op there. */
+@media (max-width: 767.98px) {
+  .md-typeset .hero > p:has(img),
+  .md-typeset .hero > img { order: -1; }
+}
+
+.hero--landing,
+.hero--landing * { text-align: center; }
+.hero--landing { grid-template-columns: 1fr; gap: var(--s); }
+@media (min-width: 768px) {
+  .hero--landing { grid-template-columns: 1fr; }
+}
+
+/* Landing-only typography – display-feel without the heavy weight. */
+.md-typeset .hero--landing strong:first-child,
+.md-typeset .hero--landing > p:first-child {
+  font-size: .8rem;
+  font-weight: 500;
+  letter-spacing: .02em;
+  line-height: 1.3;
+  margin-bottom: 0;
+}
+.md-typeset .hero--landing h1 {
+  font-family: var(--font-mono);
+  font-size: 2.4rem;
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  margin: 0 0 1rem 0;
+}
+/* Body paragraphs AND the action row share the same font-size, so the
+   buttons (em-based padding) scale to match the teaser text. */
+.md-typeset .hero--landing > p {
+  font-size: 1.05rem;
+  font-weight: 500;
+  line-height: 1.45;
+  margin-block: .25rem;
+}
+body[data-md-color-scheme="slate"] .md-typeset .hero--landing > p {
+  font-weight: 400;
+}
+@media (max-width: 640px) {
+  .md-typeset .hero--landing h1   { font-size: 1.8rem; }
+  .md-typeset .hero--landing > p  { font-size: 1rem; }
+}
+
+/* Action row gets extra breathing room on landing. */
+.md-typeset .hero--landing p:last-child:has(> .btn) {
+  margin-top: 2rem;
+  gap: var(--s);
+}
+
+/* h2 inside any hero sits flush with the top of its column. */
+.md-typeset .hero h2 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+/* Hero columns just stretch the image edge-to-edge; the global image
+   border below provides the visual frame. */
+.md-typeset .hero img {
+  width: 100%;
+  height: auto;
+}
+
+/* If the last paragraph of a hero is just a row of `.btn` links,
+   render it as a flex action row. `:has()` is supported in all
+   modern engines (no IE / legacy concerns here). */
+.md-typeset .hero p:last-child:has(> .btn) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s);
+  margin-top: 1rem;
+}
+.md-typeset .hero--landing p:last-child:has(> .btn) {
+  justify-content: center;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   Button – primary + secondary (matches the original Zola spec)
+   ═══════════════════════════════════════════════════════════════════
+   Two intents only:
+     `.btn`           = SECONDARY – transparent fill, currentColor border + text
+                        (rides the scroll-color body bg in light mode;
+                         outlined-on-dark in dark mode)
+     `.btn.btn--primary` = PRIMARY  – filled
+                        light: black bg + white text
+                        dark : white bg + black text
+*/
+
+/* All button selectors are prefixed with `.md-typeset` so they beat
+   mkdocs-material's `.md-typeset a { color: var(--md-typeset-a-color) }`
+   (which would otherwise paint button text the link-accent orange). */
+.md-typeset .btn {
+  /* Padding + font-size default to mkdocs-material's `.md-button`
+     (`.625em 2em`, inherited font-size); the design-system extras are
+     pill radius, currentColor border, our stroke width, and bold weight.
+     The reset bits (`appearance`, `font`, `line-height`) ensure
+     `<button class="btn">` looks identical to `<a class="btn">` despite
+     mkdocs-material's `button { border: 0 }` reset. */
+  appearance: none;
+  display: inline-block;
+  border: var(--stroke-width) solid currentColor;
+  border-radius: 9999px;
+  padding: .625em 2em;
+  font: inherit;
+  font-weight: var(--font-weight-bold);
+  line-height: normal;
+  background-color: transparent;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transition: box-shadow var(--transition-fast);
+}
+.md-typeset .btn:hover:not(:disabled) {
+  text-decoration: none;
+  box-shadow: var(--shadow-button);
+}
+.md-typeset .btn:disabled { opacity: .5; cursor: not-allowed; }
+
+/* PRIMARY – light mode (black bg, white text) */
+.md-typeset .btn.btn--primary {
+  background-color: var(--color-black);
+  color: var(--color-white);
+  border-color: var(--color-black);
+}
+.md-typeset .btn.btn--primary:hover:not(:disabled) {
+  color: var(--color-white);
+  box-shadow: var(--shadow-button);
+}
+
+/* PRIMARY – dark mode (white bg, black text) */
+body[data-md-color-scheme="slate"] .md-typeset .btn.btn--primary {
+  background-color: var(--color-white);
+  color: var(--color-black);
+  border-color: var(--color-white);
+}
+body[data-md-color-scheme="slate"] .md-typeset .btn.btn--primary:hover:not(:disabled) {
+  color: var(--color-black);
+  box-shadow: var(--shadow-button-light);
+}
+
+/* SECONDARY – dark mode (white outline, transparent fill).
+   In light mode `.btn` inherits currentColor from body fg (black). */
+body[data-md-color-scheme="slate"] .md-typeset .btn:not(.btn--primary) {
+  color: var(--color-white);
+  border-color: var(--color-white);
+}
+body[data-md-color-scheme="slate"] .md-typeset .btn:not(.btn--primary):hover {
+  box-shadow: var(--shadow-button-light);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   Card grid – Zensical/mkdocs-material built-in
+   ═══════════════════════════════════════════════════════════════════
+   Authors use `<div class="grid cards" markdown>` + a markdown list
+   (see https://zensical.org/docs/authoring/grids/).
+   The grid + .card styling ships with the theme; we only nudge the
+   border weight + radius to match the DARC visual identity.
+*/
+
+/* More breathing room between cards than mkdocs-material's stock .4rem. */
+.md-typeset .grid { gap: 1.5rem; }
+
+.md-typeset .grid.cards > ul > li,
+.md-typeset .grid > .card {
+  border: var(--stroke-width) solid var(--color-black);
+  border-radius: var(--radius-card);
+  box-shadow: none;
+  background: transparent;
+  transition: none;
+
+  /* Stack contents vertically so the action row can be pushed to the
+     bottom of every card (regardless of body length) – see rule below. */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Push the last block of any card to the bottom of the card. The
+   author convention is: end the markdown list item with a paragraph
+   of `.btn` links, which becomes the natural call-to-action. */
+.md-typeset .grid.cards > ul > li > *:last-child,
+.md-typeset .grid > .card > *:last-child {
+  margin-top: auto;
+}
+
+/* Action paragraph (last p containing buttons) gets visible breathing
+   room above it, independent of the auto-push to the bottom. Lay the
+   buttons out as a wrapping flex row (like the hero action row) so a pair
+   of buttons keeps a gap side-by-side AND a row-gap once they wrap and
+   stack on narrow cards / mobile. */
+.md-typeset .grid.cards > ul > li > p:has(> .btn),
+.md-typeset .grid > .card > p:has(> .btn) {
+  padding-top: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s);
+}
+
+/* `.card--full` modifier – span every column of the parent grid.
+   Works whether the class lands on the <li> directly OR on any
+   descendant (attr_list often attaches it to a child paragraph in
+   the list-syntax). Block syntax: `<div class="card card--full">…</div>`. */
+.md-typeset .grid.cards > ul > li.card--full,
+.md-typeset .grid.cards > ul > li:has(.card--full),
+.md-typeset .grid > .card.card--full {
+  grid-column: 1 / -1;
+}
+/* No hover effect – explicitly cancel mkdocs-material's default
+   `.md-typeset .grid > .card:hover { border-color:#0000; box-shadow:... }`. */
+.md-typeset .grid.cards > ul > li:hover,
+.md-typeset .grid > .card:hover {
+  border-color: var(--color-black);
+  box-shadow: none;
+}
+[data-md-color-scheme="slate"] .md-typeset .grid.cards > ul > li,
+[data-md-color-scheme="slate"] .md-typeset .grid > .card,
+[data-md-color-scheme="slate"] .md-typeset .grid.cards > ul > li:hover,
+[data-md-color-scheme="slate"] .md-typeset .grid > .card:hover {
+  border-color: var(--color-white);
+}
+
+
+/* Inline label chip – `<kbd>EU</kbd>` semantically marks a short
+   keyboard/control label, widely co-opted as a chip primitive.
+   Filled inverse of the page: black bg + white text in light mode,
+   white bg + black text in dark mode (same swap as .btn.btn--primary). */
+.md-typeset kbd {
+  display: inline-block;
+  padding: .15rem .6rem;
+  margin-right: .25rem;
+  border-radius: var(--radius-chip-sm);
+  background: var(--color-black);
+  color: var(--color-white);
+  border: none;
+  box-shadow: none;
+  line-height: 1.2;
+  font-family: inherit;
+}
+body[data-md-color-scheme="slate"] .md-typeset kbd {
+  background: var(--color-white);
+  color: var(--color-black);
+}
+
+
+/* Generic form / input styles – no component classes needed.
+   Targets every <form> / <input> the author drops into a markdown page.
+   Mkdocs-material's reset (`input { color: var(--md-typeset-color) }`)
+   wins on its own selector, so we set color + border-color explicitly
+   per scheme rather than relying on `currentColor`. */
+.md-typeset form {
+  display: flex;
+  gap: .5rem;
+  flex-wrap: wrap;
+  align-items: stretch;
+  margin: 0;
+}
+.md-typeset form input[type="email"],
+.md-typeset form input[type="text"],
+.md-typeset form input[type="search"],
+.md-typeset form input[type="url"] {
+  flex: 1 1 240px;
+  min-width: 0;
+  /* Match `.btn` box metrics exactly (same padding + line-height) so the
+     input — and the stretched submit button beside it — render at the same
+     size as buttons elsewhere (e.g. in cards), not taller. */
+  padding: .625em 2em;
+  border: var(--stroke-width) solid var(--color-black);
+  border-radius: 9999px;
+  background: transparent;
+  color: var(--color-black);
+  font: inherit;
+  line-height: normal;
+}
+body[data-md-color-scheme="slate"] .md-typeset form input[type="email"],
+body[data-md-color-scheme="slate"] .md-typeset form input[type="text"],
+body[data-md-color-scheme="slate"] .md-typeset form input[type="search"],
+body[data-md-color-scheme="slate"] .md-typeset form input[type="url"] {
+  border-color: var(--color-white);
+  color: var(--color-white);
+}
+.md-typeset form input::placeholder { color: currentColor; opacity: .55; }

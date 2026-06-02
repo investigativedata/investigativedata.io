@@ -1,0 +1,393 @@
+/* ───────────────────────────────────────────────────────────────────
+   site.css – layout flip, header restyle, scroll-color hooks.
+   Loaded after components.css so it can win class-specificity ties.
+   ─────────────────────────────────────────────────────────────────── */
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   1. Right-side overlay drawer  (pixel-port of sass/_drawer.scss)
+   ═══════════════════════════════════════════════════════════════════
+   Drives mkdocs-material's `.md-sidebar--primary` element with the
+   exact look-and-feel of the Zola drawer:
+
+     - fixed full-height panel anchored to the right
+     - 24rem max-width
+     - 10rem var(--xl) inner padding (top clears header; sides 4rem)
+     - default off-screen via translateX(100%), slides to translateX(0)
+       when [data-md-toggle="drawer"]:checked
+     - the iconic offset hard shadow `-0.25rem 0.25rem 0 0 currentColor`
+     - z-index 1100 – above header (z 1000) and overlay (z 1050)
+*/
+
+/* Panel – closed by default. */
+.md-sidebar--nav-overlay,
+[dir=ltr] .md-sidebar--nav-overlay,
+[dir=rtl] .md-sidebar--nav-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: auto;
+  width: 100%;
+  max-width: 22rem;
+  height: 100%;
+  margin: 0;
+  padding: 5rem 1.75rem 2rem;          /* tighter overall – top clears the close X */
+  background-color: var(--background, var(--md-default-bg-color));
+  color: var(--text, var(--md-default-fg-color));
+  /* Offset hard shadow uses the same stroke as every other border in the design. */
+  box-shadow: calc(-1 * var(--stroke-width)) var(--stroke-width) 0 0 var(--color-black);
+  /* Sharp corners. Upstream darc-zensical rounds the drawer (16px) inside a
+     mobile media query — "rounded only in smaller views" — but the design
+     uses sharp panels everywhere, so pin it to 0 at all widths. */
+  border-radius: 0;
+  transform: translateX(100%);
+  transition: transform var(--transition-normal, 300ms ease);
+  pointer-events: none;
+  z-index: 1100;
+  overflow-y: auto;
+}
+
+/* Open state – checkbox-driven, no JS required. */
+[data-md-toggle="drawer"]:checked ~ .md-container .md-sidebar--nav-overlay,
+[dir=ltr] [data-md-toggle="drawer"]:checked ~ .md-container .md-sidebar--nav-overlay,
+[dir=rtl] [data-md-toggle="drawer"]:checked ~ .md-container .md-sidebar--nav-overlay {
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+/* Dark scheme – swap to bg-black panel + white shadow. */
+body[data-md-color-scheme="slate"] .md-sidebar--nav-overlay {
+  background-color: var(--bg-black);
+  color: var(--color-white);
+  box-shadow: calc(-1 * var(--stroke-width)) var(--stroke-width) 0 0 var(--color-white);
+}
+
+/* Close button (label so the drawer toggles via the existing checkbox). */
+.drawer__close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 2.25rem;
+  height: 2.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  color: inherit;
+}
+.drawer__close:hover { opacity: .7; }
+/* Thinner X – 1.5 stroke units in a 24-unit viewBox renders ~1.4px on
+   a 2.25rem button (vs ~3px before). */
+.drawer__close svg {
+  width: 100%;
+  height: 100%;
+  stroke-width: 1.5;
+}
+
+/* Drawer body – stock `partials/nav.html` markup, restyled to match
+   the Zola drawer: large flat links, always-on underline, generous
+   vertical spacing. */
+.md-sidebar--nav-overlay .md-sidebar__scrollwrap { display: contents; }
+.md-sidebar--nav-overlay .md-sidebar__inner      { display: contents; }
+.md-sidebar--nav-overlay .md-nav { width: 100%; }
+.md-sidebar--nav-overlay .md-nav__title { display: none; }   /* drop the duplicated site-name label */
+.md-sidebar--nav-overlay .md-nav__list { display: flex; flex-direction: column; gap: 1.25rem; }
+.md-sidebar--nav-overlay .md-nav__item { margin: 0; padding: 0; }
+
+.md-sidebar--nav-overlay .md-nav__link,
+.md-sidebar--nav-overlay .md-nav__link[href]:hover:not(.md-nav__link--active),
+.md-sidebar--nav-overlay .md-nav__link--active {
+  background: transparent !important;
+  color: inherit !important;
+  border-radius: 0;
+  margin: 0;
+  padding: 0;
+  font-size: 1.05rem;                   /* matches landing-hero teaser */
+  font-weight: var(--font-weight-body); /* same weight as body (light 500 / dark 400) */
+  text-decoration: none;
+}
+
+/* Apply the underline to the inner `.md-ellipsis` span – the link
+   wrapper's text-decoration is masked by the flex child. Match
+   mkdocs-material's `.md-nav--primary .md-nav__link[href]:hover` specificity
+   so we beat its color/background hover rule too. */
+.md-sidebar--nav-overlay .md-nav__link[href]:hover .md-ellipsis,
+.md-sidebar--nav-overlay .md-nav__link[href]:hover {
+  text-decoration: underline;
+  text-decoration-color: currentColor;
+  text-underline-offset: .2em;
+  text-decoration-thickness: var(--stroke-width);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   2. Always-on burger + always-on overlay backdrop
+   ═══════════════════════════════════════════════════════════════════
+   mkdocs-material hides the burger label at desktop (≥76.25em) and
+   the .md-overlay backdrop only renders when the checkbox is checked.
+   We unhide both at all widths so the drawer UX is consistent.
+*/
+
+@media screen and (min-width: 76.25em) {
+  .md-header__button[for="__drawer"] {
+    display: inline-flex !important;  /* always show the burger */
+  }
+}
+
+/* The default backdrop rules are wrapped in a max-width:76.234375em
+   media query. Promote them to all widths for the desktop overlay UX.
+   Note: .md-overlay is a SIBLING of #__drawer (not a descendant of .md-container). */
+.md-overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  height: 0;
+  opacity: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0;
+  z-index: 1050;                       /* between header and drawer panel */
+  transition: width 0ms .25s, height 0ms .25s, opacity var(--transition-normal, 300ms ease);
+  cursor: pointer;
+}
+[data-md-toggle="drawer"]:checked ~ .md-overlay {
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+  transition: width 0ms, height 0ms, opacity .25s;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   3. TOC moves to the LEFT at desktop
+   ═══════════════════════════════════════════════════════════════════
+   `.md-main__inner` is `display: flex`. Since the primary sidebar is
+   `position: fixed` (out of flow), the only flex children that matter
+   are the TOC and `.md-content`. Render order in main.html puts the
+   TOC first, so it lands on the LEFT automatically.
+
+   Below: tweak content margins so TOC has breathing room on the left
+   and the content grows into the freed-up right side.
+*/
+
+@media screen and (min-width: 76.25em) {
+  /* TOC styled as a left-rail sidebar. */
+  .md-sidebar--toc-left {
+    order: 0;
+    padding-left: 0;
+    padding-right: 1.2rem;
+  }
+
+  /* The default content margin assumes TOC on the right.
+     Flip those margins so the rail sits on the left. */
+  [dir=ltr] .md-sidebar--secondary:not([hidden]) ~ .md-content > .md-content__inner {
+    margin-left: 1.2rem;
+    margin-right: 0;
+  }
+  [dir=rtl] .md-sidebar--secondary:not([hidden]) ~ .md-content > .md-content__inner {
+    margin-left: 0;
+    margin-right: 1.2rem;
+  }
+
+  /* Content fills the rest of the row. */
+  .md-content {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   4. Header – three-column marketing layout
+   ═══════════════════════════════════════════════════════════════════
+   [ site name + breadcrumb ]   [ centered logo ]   [ palette · search · burger ]
+
+   Override mkdocs-material's flex header with a 3-column grid so the
+   logo stays visually centered regardless of side-content width.
+*/
+
+.md-header {
+  background-color: var(--md-default-bg-color);
+  color: var(--md-default-fg-color);
+  transition: background-color .2s linear;
+  z-index: 4;
+}
+/* Drop the 0.05rem hairline that mkdocs-material adds to `.md-header--shadow`. */
+.md-header,
+.md-header--shadow,
+.md-header--lifted { box-shadow: none !important; }
+
+.md-header__inner {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: .5rem;
+  align-items: center;
+  padding-block: 1rem;
+  min-height: 4.5rem;
+}
+
+/* LEFT – site title (grid column 1). Reset mkdocs-material's flex sizing
+   that doesn't apply inside our grid layout. */
+.md-header__title {
+  margin: 0;
+  padding: 0 .5rem;
+  display: flex;
+  align-items: center;
+  gap: .3rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  flex: 0 1 auto;
+  height: auto;
+  line-height: normal;
+  letter-spacing: .04em;     /* slightly looser tracking, more brand-feel */
+}
+
+.md-header__site-link {
+  color: inherit;
+  text-decoration: none;
+  font-family: var(--font-sans);
+  letter-spacing: inherit;
+}
+
+.md-header__breadcrumb {
+  font-weight: 700;
+  margin-left: .3rem;
+  display: none;
+}
+@media screen and (min-width: 40em) {
+  .md-header__breadcrumb { display: inline; }
+}
+
+/* CENTER – logo (grid column 2). Always visible (overrides
+   mkdocs-material's `.md-logo { display: none }` at narrow widths). */
+.md-header > .md-header__inner > .md-logo {
+  justify-self: center;
+  margin: 0;
+  padding: 0;
+  display: inline-flex !important;
+  align-items: center;
+}
+.md-header > .md-header__inner > .md-logo .md-logo__img,
+.md-header > .md-header__inner > .md-logo img {
+  height: 2.4rem;
+  width: auto;
+}
+
+/* RIGHT – actions group (grid column 3) */
+.md-header__actions {
+  justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  gap: .25rem;
+}
+
+/* Burger always visible (overrides mkdocs-material desktop hide). */
+.md-header__burger {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Hide mkdocs-material's default left-side burger label that lives
+   alongside the logo – we render our own on the right. */
+.md-header > .md-header__inner > label.md-header__button[for="__drawer"]:not(.md-header__burger) {
+  display: none !important;
+}
+
+/* On small screens collapse the site-name text; logo + burger keep the brand. */
+@media screen and (max-width: 30em) {
+  .md-header__title { display: none; }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   6. Scroll-color body classes
+   ═══════════════════════════════════════════════════════════════════
+   scroll-color.js toggles `.bg--{white,black,green,orange,yellow,purple}`
+   on <body> and `.md-header--bg-{...}` on the header as `data-background-color`
+   sections cross the viewport midpoint. Color values come from tokens.css.
+
+   Note: smooth transition lets the swap feel cinematic rather than abrupt.
+*/
+
+body {
+  background-color: var(--md-default-bg-color);
+  transition: background-color .2s linear;
+}
+
+/* Light-scheme only – dark mode is intentionally locked to the DARC
+   dark palette (no per-section color swap). The JS still toggles
+   `bg--*` classes so search/scrollspy hooks work uniformly, but the
+   visible bg is gated here to `[data-md-color-scheme="default"]`.
+
+   Specificity bump (`body[data-md-color-scheme="default"].bg--…`)
+   beats mkdocs-material's `body { background: var(--md-default-bg-color) }`
+   without needing !important. */
+
+body[data-md-color-scheme="default"].bg--white  { background-color: var(--bg-white);  color: var(--color-black); }
+body[data-md-color-scheme="default"].bg--black  { background-color: var(--bg-black);  color: var(--color-white); }
+body[data-md-color-scheme="default"].bg--green  { background-color: var(--bg-green);  color: var(--color-black); }
+body[data-md-color-scheme="default"].bg--orange { background-color: var(--bg-orange); color: var(--color-black); }
+body[data-md-color-scheme="default"].bg--yellow { background-color: var(--bg-yellow); color: var(--color-black); }
+body[data-md-color-scheme="default"].bg--purple { background-color: var(--bg-purple); color: var(--color-black); }
+
+body[data-md-color-scheme="default"] .md-header.md-header--bg-white  { background-color: var(--bg-white);  color: var(--color-black); }
+body[data-md-color-scheme="default"] .md-header.md-header--bg-black  { background-color: var(--bg-black);  color: var(--color-white); }
+body[data-md-color-scheme="default"] .md-header.md-header--bg-green  { background-color: var(--bg-green);  color: var(--color-black); }
+body[data-md-color-scheme="default"] .md-header.md-header--bg-orange { background-color: var(--bg-orange); color: var(--color-black); }
+body[data-md-color-scheme="default"] .md-header.md-header--bg-yellow { background-color: var(--bg-yellow); color: var(--color-black); }
+body[data-md-color-scheme="default"] .md-header.md-header--bg-purple { background-color: var(--bg-purple); color: var(--color-black); }
+
+/* When a section color is active, also clear .md-main's own bg so
+   the body color flows through. */
+body[data-md-color-scheme="default"][class*="bg--"] .md-main {
+  background-color: transparent !important;
+}
+
+/* Light mode  → body text is the DARC black token (#1a1a1a).
+   Dark mode   → body text is the DARC white token (#fff8f1).
+   In both schemes mkdocs-material's `.md-typeset { color: var(--md-default-fg-color--light) }`
+   would otherwise paint body text a dimmed gray, which we don't want
+   inside cards or anywhere else.
+
+   The weight is exposed as `--font-weight-body` (scheme-scoped) so the
+   drawer nav can share the exact same value and the two never drift:
+   light = medium (500), dark = regular (400). */
+body[data-md-color-scheme="default"] { --font-weight-body: 500; }
+body[data-md-color-scheme="slate"]   { --font-weight-body: 400; }
+
+body[data-md-color-scheme="default"] .md-typeset,
+body[data-md-color-scheme="default"] .md-typeset p,
+body[data-md-color-scheme="default"] .md-typeset li,
+body[data-md-color-scheme="default"] .md-typeset blockquote,
+body[data-md-color-scheme="default"] .md-typeset .footnote {
+  color: var(--color-black);
+  font-weight: var(--font-weight-body);
+}
+body[data-md-color-scheme="slate"] .md-typeset,
+body[data-md-color-scheme="slate"] .md-typeset p,
+body[data-md-color-scheme="slate"] .md-typeset li,
+body[data-md-color-scheme="slate"] .md-typeset blockquote,
+body[data-md-color-scheme="slate"] .md-typeset .footnote {
+  color: var(--color-white);
+  font-weight: var(--font-weight-body);
+}
+
+/* Hero h2 only – full-bold in both schemes. Headings outside heroes
+   keep mkdocs-material's defaults. */
+.md-typeset .hero h2,
+[data-md-color-scheme="slate"] .md-typeset .hero h2 { font-weight: 700; }
+
+/* Inline links inherit the surrounding text color (no orange accent).
+   Mkdocs-material defaults to `--md-typeset-a-color` for `<a>` and
+   `--md-accent-fg-color` on hover – both override here. Underline
+   stays as the visual affordance. */
+.md-typeset a,
+.md-typeset a:hover {
+  color: inherit;
+}
+
