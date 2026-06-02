@@ -71,8 +71,15 @@ markdown_extensions:
   # so `:lucide-x:` / `:material-x:` / `:simple-x:` / `:octicons-x:` /
   # `:fontawesome-...:` shortcodes render as inline SVG.
   - pymdownx.emoji:
-      emoji_index: zensical.extensions.emoji.twemoji
-      emoji_generator: zensical.extensions.emoji.to_svg
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+      options:
+        # Bundle lucide locally (mkdocs-material ships material/fontawesome/
+        # octicons/simple, not lucide). SVGs live in docs/overrides/.icons/lucide/;
+        # this registers them with the emoji index so :lucide-x: shortcodes resolve.
+        # Template {% include ".icons/lucide/..." %} calls resolve via custom_dir.
+        custom_icons:
+          - docs/overrides/.icons
 
 plugins:
   - search
