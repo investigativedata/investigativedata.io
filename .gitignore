@@ -4,6 +4,9 @@ content/
 data/
 public/
 
+# mkdocs-material optimize plugin scratch/cache
+.cache/
+
 # Python
 .venv/
 __pycache__/
