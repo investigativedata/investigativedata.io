@@ -39,7 +39,7 @@ The EXIF data in this project was not especially rich, but it’s still worth ex
 
 Using [PIL](https://en.wikipedia.org/wiki/Python_Imaging_Library), we captured as much of this information as possible: multiple timestamps, technical details such as camera make and model, lens information like focal length and aperture, ISO and exposure settings, and serial numbers for both camera bodies and lenses. In practice, many of these fields were empty across the dataset. Still, in theory, this kind of technical fingerprinting can link specific equipment to particular time periods or groups of images.
 
-![](../../assets/blogs/damascus1.png)
+![](../../assets/blogs/damascus1.jpg)
 
 ### Parsing Folder Hierarchies
 
@@ -105,7 +105,7 @@ The application has two main modes. The Explorer is designed for systematic revi
 
 The Analytics section supports broader investigative work, offering full-text search across OCR results, line-specific searches, and source path queries. Filters allow investigators to narrow results by processing status, camera model, date ranges, and even specific folder levels, enabling questions like “show me all files where the third subfolder contained the word X.” 
 
-![](../../assets/blogs/damascus2.png)
+![](../../assets/blogs/damascus2.jpg)
 
 All of this was deployed using Docker Swarm on our own infrastructure, secured with Keycloak for access management and a segmented S3-compatible storage system for the raw images, served as signed URLs. Throughout the whole process, no data was sent to an external API or stored on a computer we don’t fully control.
 
