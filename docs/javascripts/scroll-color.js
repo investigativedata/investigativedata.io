@@ -11,24 +11,43 @@
  *
  * Wrapped in document$.subscribe so it re-runs on every instant-nav
  * page transition (mkdocs-material navigation.instant feature).
+ *
+ * IMPORTANT: the scroll/resize listeners live on `window`, which survives
+ * instant navigation. Each route change must therefore tear down the previous
+ * page's listeners and clear the leftover bg-- classes BEFORE wiring up the new
+ * page — otherwise stale closures keep re-applying the old page's section
+ * colors on scroll, mixing up backgrounds.
  */
 
 (function () {
   var COLORS = ["white", "black", "green", "orange", "yellow", "purple"];
 
+  // Removes the previously-attached page's listeners; reset on each route change.
+  var teardown = null;
+
+  function clearColors(body, header) {
+    COLORS.forEach(function (c) {
+      body.classList.remove("bg--" + c);
+      if (header) header.classList.remove("md-header--bg-" + c);
+    });
+  }
+
   function attach() {
+    // Route change: drop the previous page's scroll/resize listeners and clear
+    // any leftover color classes so we start from a clean slate every time.
+    if (teardown) {
+      teardown();
+      teardown = null;
+    }
+
     var sections = document.querySelectorAll("[data-background-color]");
     var header = document.querySelector(".md-header");
     var body = document.body;
 
-    if (!sections.length) {
-      // No themed sections on this page – clear any leftover classes.
-      COLORS.forEach(function (c) {
-        body.classList.remove("bg--" + c);
-        if (header) header.classList.remove("md-header--bg-" + c);
-      });
-      return;
-    }
+    clearColors(body, header);
+
+    // No themed sections on this page – stay reset (classes already cleared).
+    if (!sections.length) return;
 
     // Cache section offsets so each scroll event doesn't trigger N
     // getBoundingClientRect() calls (each one forces a layout reflow).
@@ -78,14 +97,21 @@
         apply();
       });
     }
+    function onResize() {
+      recompute();
+      apply();
+    }
 
     recompute();
     apply();
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", function () {
-      recompute();
-      apply();
-    }, { passive: true });
+    window.addEventListener("resize", onResize, { passive: true });
+
+    // Expose how to detach these exact handlers on the next route change.
+    teardown = function () {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onResize);
+    };
   }
 
   if (typeof document$ !== "undefined" && document$.subscribe) {
