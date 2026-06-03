@@ -15,9 +15,7 @@ We sometimes publish more in-depth **case studies** of our collaborations with p
 
 <div class="grid cards" markdown>
 
--   ![The Epstein Emails](./assets/projects/epstein.jpg){.no-shadow}
-
-    <kbd>aleph</kbd> <kbd>leaks</kbd>
+-   <kbd>aleph</kbd> <kbd>leaks</kbd>
 
     ## The Epstein Emails
 
@@ -38,9 +36,7 @@ We sometimes publish more in-depth **case studies** of our collaborations with p
     [View project](https://www.zdfheute.de/politik/ausland/epstein-frauen-deutschland-100.html){.btn}
 { .card--full }
 
--   ![The Iguana Papers](./assets/projects/iguana.jpg){.no-shadow}
-
-    <kbd>aleph</kbd> <kbd>data engineering</kbd> <kbd>leaks</kbd>
+-   <kbd>aleph</kbd> <kbd>data engineering</kbd> <kbd>leaks</kbd>
 
     ## The Iguana Papers
 
@@ -63,9 +59,7 @@ We sometimes publish more in-depth **case studies** of our collaborations with p
     [View project](https://aleph.eia.org/){.btn}
 { .card--full }
 
--   ![Library of Leaks](./assets/projects/ddos-brand_16x9.png){.no-shadow}
-
-    <kbd>aleph</kbd> <kbd>leaks</kbd> <kbd>data engineering</kbd>
+-   <kbd>aleph</kbd> <kbd>leaks</kbd> <kbd>data engineering</kbd>
 
     ## Library of Leaks
 
@@ -76,9 +70,7 @@ We sometimes publish more in-depth **case studies** of our collaborations with p
     [View project](https://libraryofleaks.org){.btn}
 { .card--full }
 
--   ![How much does the fossil fuel industry fund medical research?](./assets/projects/industry-1761801.jpg){.no-shadow}
-
-    <kbd>database</kbd> <kbd>followthemoney</kbd> <kbd>data engineering</kbd> <kbd>cross matching</kbd>
+-   <kbd>database</kbd> <kbd>followthemoney</kbd> <kbd>data engineering</kbd> <kbd>cross matching</kbd>
 
     ## How much does the fossil fuel industry fund medical research?
 
@@ -97,9 +89,7 @@ We sometimes publish more in-depth **case studies** of our collaborations with p
     [View project](https://www.bmj.com/content/387/bmj.q2589){.btn}
 { .card--full }
 
--   ![Die Ökogas-Lüge](./assets/projects/oekogas.jpg){.no-shadow}
-
-    <kbd>followthemoney</kbd> <kbd>data engineering</kbd> <kbd>cross matching</kbd>
+-   <kbd>followthemoney</kbd> <kbd>data engineering</kbd> <kbd>cross matching</kbd>
 
     ## Die Ökogas-Lüge
 
@@ -116,9 +106,7 @@ We sometimes publish more in-depth **case studies** of our collaborations with p
     [View project](https://correctiv.org/aktuelles/klimawandel/2024/04/16/erdgas-die-oekogas-luege/){.btn}
 { .card--full }
 
--   ![Die Migrations-Manager](./assets/projects/fds-icmpd.jpg){.no-shadow}
-
-    <kbd>leaks</kbd> <kbd>aleph</kbd> <kbd>database</kbd>
+-   <kbd>leaks</kbd> <kbd>aleph</kbd> <kbd>database</kbd>
 
     ## Die Migrations-Manager
 
@@ -135,9 +123,7 @@ We sometimes publish more in-depth **case studies** of our collaborations with p
     [View project](https://fragdenstaat.de/blog/2023/05/19/icmpd-die-migrations-manager/){.btn}
 { .card--full }
 
--   ![Effizient und dezent: Wer ist das ICMPD?](./assets/projects/neo-icmpd.jpeg){.no-shadow}
-
-    <kbd>database</kbd> <kbd>aleph</kbd> <kbd>leaks</kbd>
+-   <kbd>database</kbd> <kbd>aleph</kbd> <kbd>leaks</kbd>
 
     ## Effizient und dezent: Wer ist das ICMPD?
 
@@ -154,9 +140,7 @@ We sometimes publish more in-depth **case studies** of our collaborations with p
     [View project](https://www.youtube.com/watch?v=QuKbsIPNi7Q){.btn}
 { .card--full }
 
--   ![How an EU-funded agency is working to keep migrants from reaching Europe](./assets/projects/ICMPD_-AK_01_300dpi.jpg){.no-shadow}
-
-    <kbd>database</kbd> <kbd>aleph</kbd> <kbd>leaks</kbd>
+-   <kbd>database</kbd> <kbd>aleph</kbd> <kbd>leaks</kbd>
 
     ## How an EU-funded agency is working to keep migrants from reaching Europe
 
@@ -173,9 +157,7 @@ We sometimes publish more in-depth **case studies** of our collaborations with p
     [View project](https://www.codastory.com/authoritarian-tech/icmpd-eu-refugee-policy/){.btn}
 { .card--full }
 
--   ![Who receives EU farm subsidies?](./assets/projects/farmsubsidy.jpg){.no-shadow}
-
-    <kbd>followthemoney</kbd> <kbd>database</kbd> <kbd>data engineering</kbd> <kbd>cross-border</kbd>
+-   <kbd>followthemoney</kbd> <kbd>database</kbd> <kbd>data engineering</kbd> <kbd>cross-border</kbd>
 
     ## Who receives EU farm subsidies?
 
@@ -194,9 +176,7 @@ We sometimes publish more in-depth **case studies** of our collaborations with p
     [View project](https://farmsubsidy.org){.btn}
 { .card--full }
 
--   ![Who receives court donations in Germany?](./assets/projects/Spendengerichte-Datenbank-1412x772.png){.no-shadow}
-
-    <kbd>database</kbd> <kbd>followthemoney</kbd>
+-   <kbd>database</kbd> <kbd>followthemoney</kbd>
 
     ## Who receives court donations in Germany?
 
@@ -213,9 +193,7 @@ We sometimes publish more in-depth **case studies** of our collaborations with p
     [View project](https://spendengerichte.correctiv.org){.btn}
 { .card--full }
 
--   ![Who receives EU security and military funding?](./assets/projects/surveillance.jpg){.no-shadow}
-
-    <kbd>database</kbd> <kbd>followthemoney</kbd> <kbd>cross matching</kbd>
+-   <kbd>database</kbd> <kbd>followthemoney</kbd> <kbd>cross matching</kbd>
 
     ## Who receives EU security and military funding?
 
@@ -232,9 +210,7 @@ We sometimes publish more in-depth **case studies** of our collaborations with p
     [View project](https://opensecuritydata.eu/){.btn}
 { .card--full }
 
--   ![Who gets paid by the pharmaceutical industry?](./assets/projects/24486893-buzzfeed-de-2x7a.jpg){.no-shadow}
-
-    <kbd>database</kbd> <kbd>followthemoney</kbd> <kbd>cross matching</kbd> <kbd>data engineering</kbd>
+-   <kbd>database</kbd> <kbd>followthemoney</kbd> <kbd>cross matching</kbd> <kbd>data engineering</kbd>
 
     ## Who gets paid by the pharmaceutical industry?
 
@@ -253,9 +229,7 @@ We sometimes publish more in-depth **case studies** of our collaborations with p
     [View project](https://followthegrant.org){.btn}
 { .card--full }
 
--   ![Where do our old sneakers end up?](./assets/projects/sneakerjagd.jpg){.no-shadow}
-
-    <kbd>data engineering</kbd>
+-   <kbd>data engineering</kbd>
 
     ## Where do our old sneakers end up?
 
@@ -272,9 +246,7 @@ We sometimes publish more in-depth **case studies** of our collaborations with p
     [View project](https://sneakerjagd.letsflip.de/){.btn}
 { .card--full }
 
--   ![Scraper collection of documents from regional parliaments in Germany](./assets/projects/dokukratie.jpg){.no-shadow}
-
-    <kbd>data engineering</kbd> <kbd>scraping</kbd> <kbd>document collections</kbd>
+-   <kbd>data engineering</kbd> <kbd>scraping</kbd> <kbd>document collections</kbd>
 
     ## Scraper collection of documents from regional parliaments in Germany
 
