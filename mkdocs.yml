@@ -25,8 +25,8 @@ extra:
   social:
     - icon: material/mail
       link: mailto:hi@dataresearchcenter.org
-    - icon: material/web
-      link: https://dataresearchcenter.org
+    - icon: material/linkedin
+      link: https://www.linkedin.com/company/dataresearchcenter/
     - icon: material/github
       link: https://github.com/dataresearchcenter
 
