@@ -84,9 +84,9 @@ With our core team and trusted network of collaborators, we can easily scale to 
 
     __Gabriele Di Donfrancesco__ `he/him`{.muted}
 
-    *Researcher*
+    *Business Development and Investigations Fellow*
 
-    **Gabriele** is an investigative freelance journalist mixing OSINT, collaborative journalism, and classic techniques to shed light on environmental & white collar crimes, supply chains, and building speculation. He contributes to local and national news outlets in Italy, including RomaToday, IRPI, Domani, and RAI Radio, after years writing for La Repubblica. His stories have also been published in the US, UK, Germany, Spain, Poland, and France. He will spend some time at DARC as part of the Erasmus for Young Entrepreneurs initiative. He never won a price but he knows how to make a good espresso.
+    **Gabriele** joins DARC through the Erasmus for Young Entrepreneurs initiative. He is a freelance investigative journalist who combines OSINT, collaborative journalism, and traditional reporting techniques to shed light on environmental and white-collar crime, supply chains, and building speculation. He contributes to local and national news outlets in Italy, including RomaToday, IRPI, Domani, and RAI Radio, after years of writing for La Repubblica. His work has also been published in the US, UK, Germany, Spain, Poland, and France. He has never won a prize (yet!), but he does know how to make a good espresso.
 
     [:material-email: Email](mailto:gabriele@dataresearchcenter.org){.btn}
     [:material-linkedin: LinkedIn](https://www.linkedin.com/in/gabriele-di-donfrancesco-645036319/){.btn}
