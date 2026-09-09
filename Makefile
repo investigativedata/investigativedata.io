@@ -17,5 +17,5 @@ dev: install
 clean:
 	rm -rf site
 
-publish: build
-	aws s3 --endpoint-url https://s3.investigativedata.org sync ./site s3://dataresearchcenter.org
+publish:
+	putfs sync --overwrite ./site putfs://static.darc.zone/dataresearchcenter.org
